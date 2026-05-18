@@ -3094,6 +3094,9 @@ export async function executeUnifiedRoundStream(
     execute: async ({ writer }) => {
       const completedPhases: StreamPhase[] = [];
       let currentPhase: StreamPhase = StreamPhases.PRESEARCH;
+      // Declared in outer scope so the catch can clear it if execution
+      // throws after it was started inside the try block below.
+      let contextBuildingHeartbeat: ReturnType<typeof setInterval> | undefined;
 
       try {
         // Track round start for analytics (fire-and-forget)
@@ -3290,7 +3293,7 @@ export async function executeUnifiedRoundStream(
         // loadAndPruneConversationHistory, language detection, loadAttachmentContent,
         // and search context building are all blocking with zero SSE output.
         // Combined they can exceed the 30-second Cloudflare Workers idle timeout.
-        const contextBuildingHeartbeat = startHeartbeat(writer);
+        contextBuildingHeartbeat = startHeartbeat(writer);
 
         if (params.db && roundNumber > 0) {
           try {
@@ -3615,7 +3618,7 @@ export async function executeUnifiedRoundStream(
         }));
       } catch (error) {
         // Ensure heartbeat is cleaned up on error path too
-        clearInterval(contextBuildingHeartbeat);
+        if (contextBuildingHeartbeat) clearInterval(contextBuildingHeartbeat);
 
         const err = error instanceof Error ? error : new Error(String(error));
 
