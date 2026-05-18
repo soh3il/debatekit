@@ -8,14 +8,14 @@
   "author": {
     "name": "Deadpixel",
     "email": "ava@deadpixel.ai",
-    "url": "https://debatekit.ai"
+    "url": "https://debatekit.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/soh3il/debatekit.git"
   },
-  "homepage": "https://debatekit.ai",
-  "documentation": "https://debatekit.ai",
+  "homepage": "https://debatekit.com",
+  "documentation": "https://debatekit.com",
   "support": "https://github.com/soh3il/debatekit/issues",
   "icon": "icon.png",
   "server": {
@@ -100,7 +100,7 @@
     "api_key": {
       "type": "string",
       "title": "API Key",
-      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.ai/chat/settings/api-keys.",
+      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.com/chat/settings/api-keys.",
       "sensitive": true,
       "required": true
     },
@@ -108,7 +108,7 @@
       "type": "string",
       "title": "API Base URL",
       "description": "Override the default API endpoint (advanced).",
-      "default": "https://mcp.debatekit.ai",
+      "default": "https://mcp.debatekit.com",
       "required": false
     }
   },
@@ -119,5 +119,5 @@
       "node": ">=18.0.0"
     }
   },
-  "privacy_policies": ["https://debatekit.ai/legal/privacy"]
+  "privacy_policies": ["https://debatekit.com/legal/privacy"]
 }

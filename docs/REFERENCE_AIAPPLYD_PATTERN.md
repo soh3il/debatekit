@@ -344,7 +344,7 @@ Concrete diffs debatekit should consider (in roughly priority order — do NOT a
 11. **Add `build.watch_dir: "./src"` to debatekit's api `wrangler.jsonc`** to stop Miniflare state writes from triggering dev reloads.
 12. **Tune `observability.head_sampling_rate`** per env: 1.0 local, 0.1 preview, 0.05 prod. Current debatekit is 0.1 across the board.
 13. **After running `bun run build:preview` in apps/web, inspect `.output/server/wrangler.json`.** If env-specific `name`/`routes`/`vars` are missing, port aiapplyd's `apps/web/scripts/patch-wrangler-env.ts` verbatim. If they're present, skip — TanStack Start may have fixed this since aiapplyd's workaround was written.
-14. **Consider a tiny `infra/www-redirect/` worker** if debatekit ever needs `www.debatekit.ai → debatekit.ai` apex redirect. aiapplyd's is ~15 lines.
+14. **Consider a tiny `infra/www-redirect/` worker** if debatekit ever needs `www.debatekit.com → debatekit.com` apex redirect. aiapplyd's is ~15 lines.
 15. **Manual chunks for vendor splitting** (`vendor-react`, `vendor-tanstack`, `vendor-ui`, etc.) in vite.config — only worth adopting once debatekit's bundle is large enough to measure.
 
 Items 1, 2, and 4 are the lowest-effort / highest-impact. Item 13 is the riskiest divergence and worth verifying before it bites a production deploy.

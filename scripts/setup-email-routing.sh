@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# setup-email-routing.sh — configure Cloudflare Email Routing for debatekit.ai.
+# setup-email-routing.sh — configure Cloudflare Email Routing for debatekit.com.
 #
 # What it does (idempotent):
 #   1. Resolves the zone id for the target domain.
@@ -8,9 +8,9 @@
 #      clicks it to verify). Polls until all destinations are verified or a
 #      timeout is reached.
 #   4. Creates per-address forwarding rules:
-#        noreply@debatekit.ai           → all destinations
-#        support@debatekit.ai           → all destinations
-#        hello@mail.debatekit.ai        → all destinations
+#        noreply@debatekit.com           → all destinations
+#        support@debatekit.com           → all destinations
+#        hello@mail.debatekit.com        → all destinations
 #      and a catch-all rule → all destinations.
 #      Skips any rule whose matcher already exists.
 #
@@ -23,7 +23,7 @@
 # Usage:
 #   export CLOUDFLARE_API_TOKEN=...           # Email Routing Edit + Zone Read
 #   ./scripts/setup-email-routing.sh \
-#       [--zone debatekit.ai|<zone_id>] \
+#       [--zone debatekit.com|<zone_id>] \
 #       [--destinations ava@deadpixel.ai,soheil@deadpixel.ai] \
 #       [--dry-run]
 #
@@ -32,7 +32,7 @@
 set -euo pipefail
 
 # -------- defaults --------
-ZONE_ARG="debatekit.ai"
+ZONE_ARG="debatekit.com"
 DESTINATIONS_CSV="ava@deadpixel.ai,soheil@deadpixel.ai"
 DRY_RUN=0
 POLL_TIMEOUT_SECS=300   # 5 min max wait for destination verification
@@ -40,9 +40,9 @@ POLL_INTERVAL_SECS=10
 
 # Forwarding rules: each entry is "matcher_email|description"
 FORWARD_RULES=(
-  "noreply@debatekit.ai|noreply -> team"
-  "support@debatekit.ai|support -> team"
-  "hello@mail.debatekit.ai|hello (marketing subdomain) -> team"
+  "noreply@debatekit.com|noreply -> team"
+  "support@debatekit.com|support -> team"
+  "hello@mail.debatekit.com|hello (marketing subdomain) -> team"
 )
 
 # -------- args --------

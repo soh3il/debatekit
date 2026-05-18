@@ -45,8 +45,8 @@
         }
       ],
       "vars": {
-        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.ai",
-        "DEBATEKIT_APP_URL": "https://preview.debatekit.ai"
+        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.com",
+        "DEBATEKIT_APP_URL": "https://preview.debatekit.com"
       }
     },
     "production": {
@@ -57,7 +57,7 @@
       "observability": { "enabled": true, "head_sampling_rate": 0.1 },
       "routes": [
         {
-          "pattern": "slack.debatekit.ai",
+          "pattern": "slack.debatekit.com",
           "custom_domain": true
         }
       ],
@@ -69,8 +69,8 @@
         }
       ],
       "vars": {
-        "DEBATEKIT_API_URL": "https://mcp.debatekit.ai",
-        "DEBATEKIT_APP_URL": "https://debatekit.ai"
+        "DEBATEKIT_API_URL": "https://mcp.debatekit.com",
+        "DEBATEKIT_APP_URL": "https://debatekit.com"
       }
     }
   }

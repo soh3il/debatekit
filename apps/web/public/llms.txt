@@ -34,8 +34,8 @@ DebateKit orchestrates multiple AI models—GPT-4, Claude, Gemini, Grok—to deb
 - Meta (Llama)
 
 ## Links
-- Website: https://debatekit.ai
-- Pricing: https://debatekit.ai/chat/pricing
+- Website: https://debatekit.com
+- Pricing: https://debatekit.com/chat/pricing
 - Support: soheil@deadpixel.ai
 
 ## FAQ

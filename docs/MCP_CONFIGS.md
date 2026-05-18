@@ -2,9 +2,9 @@
 
 Connect your AI coding assistant to DebateKit's MCP server for collaborative AI brainstorming directly in your editor.
 
-**Server URL:** `https://mcp.debatekit.ai/mcp`
+**Server URL:** `https://mcp.debatekit.com/mcp`
 **Transport:** Streamable HTTP
-**Get your API key:** [debatekit.ai/chat/settings/api-keys](https://debatekit.ai/chat/settings/api-keys)
+**Get your API key:** [debatekit.com/chat/settings/api-keys](https://debatekit.com/chat/settings/api-keys)
 
 ---
 
@@ -18,14 +18,14 @@ Create `.vscode/mcp.json` in your project root:
     {
       "type": "promptString",
       "id": "debatekit-api-key",
-      "description": "DebateKit API Key (from https://debatekit.ai/chat/settings/api-keys)",
+      "description": "DebateKit API Key (from https://debatekit.com/chat/settings/api-keys)",
       "password": true
     }
   ],
   "servers": {
     "debatekit": {
       "type": "http",
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "headers": {
         "Authorization": "Bearer ${input:debatekit-api-key}"
       }
@@ -54,7 +54,7 @@ Create `.cursor/mcp.json` in your project root (or `~/.cursor/mcp.json` for glob
 {
   "mcpServers": {
     "debatekit": {
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "type": "streamableHttp",
       "headers": {
         "Authorization": "Bearer YOUR_API_KEY"
@@ -64,7 +64,7 @@ Create `.cursor/mcp.json` in your project root (or `~/.cursor/mcp.json` for glob
 }
 ```
 
-Replace `YOUR_API_KEY` with your key from [debatekit.ai/chat/settings/api-keys](https://debatekit.ai/chat/settings/api-keys). After saving, restart Cursor or reload the MCP servers from Settings > MCP.
+Replace `YOUR_API_KEY` with your key from [debatekit.com/chat/settings/api-keys](https://debatekit.com/chat/settings/api-keys). After saving, restart Cursor or reload the MCP servers from Settings > MCP.
 
 ---
 
@@ -76,7 +76,7 @@ Edit `~/.codeium/windsurf/mcp_config.json` (or open it via the MCP icon in the C
 {
   "mcpServers": {
     "debatekit": {
-      "serverUrl": "https://mcp.debatekit.ai/mcp",
+      "serverUrl": "https://mcp.debatekit.com/mcp",
       "headers": {
         "Authorization": "Bearer ${env:DEBATEKIT_API_KEY}"
       }
@@ -100,7 +100,7 @@ Or hardcode the key directly in the `Authorization` header value.
 ### Option A: CLI command
 
 ```bash
-claude mcp add --transport http --scope user debatekit https://mcp.debatekit.ai/mcp --header "Authorization: Bearer YOUR_API_KEY"
+claude mcp add --transport http --scope user debatekit https://mcp.debatekit.com/mcp --header "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Option B: Project config
@@ -112,7 +112,7 @@ Create `.mcp.json` in your project root:
   "mcpServers": {
     "debatekit": {
       "type": "http",
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "headers": {
         "Authorization": "Bearer ${DEBATEKIT_API_KEY}"
       }
@@ -130,7 +130,7 @@ export DEBATEKIT_API_KEY="your-api-key-here"
 ### Option C: JSON via CLI
 
 ```bash
-claude mcp add-json debatekit '{"type":"http","url":"https://mcp.debatekit.ai/mcp","headers":{"Authorization":"Bearer YOUR_API_KEY"}}' --scope user
+claude mcp add-json debatekit '{"type":"http","url":"https://mcp.debatekit.com/mcp","headers":{"Authorization":"Bearer YOUR_API_KEY"}}' --scope user
 ```
 
 Use `--scope user` for global access or `--scope project` to share via `.mcp.json`.
@@ -150,7 +150,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://mcp.debatekit.ai/mcp",
+        "https://mcp.debatekit.com/mcp",
         "--header",
         "Authorization: Bearer YOUR_API_KEY"
       ]
@@ -159,7 +159,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
 }
 ```
 
-Replace `YOUR_API_KEY` with your key from [debatekit.ai/chat/settings/api-keys](https://debatekit.ai/chat/settings/api-keys). Restart Claude Desktop after saving.
+Replace `YOUR_API_KEY` with your key from [debatekit.com/chat/settings/api-keys](https://debatekit.com/chat/settings/api-keys). Restart Claude Desktop after saving.
 
 > **Note:** Requires Node.js installed. The `mcp-remote` package bridges Streamable HTTP servers to Claude Desktop's stdio transport.
 
@@ -182,6 +182,6 @@ All configs above use `Authorization: Bearer <key>`. If you prefer the `x-api-ke
 | Issue | Fix |
 |-------|-----|
 | Tools not appearing | Restart the editor or reload MCP servers |
-| Authentication errors | Verify your API key at [debatekit.ai/chat/settings/api-keys](https://debatekit.ai/chat/settings/api-keys) |
-| Connection timeout | Check that `https://mcp.debatekit.ai/mcp` is reachable |
+| Authentication errors | Verify your API key at [debatekit.com/chat/settings/api-keys](https://debatekit.com/chat/settings/api-keys) |
+| Connection timeout | Check that `https://mcp.debatekit.com/mcp` is reachable |
 | Claude Desktop not connecting | Ensure Node.js is installed for `npx mcp-remote` |

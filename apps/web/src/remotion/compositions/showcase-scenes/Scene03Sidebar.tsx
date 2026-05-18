@@ -283,7 +283,7 @@ export function Scene03Sidebar() {
         rotateZ={0}
         depthBlur
       >
-        <BrowserFrame url="debatekit.ai">
+        <BrowserFrame url="debatekit.com">
           <div
             style={{
               display: 'flex',
@@ -499,7 +499,7 @@ export function Scene03Sidebar() {
                   {/* User info - grid layout like nav-user.tsx */}
                   <div style={userInfoStyles}>
                     <span style={userNameStyles}>Alex Developer</span>
-                    <span style={userEmailStyles}>alex@debatekit.ai</span>
+                    <span style={userEmailStyles}>alex@debatekit.com</span>
                   </div>
                   {/* ChevronsUpDown icon - matches nav-user.tsx */}
                   <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={SIDEBAR_COLORS.mutedForeground} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">

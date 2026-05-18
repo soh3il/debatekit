@@ -81,19 +81,19 @@ describe('uRL construction for authenticatedFetch', () => {
     });
 
     it('should handle production URLs correctly', () => {
-      const baseUrl = 'https://api.debatekit.ai/api/v1';
+      const baseUrl = 'https://api.debatekit.com/api/v1';
       const path = '/uploads/ticket';
 
       const url = new URL(`${baseUrl}${path}`);
-      expect(url.toString()).toBe('https://api.debatekit.ai/api/v1/uploads/ticket');
+      expect(url.toString()).toBe('https://api.debatekit.com/api/v1/uploads/ticket');
     });
 
     it('should handle preview URLs correctly', () => {
-      const baseUrl = 'https://api-preview.debatekit.ai/api/v1';
+      const baseUrl = 'https://api-preview.debatekit.com/api/v1';
       const path = '/uploads/ticket';
 
       const url = new URL(`${baseUrl}${path}`);
-      expect(url.toString()).toBe('https://api-preview.debatekit.ai/api/v1/uploads/ticket');
+      expect(url.toString()).toBe('https://api-preview.debatekit.com/api/v1/uploads/ticket');
     });
   });
 
@@ -142,8 +142,8 @@ describe('uRL construction for authenticatedFetch', () => {
       const relativeUrls = ['/api/v1', '/uploads', '/'];
       const absoluteUrls = [
         'http://localhost:8787/api/v1',
-        'https://api.debatekit.ai/api/v1',
-        'https://api-preview.debatekit.ai/api/v1',
+        'https://api.debatekit.com/api/v1',
+        'https://api-preview.debatekit.com/api/v1',
       ];
 
       for (const url of relativeUrls) {

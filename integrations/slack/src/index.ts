@@ -237,7 +237,7 @@ app.get('/slack/oauth/callback', async (c) => {
         <h1>DebateKit Installed!</h1>
         <p>DebateKit has been added to <strong>${tokenData.team.name}</strong>.</p>
         <p>Next step: Open the <strong>DebateKit</strong> app in Slack and configure your API key in the <strong>Home</strong> tab.</p>
-        <p><a href="https://debatekit.ai/chat/settings/api-keys">Get an API key &rarr;</a></p>
+        <p><a href="https://debatekit.com/chat/settings/api-keys">Get an API key &rarr;</a></p>
       </div></body></html>`,
   );
 });
@@ -271,7 +271,7 @@ app.get('/', (c) => {
           &#8226; <code>@DebateKit</code> — Mention in any channel for instant brainstorming<br>
           &#8226; Direct Messages — Private AI council sessions
         </div>
-        <div class="footer"><a href="https://debatekit.ai">debatekit.ai</a> &middot; <a href="https://debatekit.ai">Docs</a></div>
+        <div class="footer"><a href="https://debatekit.com">debatekit.com</a> &middot; <a href="https://debatekit.com">Docs</a></div>
       </div></body></html>`,
   );
 });
@@ -437,7 +437,7 @@ app.post('/slack/commands', async (c) => {
   if (teamId && !await hasApiKey(c.env.KV, teamId) && !c.env.DEBATEKIT_API_KEY) {
     return c.json({
       response_type: 'ephemeral',
-      text: ':warning: DebateKit is not configured yet.\n\nA workspace admin needs to set up an API key. Open the *DebateKit* app Home tab to configure it.\n\nGet a key at <https://debatekit.ai/chat/settings/api-keys|debatekit.ai/chat/settings/api-keys>.',
+      text: ':warning: DebateKit is not configured yet.\n\nA workspace admin needs to set up an API key. Open the *DebateKit* app Home tab to configure it.\n\nGet a key at <https://debatekit.com/chat/settings/api-keys|debatekit.com/chat/settings/api-keys>.',
     });
   }
 
@@ -601,7 +601,7 @@ app.post('/slack/interactions', async (c) => {
       if (!trimmedKey.startsWith('rpnd_')) {
         return c.json({
           response_action: 'errors',
-          errors: { api_key_block: 'API key must start with rpnd_. Get one at debatekit.ai/chat/settings/api-keys.' },
+          errors: { api_key_block: 'API key must start with rpnd_. Get one at debatekit.com/chat/settings/api-keys.' },
         });
       }
 

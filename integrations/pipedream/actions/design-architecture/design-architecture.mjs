@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-design-architecture",
   name: "Design Architecture",
-  description: "Get architectural recommendations from multiple AI models for system design decisions. [See the documentation](https://debatekit.ai)",
+  description: "Get architectural recommendations from multiple AI models for system design decisions. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

@@ -9,7 +9,7 @@ description = "CrewAI tools for DebateKit — multi-model AI brainstorming platf
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
-authors = [{ name = "DebateKit", email = "hello@debatekit.ai" }]
+authors = [{ name = "DebateKit", email = "hello@debatekit.com" }]
 keywords = ["crewai", "debatekit", "ai", "brainstorming", "multi-model"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -28,6 +28,6 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://debatekit.ai"
+Homepage = "https://debatekit.com"
 Repository = "https://github.com/debatekitAI/debatekit-dashboard"
-Documentation = "https://docs.debatekit.ai"
+Documentation = "https://docs.debatekit.com"

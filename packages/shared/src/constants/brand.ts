@@ -24,7 +24,7 @@ export const BRAND = {
   } as const,
   description: 'ChatGPT, Claude, Gemini & Grok as your AI advisors. They debate your questions together, respond to each other, and converge on better answers.',
   displayName: 'DebateKit.now',
-  domain: 'debatekit.ai',
+  domain: 'debatekit.com',
   domainDisplay: 'DebateKit.now',
   fullName: 'DebateKit',
   // Legal
@@ -62,7 +62,7 @@ export const BRAND = {
     roundWhite: '/static/logo.svg',
   } as const,
   name: 'DebateKit',
-  parentWebsite: 'https://debatekit.ai/',
+  parentWebsite: 'https://debatekit.com/',
 
   // Social links
   social: {
@@ -91,7 +91,7 @@ export const BRAND = {
   venture: 'DebateKit',
 
   // URLs
-  website: 'https://debatekit.ai/',
+  website: 'https://debatekit.com/',
 } as const;
 
 const COPYRIGHT_YEAR = 2026;

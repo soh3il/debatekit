@@ -113,7 +113,7 @@ function registerHandlers(bot: Bot, env: Env) {
 
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -130,7 +130,7 @@ function registerHandlers(bot: Bot, env: Env) {
 
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -141,7 +141,7 @@ function registerHandlers(bot: Bot, env: Env) {
   bot.command('analyze', async ctx => {
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -158,7 +158,7 @@ function registerHandlers(bot: Bot, env: Env) {
 
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -175,7 +175,7 @@ function registerHandlers(bot: Bot, env: Env) {
 
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -192,7 +192,7 @@ function registerHandlers(bot: Bot, env: Env) {
 
     const apiKey = await resolveApiKey(env.KV, ctx.chat.id, env.DEBATEKIT_API_KEY)
     if (!apiKey) {
-      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.ai/chat/settings/api-keys')
+      await ctx.reply('No API key configured. Run /setkey rpnd_your_key to get started.\n\nGet a key at debatekit.com/chat/settings/api-keys')
       return
     }
 
@@ -287,7 +287,7 @@ app.get('/', (c) => {
       .footer a{color:#0088cc;text-decoration:none}</style></head>
       <body><div class="card">
         <h1>DebateKit</h1>
-        <p class="subtitle">Official Telegram bot for <a href="${appUrl}" style="color:#0088cc">debatekit.ai</a> &mdash; multi-model AI brainstorming</p>
+        <p class="subtitle">Official Telegram bot for <a href="${appUrl}" style="color:#0088cc">debatekit.com</a> &mdash; multi-model AI brainstorming</p>
         <a href="https://t.me/${botUsername}" class="btn">Open in Telegram</a>
         <div class="features">
           <strong>What you get:</strong><br>
@@ -296,7 +296,7 @@ app.get('/', (c) => {
           &#8226; <code>/analyze</code> &mdash; Analyze recent group chat messages<br>
           &#8226; Direct Messages &mdash; Just type your question, no command needed
         </div>
-        <div class="footer"><a href="${appUrl}">debatekit.ai</a></div>
+        <div class="footer"><a href="${appUrl}">debatekit.com</a></div>
       </div></body></html>`,
   )
 })

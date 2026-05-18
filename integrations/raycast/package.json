@@ -15,7 +15,7 @@
       "type": "password",
       "required": true,
       "title": "API Key",
-      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.ai/chat/settings/api-keys.",
+      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.com/chat/settings/api-keys.",
       "placeholder": "rpnd_..."
     },
     {
@@ -24,8 +24,8 @@
       "required": false,
       "title": "API Base URL",
       "description": "Override the default API endpoint.",
-      "default": "https://mcp.debatekit.ai",
-      "placeholder": "https://mcp.debatekit.ai"
+      "default": "https://mcp.debatekit.com",
+      "placeholder": "https://mcp.debatekit.com"
     }
   ],
   "commands": [

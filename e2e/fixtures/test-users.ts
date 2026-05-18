@@ -16,11 +16,11 @@ export type TestUser = {
 
 /**
  * Free tier test user - basic functionality testing
- * Using @debatekit.ai domain to pass email whitelist restrictions
+ * Using @debatekit.com domain to pass email whitelist restrictions
  */
 export const TEST_USER_FREE: TestUser = {
   id: 'e2e_user_free_001',
-  email: 'e2e-free-test@debatekit.ai',
+  email: 'e2e-free-test@debatekit.com',
   password: 'E2ETestPass123!',
   name: 'E2E Free Test User',
   tier: 'free',
@@ -28,11 +28,11 @@ export const TEST_USER_FREE: TestUser = {
 
 /**
  * Pro tier test user - premium features testing
- * Using @debatekit.ai domain to pass email whitelist restrictions
+ * Using @debatekit.com domain to pass email whitelist restrictions
  */
 export const TEST_USER_PRO: TestUser = {
   id: 'e2e_user_pro_001',
-  email: 'e2e-pro-test@debatekit.ai',
+  email: 'e2e-pro-test@debatekit.com',
   password: 'E2ETestPass123!',
   name: 'E2E Pro Test User',
   tier: 'pro',
@@ -40,11 +40,11 @@ export const TEST_USER_PRO: TestUser = {
 
 /**
  * Admin test user - admin functionality testing
- * Using @debatekit.ai domain to pass email whitelist restrictions
+ * Using @debatekit.com domain to pass email whitelist restrictions
  */
 export const TEST_USER_ADMIN: TestUser = {
   id: 'e2e_user_admin_001',
-  email: 'e2e-admin-test@debatekit.ai',
+  email: 'e2e-admin-test@debatekit.com',
   password: 'E2ETestPass123!',
   name: 'E2E Admin Test User',
   tier: 'admin',

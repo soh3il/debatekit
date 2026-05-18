@@ -11,9 +11,9 @@ import gradio as gr
 import httpx
 
 # Source of truth: DEBATEKIT_DEFAULT_URL in integrations/shared/src/constants.ts
-API_BASE = "https://mcp.debatekit.ai/api/v1"
+API_BASE = "https://mcp.debatekit.com/api/v1"
 # Source of truth: DEBATEKIT_APP_URL in integrations/shared/src/constants.ts
-APP_URL = "https://debatekit.ai"
+APP_URL = "https://debatekit.com"
 TIMEOUT = httpx.Timeout(120.0)
 
 # Source of truth: ChatModeSchema in packages/shared/src/enums/chat.ts

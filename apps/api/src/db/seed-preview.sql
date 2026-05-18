@@ -1,6 +1,6 @@
 -- PREVIEW ENVIRONMENT (Test Mode)
 -- Stripe Account: acct_1SPXN852vWNZ3v8w
--- URL: https://web-preview.debatekit.ai
+-- URL: https://web-preview.debatekit.com
 --
 -- Synced from Stripe TEST mode on 2026-01-06
 -- Product: Pro (prod_Tf8t3FTCKcpVDq) - $59/month

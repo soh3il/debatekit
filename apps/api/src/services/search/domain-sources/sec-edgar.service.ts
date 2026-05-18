@@ -19,7 +19,7 @@ import type { DataSourceResult } from './registry';
 
 const EDGAR_BASE = 'https://efts.sec.gov/LATEST';
 const EDGAR_COMPANY_FACTS = 'https://data.sec.gov/api/xbrl/companyfacts';
-const EDGAR_USER_AGENT = 'DebateKit AI research@debatekit.ai';
+const EDGAR_USER_AGENT = 'DebateKit AI research@debatekit.com';
 
 const EdgarSearchResultSchema = z.object({
   hits: z.object({

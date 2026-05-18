@@ -9,9 +9,9 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://api.debatekit.ai/api/v1/doc"
+    "url": "https://api.debatekit.com/api/v1/doc"
   },
-  "logo_url": "https://debatekit.ai/static/logo.png",
+  "logo_url": "https://debatekit.com/static/logo.png",
   "contact_email": "soheil@deadpixel.ai",
-  "legal_info_url": "https://debatekit.ai/legal/terms"
+  "legal_info_url": "https://debatekit.com/legal/terms"
 }

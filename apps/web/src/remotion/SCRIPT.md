@@ -212,7 +212,7 @@
 - Rainbow gradient border effect
 - Logo center stage
 **Text Animation**:
-- "debatekit.ai" (gradient text)
+- "debatekit.com" (gradient text)
 - "Start your council today" (fade in below)
 - "Try Free" button pulses
 **Music**: Final beat, reverb tail

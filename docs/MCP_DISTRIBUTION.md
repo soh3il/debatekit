@@ -13,7 +13,7 @@ Last updated: 2026-03-10 (session 7b)
 4. **ChatGPT Custom GPT** — https://chatgpt.com/g/g-69af4ee48f388191a0e92a24151e788e-debatekit
 
 ### Integrations (Install/Invite)
-5. **Slack App** — https://slack.debatekit.ai/slack/install (OAuth install — any workspace)
+5. **Slack App** — https://slack.debatekit.com/slack/install (OAuth install — any workspace)
 6. **n8n Community Node** — https://www.npmjs.com/package/n8n-nodes-debatekit-ai (`npm i n8n-nodes-debatekit-ai`)
 7. **Zapier Integration** — https://zapier.com/developer/public-invite/237707/e5c297aeb14dc886a0c491b2e609954c/ (accept invite → build Zap)
 
@@ -22,11 +22,11 @@ Last updated: 2026-03-10 (session 7b)
 9. **WhatsApp Bot** — SKIPPED (code-complete in preview, not pursuing Meta Business setup for now)
 
 ### Infrastructure
-10. **MCP Server** — https://mcp.debatekit.ai/mcp
-11. **REST API** — https://mcp.debatekit.ai/api/v1/health
-12. **OAuth Discovery** — https://mcp.debatekit.ai/.well-known/oauth-authorization-server
-13. **Registry Domain Proof** — https://mcp.debatekit.ai/.well-known/mcp-registry-auth
-14. **Website** — https://debatekit.ai
+10. **MCP Server** — https://mcp.debatekit.com/mcp
+11. **REST API** — https://mcp.debatekit.com/api/v1/health
+12. **OAuth Discovery** — https://mcp.debatekit.com/.well-known/oauth-authorization-server
+13. **Registry Domain Proof** — https://mcp.debatekit.com/.well-known/mcp-registry-auth
+14. **Website** — https://debatekit.com
 
 ---
 
@@ -38,7 +38,7 @@ Last updated: 2026-03-10 (session 7b)
 | 2 | **Cursor.directory** | [cursor.directory/mcp/debatekit](https://cursor.directory/mcp/debatekit) | Live — publicly visible |
 | 3 | **Smithery** | [smithery.ai/servers/debatekit/debatekit](https://smithery.ai/servers/debatekit/debatekit) | Live (98/100 quality) |
 | 4 | **ChatGPT Custom GPT** | [Open in ChatGPT](https://chatgpt.com/g/g-69af4ee48f388191a0e92a24151e788e-debatekit) | Live — all ChatGPT users |
-| 5 | **Slack App** | [Install to Slack](https://slack.debatekit.ai/slack/install) | Live — direct OAuth install. Marketplace listing pending Slack review (5 installs needed). |
+| 5 | **Slack App** | [Install to Slack](https://slack.debatekit.com/slack/install) | Live — direct OAuth install. Marketplace listing pending Slack review (5 installs needed). |
 | 6 | **n8n Community Node** | [npm v0.1.1](https://www.npmjs.com/package/n8n-nodes-debatekit-ai) | Live on npm. Gravatar logo updated. |
 | 7 | **Zapier Integration** | [Accept Invite](https://zapier.com/developer/public-invite/237707/e5c297aeb14dc886a0c491b2e609954c/) | Live — any Zapier user. Full marketplace pending 3+ users with live Zaps. |
 | 8 | **Telegram Bot** | [Open @debatekitnowbot](https://t.me/debatekitnowbot) | Live — production deployed, webhook active, profile photo + commands + description configured. Works in DMs + groups. |
@@ -149,8 +149,8 @@ Last updated: 2026-03-10 (session 7b)
 | A8 | ChatGPT Custom GPTs | `docs/CUSTOM_GPT_CONFIG.md` | — | **LIVE** | https://chatgpt.com/g/g-69af4ee48f388191a0e92a24151e788e-debatekit |
 | A9 | Gemini CLI Extension | `apps/mcp/gemini-extension.json` | — | Config ready | Manual setup |
 | A10 | DXT Desktop Extension | `integrations/dxt/` | TS | Code complete + packed (3.0MB) | Needs dxt.services sign-in (Google/GitHub OAuth) |
-| A11 | Telegram Bot | `integrations/telegram/` | TS | Code complete, type-checked | Needs: @BotFather registration, KV namespace creation, deploy to CF Workers (`telegram.debatekit.ai`) |
-| A12 | WhatsApp Bot | `integrations/whatsapp/` | TS | Code complete, type-checked | Needs: Meta Business account, WhatsApp Cloud API setup, phone number, deploy to CF Workers (`whatsapp.debatekit.ai`) |
+| A11 | Telegram Bot | `integrations/telegram/` | TS | Code complete, type-checked | Needs: @BotFather registration, KV namespace creation, deploy to CF Workers (`telegram.debatekit.com`) |
+| A12 | WhatsApp Bot | `integrations/whatsapp/` | TS | Code complete, type-checked | Needs: Meta Business account, WhatsApp Cloud API setup, phone number, deploy to CF Workers (`whatsapp.debatekit.com`) |
 
 ### DXT Extension Details
 - **Source:** `integrations/dxt/src/index.ts` — TypeScript, compiled to `server/index.js`

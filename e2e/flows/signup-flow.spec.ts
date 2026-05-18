@@ -29,7 +29,7 @@ import { expect, test } from '@playwright/test';
 function generateUniqueEmail(prefix: string = 'signup-flow') {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 10000);
-  return `${prefix}-${timestamp}-${random}@debatekit.ai`;
+  return `${prefix}-${timestamp}-${random}@debatekit.com`;
 }
 
 function generatePassword() {

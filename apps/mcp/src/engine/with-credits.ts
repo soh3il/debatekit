@@ -78,7 +78,7 @@ export async function withCredits(
       ? ` Try again in ${limitCheck.retryAfterSeconds} seconds.`
       : '';
     throw new Error(
-      `MCP request limit reached (${limitCheck.status}). Tool calls are blocked until your rate limit window resets.${retryMsg} Free plan: 15/5h, 50/day, 200/week. Upgrade to Pro for 10x higher limits at https://debatekit.ai/chat/pricing`,
+      `MCP request limit reached (${limitCheck.status}). Tool calls are blocked until your rate limit window resets.${retryMsg} Free plan: 15/5h, 50/day, 200/week. Upgrade to Pro for 10x higher limits at https://debatekit.com/chat/pricing`,
     );
   }
 
@@ -96,7 +96,7 @@ export async function withCredits(
     const roundUsed = await checkFreeRoundUsed(env, userId);
     if (roundUsed) {
       throw new Error(
-        'Your free debate round has been used. MCP tool calls are now blocked on the free plan — this is a hard limit. Upgrade to Pro ($59/mo) for 500 daily requests, no cooldowns, and 2,000,000 monthly credits. Visit https://debatekit.ai/chat/pricing to upgrade.',
+        'Your free debate round has been used. MCP tool calls are now blocked on the free plan — this is a hard limit. Upgrade to Pro ($59/mo) for 500 daily requests, no cooldowns, and 2,000,000 monthly credits. Visit https://debatekit.com/chat/pricing to upgrade.',
       );
     }
   }

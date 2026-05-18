@@ -5,7 +5,7 @@ import { cn } from '@/lib/ui/cn';
 export function LandingBrowserFrame({
   children,
   className,
-  url = 'debatekit.ai/chat',
+  url = 'debatekit.com/chat',
 }: {
   children: ReactNode;
   className?: string;

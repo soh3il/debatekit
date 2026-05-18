@@ -3,8 +3,8 @@
 Ready-to-paste copy and configuration for submitting DebateKit to platform directories.
 
 **Product:** DebateKit
-**Website:** https://debatekit.ai
-**MCP Server:** https://mcp.debatekit.ai/mcp
+**Website:** https://debatekit.com
+**MCP Server:** https://mcp.debatekit.com/mcp
 **Company:** Deadpixel
 
 ---
@@ -33,8 +33,8 @@ Ready-to-paste copy and configuration for submitting DebateKit to platform direc
 |-------|-------|
 | Company name | Deadpixel |
 | Connector name | DebateKit |
-| Website URL | https://debatekit.ai |
-| MCP server URL | `https://mcp.debatekit.ai/mcp` |
+| Website URL | https://debatekit.com |
+| MCP server URL | `https://mcp.debatekit.com/mcp` |
 
 **Description:**
 
@@ -51,10 +51,10 @@ Multi-model AI brainstorming -- consult a council of AI models that discuss your
 ```
 - Bearer token: API keys with `rpnd_` prefix, sent via `Authorization: Bearer <key>` or `x-api-key` header
 - OAuth 2.0: Authorization Code Grant with PKCE (S256)
-  - Authorization endpoint: https://mcp.debatekit.ai/authorize
-  - Token endpoint: https://mcp.debatekit.ai/token
-  - Registration endpoint: https://mcp.debatekit.ai/register
-  - Discovery: https://mcp.debatekit.ai/.well-known/oauth-authorization-server
+  - Authorization endpoint: https://mcp.debatekit.com/authorize
+  - Token endpoint: https://mcp.debatekit.com/token
+  - Registration endpoint: https://mcp.debatekit.com/register
+  - Discovery: https://mcp.debatekit.com/.well-known/oauth-authorization-server
   - Scopes: mcp:tools
   - Dynamic client registration supported
 ```
@@ -108,7 +108,7 @@ Multi-model AI brainstorming -- consult a council of AI models that discuss your
 
 ```
 To test the DebateKit MCP connector:
-1. Create an account at https://debatekit.ai
+1. Create an account at https://debatekit.com
 2. Navigate to Settings > API Keys
 3. Generate an API key (prefix: rpnd_)
 4. Free tier includes credits for testing all tools
@@ -141,10 +141,10 @@ Website: https://deadpixel.ai
 |-------|-------|
 | App name | DebateKit |
 | Category | Productivity |
-| MCP Server URL | `https://mcp.debatekit.ai/mcp` |
+| MCP Server URL | `https://mcp.debatekit.com/mcp` |
 | Auth type | OAuth 2.0 (Authorization Code with PKCE) |
-| Privacy policy URL | `https://debatekit.ai/legal/privacy` |
-| Terms of service URL | `https://debatekit.ai/legal/terms` |
+| Privacy policy URL | `https://debatekit.com/legal/privacy` |
+| Terms of service URL | `https://debatekit.com/legal/terms` |
 | Support email | soheil@deadpixel.ai |
 
 **Short description (80 chars max):**
@@ -156,7 +156,7 @@ Consult a council of AI models that debate your question and synthesize insight.
 **Long description (500 chars max):**
 
 ```
-DebateKit convenes a council of AI models to discuss your question. Each model responds sequentially, seeing prior responses, then a moderator synthesizes everything into actionable insight. Specialized councils for architecture design, code review, debugging, implementation planning, and tradeoff assessment. Three thinking tiers (quick/deep/ultra) balance speed and cost. Auto-mode selects optimal models and roles from your prompt. Every session creates a shareable thread at debatekit.ai.
+DebateKit convenes a council of AI models to discuss your question. Each model responds sequentially, seeing prior responses, then a moderator synthesizes everything into actionable insight. Specialized councils for architecture design, code review, debugging, implementation planning, and tradeoff assessment. Three thinking tiers (quick/deep/ultra) balance speed and cost. Auto-mode selects optimal models and roles from your prompt. Every session creates a shareable thread at debatekit.com.
 ```
 
 **Key tools:**
@@ -178,9 +178,9 @@ DebateKit convenes a council of AI models to discuss your question. Each model r
 **OAuth 2.0 Configuration:**
 
 ```
-Authorization URL: https://mcp.debatekit.ai/authorize
-Token URL: https://mcp.debatekit.ai/token
-Registration URL: https://mcp.debatekit.ai/register
+Authorization URL: https://mcp.debatekit.com/authorize
+Token URL: https://mcp.debatekit.com/token
+Registration URL: https://mcp.debatekit.com/register
 Scopes: mcp:tools
 PKCE: Required (S256)
 Token endpoint auth: none (public client)
@@ -199,16 +199,16 @@ Token endpoint auth: none (public client)
   "description": "Consult a council of AI models that discuss your question sequentially and synthesize diverse perspectives into actionable insight. Specialized councils for architecture, code review, debugging, planning, and tradeoff assessment.",
   "version": "1.0.0",
   "publisher": "Deadpixel",
-  "homepage": "https://debatekit.ai",
-  "mcp_server_url": "https://mcp.debatekit.ai/mcp",
+  "homepage": "https://debatekit.com",
+  "mcp_server_url": "https://mcp.debatekit.com/mcp",
   "auth": {
     "type": "bearer",
     "token_label": "DebateKit API Key",
-    "token_description": "Generate at https://debatekit.ai/chat/settings/api-keys > API Keys (prefix: rpnd_)",
+    "token_description": "Generate at https://debatekit.com/chat/settings/api-keys > API Keys (prefix: rpnd_)",
     "oauth": {
-      "authorization_url": "https://mcp.debatekit.ai/authorize",
-      "token_url": "https://mcp.debatekit.ai/token",
-      "registration_url": "https://mcp.debatekit.ai/register",
+      "authorization_url": "https://mcp.debatekit.com/authorize",
+      "token_url": "https://mcp.debatekit.com/token",
+      "registration_url": "https://mcp.debatekit.com/register",
       "scopes": ["mcp:tools"],
       "pkce_required": true,
       "pkce_method": "S256"
@@ -296,8 +296,8 @@ Token endpoint auth: none (public client)
   ],
   "categories": ["productivity", "ai-tools", "developer-tools"],
   "icons": {
-    "light": "https://debatekit.ai/icon-light.svg",
-    "dark": "https://debatekit.ai/icon-dark.svg"
+    "light": "https://debatekit.com/icon-light.svg",
+    "dark": "https://debatekit.com/icon-dark.svg"
   }
 }
 ```
@@ -327,7 +327,7 @@ I built DebateKit because I was tired of getting one perspective from one AI mod
 
 DebateKit fixes this. Ask a question, and 3-6 AI models discuss it sequentially -- each reading what came before. A moderator synthesizes the discussion into a clear recommendation with attributed insights.
 
-It works inside Claude Code, ChatGPT, and any MCP-compatible tool via our MCP server. Or use the web app at debatekit.ai for a visual experience with streaming responses.
+It works inside Claude Code, ChatGPT, and any MCP-compatible tool via our MCP server. Or use the web app at debatekit.com for a visual experience with streaming responses.
 
 Specialized councils auto-assign expert roles: Systems Architect + Infra Engineer + DX Advocate for architecture, Senior Engineer + Security Reviewer + Perf Analyst for code review, and more.
 
@@ -390,7 +390,7 @@ How it works:
 2. 3-6 AI models discuss your question sequentially
 3. Each model sees and responds to what came before
 4. A moderator synthesizes everything into a recommendation
-5. Results are posted in-thread with a link to the full discussion on debatekit.ai
+5. Results are posted in-thread with a link to the full discussion on debatekit.com
 
 Specialized councils:
 - Architecture: Systems Architect, Infrastructure Engineer, DX Advocate
@@ -404,7 +404,7 @@ Three thinking tiers let you balance speed and depth:
 - Deep Think: Balanced models for moderate complexity (~20 sec)
 - Ultra Think: Maximum reasoning for critical decisions (~40 sec)
 
-Every discussion creates a shareable thread at debatekit.ai with the full conversation.
+Every discussion creates a shareable thread at debatekit.com with the full conversation.
 ```
 
 **OAuth scopes needed:**
@@ -420,7 +420,7 @@ Every discussion creates a shareable thread at debatekit.ai with the full conver
 
 ```
 Command: /debatekit
-Request URL: https://api.debatekit.ai/integrations/slack/command
+Request URL: https://api.debatekit.com/integrations/slack/command
 Short description: Consult a council of AI models
 Usage hint: [question] --mode [analyzing|brainstorming|debating|solving] --thinking [low|medium|high]
 ```
@@ -452,9 +452,9 @@ Usage hint: [question] --mode [analyzing|brainstorming|debating|solving] --think
 ```
 Auth type: API Key
 Key field label: API Key
-Key field help text: Generate at debatekit.ai/chat/settings/api-keys > API Keys. Keys start with rpnd_ prefix.
+Key field help text: Generate at debatekit.com/chat/settings/api-keys > API Keys. Keys start with rpnd_ prefix.
 Header: Authorization: Bearer {{api_key}}
-Test endpoint: GET https://api.debatekit.ai/mcp/usage
+Test endpoint: GET https://api.debatekit.com/mcp/usage
 ```
 
 **Triggers:**
@@ -463,14 +463,14 @@ Test endpoint: GET https://api.debatekit.ai/mcp/usage
 1. New DebateKit Completed
    - Key: new_debatekit
    - Description: Triggers when a debatekit discussion completes
-   - Polling URL: GET https://api.debatekit.ai/mcp/history?limit=10
+   - Polling URL: GET https://api.debatekit.com/mcp/history?limit=10
    - Dedup field: session_id
    - Output fields: session_id, tool_name, prompt, moderator_summary, credits_used, duration_ms, thread_url, created_at
 
 2. New Session Created
    - Key: new_session
    - Description: Triggers when any MCP tool session is created
-   - Polling URL: GET https://api.debatekit.ai/mcp/history?limit=10
+   - Polling URL: GET https://api.debatekit.com/mcp/history?limit=10
    - Dedup field: session_id
    - Output fields: session_id, tool_name, prompt, thinking_level, created_at
 ```
@@ -481,7 +481,7 @@ Test endpoint: GET https://api.debatekit.ai/mcp/usage
 1. Start DebateKit (Consult)
    - Key: start_debatekit
    - Description: Consult a council of AI models on a question
-   - Endpoint: POST https://mcp.debatekit.ai/mcp (MCP tool call: consult)
+   - Endpoint: POST https://mcp.debatekit.com/mcp (MCP tool call: consult)
    - Input fields:
      - prompt (required, string): The question to discuss
      - thinking_level (optional, dropdown: low/medium/high, default: medium)
@@ -492,7 +492,7 @@ Test endpoint: GET https://api.debatekit.ai/mcp/usage
 2. Get Session Details
    - Key: get_session
    - Description: Retrieve full details of a previous session
-   - Endpoint: POST https://mcp.debatekit.ai/mcp (MCP tool call: get_session)
+   - Endpoint: POST https://mcp.debatekit.com/mcp (MCP tool call: get_session)
    - Input fields:
      - session_id (required, string)
    - Output fields: session_id, tool_name, prompt, moderator_summary, participants, credits, duration_ms
@@ -500,7 +500,7 @@ Test endpoint: GET https://api.debatekit.ai/mcp/usage
 3. Check Usage
    - Key: check_usage
    - Description: Check remaining credits and plan info
-   - Endpoint: POST https://mcp.debatekit.ai/mcp (MCP tool call: check_usage)
+   - Endpoint: POST https://mcp.debatekit.com/mcp (MCP tool call: check_usage)
    - Output fields: plan, credits, status, daily_used, daily_limit, weekly_used, weekly_limit
 ```
 
@@ -510,14 +510,14 @@ Test endpoint: GET https://api.debatekit.ai/mcp/usage
 1. Find Session by ID
    - Key: find_session
    - Description: Look up a specific session by its ID
-   - Endpoint: POST https://mcp.debatekit.ai/mcp (MCP tool call: get_session)
+   - Endpoint: POST https://mcp.debatekit.com/mcp (MCP tool call: get_session)
    - Input fields: session_id (required)
    - Output fields: Same as Get Session action
 
 2. List Recent Sessions
    - Key: list_sessions
    - Description: List recent MCP tool sessions
-   - Endpoint: POST https://mcp.debatekit.ai/mcp (MCP tool call: list_sessions)
+   - Endpoint: POST https://mcp.debatekit.com/mcp (MCP tool call: list_sessions)
    - Input fields:
      - limit (optional, integer, default: 20, max: 100)
      - tool_name (optional, dropdown: consult/architect/review_code/debug/plan_implementation/assess_tradeoffs)
@@ -549,11 +549,11 @@ Properties:
       displayName: API Key
       type: string
       placeholder: rpnd_xxxxxxxxxxxx
-      description: Generate at debatekit.ai/chat/settings/api-keys > API Keys
+      description: Generate at debatekit.com/chat/settings/api-keys > API Keys
 Authentication:
   header: Authorization
   value: Bearer {{apiKey}}
-Test request: GET https://api.debatekit.ai/mcp/usage
+Test request: GET https://api.debatekit.com/mcp/usage
 ```
 
 **Node operations:**
@@ -679,7 +679,7 @@ Integration approach:
 - MCP-native: Works with any MCP-compatible tool (Claude Code, ChatGPT, Cursor)
 - REST API: Direct HTTP integration for custom workflows
 - Webhook support: Send results to any endpoint for CI/CD integration
-- Session threads: Every discussion creates a shareable page at debatekit.ai
+- Session threads: Every discussion creates a shareable page at debatekit.com
 
 Technical details:
 - Hosted on Cloudflare Workers (global edge, low latency)

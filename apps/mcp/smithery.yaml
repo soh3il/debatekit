@@ -3,17 +3,17 @@
 
 name: debatekit
 description: "Your AI Board of Directors. Run multi-model debates where GPT-4o, Claude, Gemini, and more discuss your question, then a moderator synthesizes their perspectives into actionable insight."
-iconUrl: "https://debatekit.ai/icons/icon-512x512.png"
+iconUrl: "https://debatekit.com/icons/icon-512x512.png"
 
 startCommand:
   type: http
-  url: "https://mcp.debatekit.ai/mcp"
+  url: "https://mcp.debatekit.com/mcp"
   configSchema:
     type: object
     properties:
       apiKey:
         type: string
         title: API Key
-        description: "Your DebateKit API key. Get one at https://debatekit.ai/chat/settings/api-keys. Required for tool execution, optional for browsing available tools."
+        description: "Your DebateKit API key. Get one at https://debatekit.com/chat/settings/api-keys. Required for tool execution, optional for browsing available tools."
         x-from: header
         x-header-name: x-api-key

@@ -52,5 +52,5 @@ SLACK_SIGNING_SECRET=<get-from-slack-app-basic-information>
 # ============================================================================
 
 # Fallback DebateKit API key, used when a workspace hasn't linked its own.
-# Generate at: https://debatekit.ai/settings/api-keys
+# Generate at: https://debatekit.com/settings/api-keys
 DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

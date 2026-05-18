@@ -23,4 +23,4 @@ Consult a council of AI models that debate, analyze, and solve problems together
 
 ## Setup
 
-Set your `DEBATEKIT_API_KEY` environment variable (get one at [debatekit.ai](https://debatekit.ai)).
+Set your `DEBATEKIT_API_KEY` environment variable (get one at [debatekit.com](https://debatekit.com)).

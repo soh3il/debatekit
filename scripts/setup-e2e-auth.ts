@@ -23,19 +23,19 @@ type TestUser = {
 
 const TEST_USERS: TestUser[] = [
   {
-    email: 'e2e-free-test@debatekit.ai',
+    email: 'e2e-free-test@debatekit.com',
     password: 'E2ETestPass123!',
     name: 'E2E Free Test User',
     tier: 'free',
   },
   {
-    email: 'e2e-pro-test@debatekit.ai',
+    email: 'e2e-pro-test@debatekit.com',
     password: 'E2ETestPass123!',
     name: 'E2E Pro Test User',
     tier: 'pro',
   },
   {
-    email: 'e2e-admin-test@debatekit.ai',
+    email: 'e2e-admin-test@debatekit.com',
     password: 'E2ETestPass123!',
     name: 'E2E Admin Test User',
     tier: 'admin',
@@ -170,7 +170,7 @@ function setupBillingForProUser(userId: string): void {
 
   try {
     // Create stripe_customer
-    const customerSql = `INSERT OR REPLACE INTO stripe_customer (id, user_id, email, name, default_payment_method_id, metadata, created_at, updated_at) VALUES ('${customerId}', '${userId}', 'e2e-pro-test@debatekit.ai', 'E2E Pro Test User', '${paymentMethodId}', NULL, ${now}, ${now});`;
+    const customerSql = `INSERT OR REPLACE INTO stripe_customer (id, user_id, email, name, default_payment_method_id, metadata, created_at, updated_at) VALUES ('${customerId}', '${userId}', 'e2e-pro-test@debatekit.com', 'E2E Pro Test User', '${paymentMethodId}', NULL, ${now}, ${now});`;
     execSync(`bunx wrangler d1 execute DB --local --command="${customerSql}"`, { stdio: 'pipe' });
 
     // Create stripe_payment_method

@@ -68,7 +68,7 @@ const MCP_KEY_NAME = 'MCP Authorization';
 
 /**
  * Derive the MCP worker origin from the MCP base URL.
- * getMcpBaseUrl() returns URLs like "https://mcp.debatekit.ai/mcp"
+ * getMcpBaseUrl() returns URLs like "https://mcp.debatekit.com/mcp"
  * but auth callbacks are at the worker root: "/auth/callback"
  */
 function getMcpAuthCallbackUrl(): string {

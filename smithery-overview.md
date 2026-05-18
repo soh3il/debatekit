@@ -228,10 +228,10 @@
                               - text: Mar 10, 2026
                           - generic [ref=e252]:
                             - generic [ref=e253]: Homepage
-                            - link "debatekit.ai" [ref=e255] [cursor=pointer]:
-                              - /url: https://debatekit.ai
+                            - link "debatekit.com" [ref=e255] [cursor=pointer]:
+                              - /url: https://debatekit.com
                               - img [ref=e256]
-                              - generic [ref=e260]: debatekit.ai
+                              - generic [ref=e260]: debatekit.com
               - generic [ref=e264]:
                 - heading "Performance" [level=2] [ref=e265]:
                   - img [ref=e266]
@@ -271,8 +271,8 @@
                             - generic [ref=e493]: header
                           - paragraph [ref=e494]:
                             - text: Your DebateKit API key. Get one at
-                            - link "https://debatekit.ai/chat/settings/api-keys" [ref=e495] [cursor=pointer]:
-                              - /url: https://debatekit.ai/chat/settings/api-keys
+                            - link "https://debatekit.com/chat/settings/api-keys" [ref=e495] [cursor=pointer]:
+                              - /url: https://debatekit.com/chat/settings/api-keys
                   - generic [ref=e496]:
                     - generic [ref=e497]:
                       - button "CLI" [ref=e498] [cursor=pointer]:

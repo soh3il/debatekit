@@ -50,8 +50,8 @@
         }
       ],
       "vars": {
-        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.ai",
-        "DEBATEKIT_APP_URL": "https://preview.debatekit.ai",
+        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.com",
+        "DEBATEKIT_APP_URL": "https://preview.debatekit.com",
         "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
       }
     },
@@ -63,7 +63,7 @@
       "observability": { "enabled": true, "head_sampling_rate": 0.1 },
       "routes": [
         {
-          "pattern": "telegram.debatekit.ai",
+          "pattern": "telegram.debatekit.com",
           "custom_domain": true
         }
       ],
@@ -75,8 +75,8 @@
         }
       ],
       "vars": {
-        "DEBATEKIT_API_URL": "https://mcp.debatekit.ai",
-        "DEBATEKIT_APP_URL": "https://debatekit.ai",
+        "DEBATEKIT_API_URL": "https://mcp.debatekit.com",
+        "DEBATEKIT_APP_URL": "https://debatekit.com",
         "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
       }
     }

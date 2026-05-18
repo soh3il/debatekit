@@ -326,7 +326,7 @@ app.get('/', (c) => {
           &#8226; <code>!analyze</code> — Analyze recent conversation messages<br>
           &#8226; Direct messages — Just type your question, no command needed
         </div>
-        <div class="footer"><a href="${c.env.DEBATEKIT_APP_URL}">debatekit.ai</a> &middot; <a href="${c.env.DEBATEKIT_APP_URL}/chat/settings/api-keys">Get API Key</a></div>
+        <div class="footer"><a href="${c.env.DEBATEKIT_APP_URL}">debatekit.com</a> &middot; <a href="${c.env.DEBATEKIT_APP_URL}/chat/settings/api-keys">Get API Key</a></div>
       </div></body></html>`,
   );
 });

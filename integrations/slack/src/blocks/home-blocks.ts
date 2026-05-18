@@ -86,7 +86,7 @@ export function buildHomeView(options: {
     blocks.push(sectionBlock(
       ':warning: *API Key Required*\n\n'
       + 'To use DebateKit, a workspace admin needs to connect a DebateKit API key.\n\n'
-      + '1. Sign up at <https://debatekit.ai|debatekit.ai>\n'
+      + '1. Sign up at <https://debatekit.com|debatekit.com>\n'
       + '2. Go to *Settings → API Keys*\n'
       + '3. Generate a new key (starts with `rpnd_`)\n'
       + '4. Click the button below to enter it',
@@ -115,7 +115,7 @@ export function buildHomeView(options: {
 
   // Footer
   blocks.push(contextBlock([
-    '<https://debatekit.ai|debatekit.ai> · Powered by 200+ AI models',
+    '<https://debatekit.com|debatekit.com> · Powered by 200+ AI models',
   ]));
 
   return blocks;
@@ -133,7 +133,7 @@ export function buildApiKeyModal(currentKey?: string): SlackModal {
     type: 'modal',
     blocks: [
       sectionBlock(
-        'Enter your DebateKit API key. Get one at <https://debatekit.ai/chat/settings/api-keys|debatekit.ai/chat/settings/api-keys>.',
+        'Enter your DebateKit API key. Get one at <https://debatekit.com/chat/settings/api-keys|debatekit.com/chat/settings/api-keys>.',
       ),
       {
         block_id: 'api_key_block',

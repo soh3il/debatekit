@@ -11,11 +11,11 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "headers": [
         {
           "name": "X-API-Key",
-          "description": "Your DebateKit API key. Get one at https://debatekit.ai/chat/settings/api-keys",
+          "description": "Your DebateKit API key. Get one at https://debatekit.com/chat/settings/api-keys",
           "isRequired": true,
           "isSecret": true
         }

@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** API Key - Your DebateKit API key (starts with rpnd_). Get one at debatekit.ai/chat/settings/api-keys. */
+  /** API Key - Your DebateKit API key (starts with rpnd_). Get one at debatekit.com/chat/settings/api-keys. */
   "apiKey": string,
   /** API Base URL - Override the default API endpoint. */
   "baseUrl": string

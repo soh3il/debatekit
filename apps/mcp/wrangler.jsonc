@@ -52,7 +52,7 @@
       "limits": { "cpu_ms": 300000 },
       "routes": [
         {
-          "pattern": "mcp-preview.debatekit.ai",
+          "pattern": "mcp-preview.debatekit.com",
           "custom_domain": true
         }
       ],
@@ -83,7 +83,7 @@
       "limits": { "cpu_ms": 300000 },
       "routes": [
         {
-          "pattern": "mcp.debatekit.ai",
+          "pattern": "mcp.debatekit.com",
           "custom_domain": true
         }
       ],

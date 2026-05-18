@@ -64,9 +64,9 @@ export const PROBLEMATIC_EMAIL_CHARS = ['<', '>', '"', '\\', '|'];
  */
 export const EMAIL_SERVICE_CONFIG = {
   AWS_REGION: 'eu-north-1',
-  FROM_ADDRESS: 'noreply@debatekit.ai',
+  FROM_ADDRESS: 'noreply@debatekit.com',
   FROM_NAME: 'DebateKit',
-  REPLY_TO: 'support@debatekit.ai',
+  REPLY_TO: 'support@debatekit.com',
 } as const;
 
 /**

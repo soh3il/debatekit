@@ -15,14 +15,14 @@ credentials_for_provider:
     placeholder:
       en_US: rpnd_xxxxxxxxxxxx
     help:
-      en_US: Generate at debatekit.ai/chat/settings/api-keys
-    url: https://debatekit.ai/chat/settings/api-keys
+      en_US: Generate at debatekit.com/chat/settings/api-keys
+    url: https://debatekit.com/chat/settings/api-keys
   base_url:
     type: text-input
     required: false
     label:
       en_US: API Base URL
     placeholder:
-      en_US: https://mcp.debatekit.ai
+      en_US: https://mcp.debatekit.com
     help:
       en_US: Override the default API endpoint (advanced). Leave empty for default.

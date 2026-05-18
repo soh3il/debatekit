@@ -2,12 +2,12 @@
 
 Multi-model AI debates inside your editor. Multiple LLMs discuss your question sequentially, then a moderator synthesizes their perspectives into actionable insight.
 
-**Endpoint:** `https://mcp.debatekit.ai/mcp`
+**Endpoint:** `https://mcp.debatekit.com/mcp`
 **Transport:** Streamable HTTP
 
 ## Get an API Key
 
-1. Sign up at [debatekit.ai](https://debatekit.ai)
+1. Sign up at [debatekit.com](https://debatekit.com)
 2. Go to **Settings** > **API Keys**
 3. Click **Create API Key**
 4. Copy the key (you won't see it again)
@@ -19,7 +19,7 @@ Multi-model AI debates inside your editor. Multiple LLMs discuss your question s
 ```bash
 claude mcp add debatekit \
   --transport streamable-http \
-  https://mcp.debatekit.ai/mcp \
+  https://mcp.debatekit.com/mcp \
   --header "x-api-key: YOUR_API_KEY"
 ```
 
@@ -31,7 +31,7 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
 {
   "mcpServers": {
     "debatekit": {
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "transport": "streamable-http",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
@@ -49,7 +49,7 @@ Add to `.vscode/mcp.json` in your project (or user settings under `mcp.servers`)
 {
   "servers": {
     "debatekit": {
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "type": "http",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
@@ -67,7 +67,7 @@ Add to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` globally):
 {
   "mcpServers": {
     "debatekit": {
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "transport": "streamable-http",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
@@ -85,7 +85,7 @@ Open **Settings** > **MCP** > **Add Server**, then add:
 {
   "mcpServers": {
     "debatekit": {
-      "serverUrl": "https://mcp.debatekit.ai/mcp",
+      "serverUrl": "https://mcp.debatekit.com/mcp",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
       }
@@ -102,7 +102,7 @@ Add to your Gemini extensions config (`~/.gemini/settings.json`):
 {
   "mcpServers": {
     "debatekit": {
-      "url": "https://mcp.debatekit.ai/mcp",
+      "url": "https://mcp.debatekit.com/mcp",
       "transport": "streamable-http",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
@@ -117,14 +117,14 @@ Add to your Gemini extensions config (`~/.gemini/settings.json`):
 1. Open [ChatGPT](https://chatgpt.com) (Plus/Team/Enterprise required)
 2. Go to **Settings** > **Connectors** (developer mode)
 3. Click **Add Connector**
-4. Enter the MCP endpoint: `https://mcp.debatekit.ai/mcp`
+4. Enter the MCP endpoint: `https://mcp.debatekit.com/mcp`
 5. Set the `x-api-key` header with your API key
 
 ### Replit
 
 1. Open your Repl's **Tools** panel
 2. Select **MCP Connectors** > **Add Custom**
-3. Set the URL to `https://mcp.debatekit.ai/mcp`
+3. Set the URL to `https://mcp.debatekit.com/mcp`
 4. Add the `x-api-key: YOUR_API_KEY` header
 
 ## Available Tools
@@ -181,4 +181,4 @@ Use debug to help diagnose why our WebSocket connections drop after 30 seconds
 
 ## Documentation
 
-Full docs: [debatekit.ai/docs](https://debatekit.ai/docs)
+Full docs: [debatekit.com/docs](https://debatekit.com/docs)

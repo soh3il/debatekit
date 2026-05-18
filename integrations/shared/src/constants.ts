@@ -18,10 +18,10 @@ export const SOURCE_HEADER = 'x-debatekit-source'
 export const API_KEY_PREFIX = 'rpnd_'
 
 /** Default MCP REST API base URL */
-export const DEBATEKIT_DEFAULT_URL = 'https://mcp.debatekit.ai'
+export const DEBATEKIT_DEFAULT_URL = 'https://mcp.debatekit.com'
 
 /** DebateKit web app URL */
-export const DEBATEKIT_APP_URL = 'https://debatekit.ai'
+export const DEBATEKIT_APP_URL = 'https://debatekit.com'
 
 /** Path to API key settings page */
 export const API_KEY_SETTINGS_PATH = '/chat/settings/api-keys'

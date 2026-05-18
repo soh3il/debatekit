@@ -7,7 +7,7 @@ from typing import TypedDict
 
 import httpx
 
-DEFAULT_BASE_URL = "https://mcp.debatekit.ai/api/v1"
+DEFAULT_BASE_URL = "https://mcp.debatekit.com/api/v1"
 DEFAULT_TIMEOUT = 120.0
 
 # API endpoint path constants — source of truth for all CrewAI tools

@@ -6,6 +6,6 @@
  */
 
 export const ACCOUNT_ABUSE_CONFIG = {
-  ERROR_MESSAGE: 'You have been deleting and creating new accounts too many times. Use a different email or contact support@debatekit.ai',
+  ERROR_MESSAGE: 'You have been deleting and creating new accounts too many times. Use a different email or contact support@debatekit.com',
   MAX_DELETION_COUNT: 3,
 } as const;

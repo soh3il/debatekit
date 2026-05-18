@@ -22,7 +22,7 @@ Column legend for every table:
 
 ## apps/api — Cloudflare Worker (Hono REST API)
 
-Worker name: `debatekit-api` / `debatekit-api-preview` / `debatekit-api-prod`. Account `67bc7b51…`. Routes: `api-preview.debatekit.ai` / `api.debatekit.ai`. Config: `./apps/api/wrangler.jsonc`. Type bindings: `./apps/api/cloudflare-env.d.ts` + `./apps/api/env-augmentation.d.ts`. Secret template: `./apps/api/.dev.vars.example`.
+Worker name: `debatekit-api` / `debatekit-api-preview` / `debatekit-api-prod`. Account `67bc7b51…`. Routes: `api-preview.debatekit.com` / `api.debatekit.com`. Config: `./apps/api/wrangler.jsonc`. Type bindings: `./apps/api/cloudflare-env.d.ts` + `./apps/api/env-augmentation.d.ts`. Secret template: `./apps/api/.dev.vars.example`.
 
 ### Bindings (non-env services — listed for completeness)
 
@@ -43,16 +43,16 @@ Worker name: `debatekit-api` / `debatekit-api-preview` / `debatekit-api-prod`. A
 | `APP_NAME` | yes | public | constant | `./apps/api/worker-configuration.d.ts`, OpenAPI doc | hard-coded `"DebateKit API"` |
 | `NODE_ENV` | yes | public | constant per env | `./apps/api/src/index.ts:487`, `./apps/api/src/db/index.ts:109`, many | `development` locally, `production` deployed |
 | `TURNSTILE_SITE_KEY` | yes | public | Cloudflare → Turnstile widget | `./apps/api/cloudflare-env.d.ts:21` | client-facing site key `0x4AAAAAACN3_OeMcDjErTqV` (same for all envs) |
-| `R2_PUBLIC_URL` | yes | public | derived | `./apps/api/src/core/config.ts:273` | `http://localhost:8787/uploads`, `https://api-preview.debatekit.ai/uploads`, `https://api.debatekit.ai/uploads` |
+| `R2_PUBLIC_URL` | yes | public | derived | `./apps/api/src/core/config.ts:273` | `http://localhost:8787/uploads`, `https://api-preview.debatekit.com/uploads`, `https://api.debatekit.com/uploads` |
 | `AWS_SES_REGION` | yes | public | AWS console | `./apps/api/src/lib/email/ses-service.ts`, wrangler vars | `eu-north-1` |
-| `FROM_EMAIL` | yes | public | constant | `./apps/api/.dev.vars.example`, wrangler vars | `noreply@debatekit.ai` |
-| `SES_REPLY_TO_EMAIL` | yes | public | constant | wrangler vars | `support@debatekit.ai` |
-| `SES_VERIFIED_EMAIL` | yes | public | AWS SES → Verified Identities | wrangler vars | `noreply@debatekit.ai`; must be SES-verified |
-| `MARKETING_FROM_EMAIL` | yes | public | constant | `./apps/api/src/lib/email/ses-service.ts:320` | `hello@mail.debatekit.ai` |
+| `FROM_EMAIL` | yes | public | constant | `./apps/api/.dev.vars.example`, wrangler vars | `noreply@debatekit.com` |
+| `SES_REPLY_TO_EMAIL` | yes | public | constant | wrangler vars | `support@debatekit.com` |
+| `SES_VERIFIED_EMAIL` | yes | public | AWS SES → Verified Identities | wrangler vars | `noreply@debatekit.com`; must be SES-verified |
+| `MARKETING_FROM_EMAIL` | yes | public | constant | `./apps/api/src/lib/email/ses-service.ts:320` | `hello@mail.debatekit.com` |
 | `STRIPE_CUSTOMER_PORTAL_CONFIG_ID` | yes | public | Stripe Dashboard → Customer Portal config | wrangler vars | `bpc_…`; differs between test (preview) and live (prod) |
 | `STRIPE_PUBLISHABLE_KEY` | yes | public | Stripe Dashboard → API Keys | wrangler vars | `pk_test_…` (local/preview), `pk_live_…` (prod) |
 | `AUTH_GOOGLE_ID` | yes | public | Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client | `./apps/api/src/lib/auth/server/index.ts:127,138` | OAuth client ID (`*.apps.googleusercontent.com`) |
-| `BETTER_AUTH_URL` | yes | public | derived from environment | `./apps/api/src/lib/auth/server/index.ts:208,209`, `./apps/api/src/index.ts:489` | full base URL of API; `http://localhost:8787` / `https://api-preview.debatekit.ai` / `https://api.debatekit.ai` |
+| `BETTER_AUTH_URL` | yes | public | derived from environment | `./apps/api/src/lib/auth/server/index.ts:208,209`, `./apps/api/src/index.ts:489` | full base URL of API; `http://localhost:8787` / `https://api-preview.debatekit.com` / `https://api.debatekit.com` |
 | `POSTHOG_HOST` | yes | public | PostHog → project | wrangler vars | `https://us.i.posthog.com` |
 
 ### Secrets (set via `wrangler secret put` / `.dev.vars`)
@@ -105,7 +105,7 @@ These are tolerated-but-unused unless a future code path starts requiring them. 
 
 ## apps/web — Cloudflare Worker (TanStack Start frontend + SSR)
 
-Worker name: `debatekit-web` / `debatekit-web-preview` / `debatekit-web-prod`. Routes: `web-preview.debatekit.ai` / `debatekit.ai`. Build: Vite + `@cloudflare/vite-plugin`. Config: `./apps/web/wrangler.jsonc`. Type bindings: `./apps/web/src/vite-env.d.ts`. Env validation: `./apps/web/src/lib/env.ts`. Build-time `.env` files: `./apps/web/.env`, `./apps/web/.env.preview`, `./apps/web/.env.production`. Local secret template: `./apps/web/.dev.vars.example`.
+Worker name: `debatekit-web` / `debatekit-web-preview` / `debatekit-web-prod`. Routes: `web-preview.debatekit.com` / `debatekit.com`. Build: Vite + `@cloudflare/vite-plugin`. Config: `./apps/web/wrangler.jsonc`. Type bindings: `./apps/web/src/vite-env.d.ts`. Env validation: `./apps/web/src/lib/env.ts`. Build-time `.env` files: `./apps/web/.env`, `./apps/web/.env.preview`, `./apps/web/.env.production`. Local secret template: `./apps/web/.dev.vars.example`.
 
 ### Vite build-time vars (statically replaced in client + SSR bundles)
 
@@ -139,7 +139,7 @@ Vite built-ins used: `import.meta.env.MODE`, `import.meta.env.PROD`, `import.met
 
 ## apps/mcp — Cloudflare Worker (MCP server)
 
-Worker name: `debatekit-mcp` / `debatekit-mcp-preview` / `debatekit-mcp-prod`. Routes: `mcp-preview.debatekit.ai` / `mcp.debatekit.ai`. Shares D1 + KV with `apps/api`. Config: `./apps/mcp/wrangler.jsonc`. Type bindings: `./apps/mcp/worker-configuration.d.ts` + `./apps/mcp/src/types.ts`. Secret template: `./apps/mcp/.dev.vars.example`.
+Worker name: `debatekit-mcp` / `debatekit-mcp-preview` / `debatekit-mcp-prod`. Routes: `mcp-preview.debatekit.com` / `mcp.debatekit.com`. Shares D1 + KV with `apps/api`. Config: `./apps/mcp/wrangler.jsonc`. Type bindings: `./apps/mcp/worker-configuration.d.ts` + `./apps/mcp/src/types.ts`. Secret template: `./apps/mcp/.dev.vars.example`.
 
 ### Bindings
 
@@ -169,12 +169,12 @@ Worker name: `debatekit-mcp` / `debatekit-mcp-preview` / `debatekit-mcp-prod`. R
 
 ## integrations/slack — Cloudflare Worker
 
-Worker name: `debatekit-slack-bot[-preview|-prod]`. Route: `slack.debatekit.ai` (prod). Config: `./integrations/slack/wrangler.jsonc`. Env type: `./integrations/slack/src/index.ts:33-46`. Secret template: `./integrations/slack/.dev.vars.example`.
+Worker name: `debatekit-slack-bot[-preview|-prod]`. Route: `slack.debatekit.com` (prod). Config: `./integrations/slack/wrangler.jsonc`. Env type: `./integrations/slack/src/index.ts:33-46`. Secret template: `./integrations/slack/.dev.vars.example`.
 
 | Var | Required? | Public/Secret | Issuer | Where it's used | Notes |
 |---|---|---|---|---|---|
-| `DEBATEKIT_API_URL` | yes | public | constant per env | wrangler `vars` | `http://localhost:8788` / `https://mcp-preview.debatekit.ai` / `https://mcp.debatekit.ai` |
-| `DEBATEKIT_APP_URL` | yes | public | constant per env | wrangler `vars` | `http://localhost:3000` / `https://preview.debatekit.ai` / `https://debatekit.ai` |
+| `DEBATEKIT_API_URL` | yes | public | constant per env | wrangler `vars` | `http://localhost:8788` / `https://mcp-preview.debatekit.com` / `https://mcp.debatekit.com` |
+| `DEBATEKIT_APP_URL` | yes | public | constant per env | wrangler `vars` | `http://localhost:3000` / `https://preview.debatekit.com` / `https://debatekit.com` |
 | `DEBATEKIT_API_KEY` | yes | secret | DebateKit dashboard → Settings → API Keys | `./integrations/slack/src/index.ts:36`, used as fallback when workspace has no per-team key | `rpnd_…` prefix |
 | `SLACK_CLIENT_ID` | yes | secret | Slack app settings → Basic Information | `./integrations/slack/src/index.ts:38` | OAuth |
 | `SLACK_CLIENT_SECRET` | yes | secret | Slack app settings → Basic Information | `./integrations/slack/src/index.ts:40` | OAuth |
@@ -187,7 +187,7 @@ Worker name: `debatekit-slack-bot[-preview|-prod]`. Route: `slack.debatekit.ai` 
 
 ## integrations/telegram — Cloudflare Worker
 
-Worker: `debatekit-telegram-bot[-preview|-prod]`. Route: `telegram.debatekit.ai` (prod). Config: `./integrations/telegram/wrangler.jsonc`. Env type: `./integrations/telegram/src/index.ts:36-49`. Secret template: `./integrations/telegram/.dev.vars.example`.
+Worker: `debatekit-telegram-bot[-preview|-prod]`. Route: `telegram.debatekit.com` (prod). Config: `./integrations/telegram/wrangler.jsonc`. Env type: `./integrations/telegram/src/index.ts:36-49`. Secret template: `./integrations/telegram/.dev.vars.example`.
 
 | Var | Required? | Public/Secret | Issuer | Where it's used | Notes |
 |---|---|---|---|---|---|
@@ -203,7 +203,7 @@ Worker: `debatekit-telegram-bot[-preview|-prod]`. Route: `telegram.debatekit.ai`
 
 ## integrations/whatsapp — Cloudflare Worker
 
-Worker: `debatekit-whatsapp-bot[-preview|-prod]`. Route: `whatsapp.debatekit.ai` (prod). Config: `./integrations/whatsapp/wrangler.jsonc`. Env type: `./integrations/whatsapp/src/index.ts:32-46`. Secret template: `./integrations/whatsapp/.dev.vars.example`.
+Worker: `debatekit-whatsapp-bot[-preview|-prod]`. Route: `whatsapp.debatekit.com` (prod). Config: `./integrations/whatsapp/wrangler.jsonc`. Env type: `./integrations/whatsapp/src/index.ts:32-46`. Secret template: `./integrations/whatsapp/.dev.vars.example`.
 
 | Var | Required? | Public/Secret | Issuer | Where it's used | Notes |
 |---|---|---|---|---|---|
@@ -240,7 +240,7 @@ Distributed as `n8n-nodes-debatekit`. End-user supplies credentials via n8n UI (
 | n8n credential field | Required? | Public/Secret | Issuer | Notes |
 |---|---|---|---|---|
 | `apiKey` | yes | secret | DebateKit dashboard | `rpnd_…` |
-| `baseUrl` | optional | public | DebateKit URL | default `https://mcp.debatekit.ai` |
+| `baseUrl` | optional | public | DebateKit URL | default `https://mcp.debatekit.com` |
 
 Dev-time only:
 
@@ -257,7 +257,7 @@ Dev-time only:
 | Dify credential field | Required? | Public/Secret | Issuer | Notes |
 |---|---|---|---|---|
 | `api_key` | yes | secret | DebateKit dashboard | `rpnd_…`; read in `./integrations/dify/tools/_base.py:31` via `self.runtime.credentials.get('api_key')` |
-| `base_url` | optional | public | DebateKit URL | default `https://mcp.debatekit.ai`; read in `./integrations/dify/tools/_base.py:27` |
+| `base_url` | optional | public | DebateKit URL | default `https://mcp.debatekit.com`; read in `./integrations/dify/tools/_base.py:27` |
 
 ---
 
@@ -267,7 +267,7 @@ Dev-time only:
 |---|---|---|---|---|---|
 | `DEBATEKIT_API_KEY` | yes (if not passed to `DebateKitClient(api_key=…)`) | secret | DebateKit dashboard | `./integrations/crewai/src/crewai_debatekit/api.py:78` | must start with `rpnd_`; raises `ValueError` otherwise |
 
-Base URL is a constructor arg (default `https://mcp.debatekit.ai/api/v1`), not env-driven.
+Base URL is a constructor arg (default `https://mcp.debatekit.com/api/v1`), not env-driven.
 
 ---
 
@@ -387,8 +387,8 @@ Same string, used by 2+ workers. When you rotate or regenerate one of these, upd
 | `POSTHOG_API_KEY` | `apps/api`, `apps/mcp` | server-side ingest key; distinct from `VITE_POSTHOG_API_KEY` (client) |
 | `POSTHOG_HOST` | `apps/api`, `apps/mcp`, repo `.env` | always `https://us.i.posthog.com` for DebateKit |
 | `DEBATEKIT_API_KEY` (fallback) | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | fallback when no per-tenant key in KV |
-| `DEBATEKIT_API_URL` | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | per env: localhost / `mcp-preview.debatekit.ai` / `mcp.debatekit.ai` |
-| `DEBATEKIT_APP_URL` | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | per env: localhost / `preview.debatekit.ai` / `debatekit.ai` |
+| `DEBATEKIT_API_URL` | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | per env: localhost / `mcp-preview.debatekit.com` / `mcp.debatekit.com` |
+| `DEBATEKIT_APP_URL` | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | per env: localhost / `preview.debatekit.com` / `debatekit.com` |
 | `WEBAPP_ENV` | `apps/api`, `apps/mcp`, `apps/web` (as `VITE_WEBAPP_ENV`), repo scripts | drives all base-URL resolution |
 | `NODE_ENV` | every worker + scripts | `development` locally, `production` deployed |
 | `CLOUDFLARE_ACCOUNT_ID` | every wrangler.jsonc, repo `.env` | `67bc7b518b92a0c406ac9b8526ddbb6d` |
@@ -401,7 +401,7 @@ For a brand new contributor or a brand new account, do this in order:
 
 ### 1. Cloudflare account + domain
 
-1. Register `debatekit.ai` (Cloudflare Registrar or transferred in).
+1. Register `debatekit.com` (Cloudflare Registrar or transferred in).
 2. Add the zone to Soheil's Cloudflare account `67bc7b518b92a0c406ac9b8526ddbb6d`.
 3. Create a Cloudflare API token (`CLOUDFLARE_API_TOKEN`) with these scopes:
    - Account → Workers Scripts: Edit
@@ -461,7 +461,7 @@ Turnstile widget → site key (currently `0x4AAAAAACN3_OeMcDjErTqV`) + secret (`
 | PostHog | new project | `VITE_POSTHOG_API_KEY` (`phc_…` for client), `POSTHOG_API_KEY` (server), `POSTHOG_HOST` |
 | Stripe | new account; configure Customer Portal | `STRIPE_PUBLISHABLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CUSTOMER_PORTAL_CONFIG_ID` (one per test + live) |
 | OpenRouter | account → API keys | `OPENROUTER_API_KEY` (single key, used by api + mcp) |
-| AWS SES | verify `noreply@debatekit.ai`, `hello@mail.debatekit.ai`; create IAM user scoped to `ses:SendEmail` | `AWS_SES_ACCESS_KEY_ID`, `AWS_SES_SECRET_ACCESS_KEY`, `AWS_SES_REGION=eu-north-1`, `SES_VERIFIED_EMAIL`, `MARKETING_FROM_EMAIL` |
+| AWS SES | verify `noreply@debatekit.com`, `hello@mail.debatekit.com`; create IAM user scoped to `ses:SendEmail` | `AWS_SES_ACCESS_KEY_ID`, `AWS_SES_SECRET_ACCESS_KEY`, `AWS_SES_REGION=eu-north-1`, `SES_VERIFIED_EMAIL`, `MARKETING_FROM_EMAIL` |
 | Serper.dev | optional, for web-search feature | `SERP_API_KEY` |
 | Upstash | optional Redis instance | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
 | ElevenLabs | account → API keys | `ELEVENLABS_API_KEY` |

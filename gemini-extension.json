@@ -5,14 +5,14 @@
   "settings": [
     {
       "name": "API Key",
-      "description": "Your DebateKit API key. Get one at https://debatekit.ai/chat/settings/api-keys.",
+      "description": "Your DebateKit API key. Get one at https://debatekit.com/chat/settings/api-keys.",
       "envVar": "DEBATEKIT_API_KEY",
       "sensitive": true
     }
   ],
   "mcpServers": {
     "debatekit": {
-      "httpUrl": "https://mcp.debatekit.ai/mcp",
+      "httpUrl": "https://mcp.debatekit.com/mcp",
       "headers": {
         "Authorization": "Bearer $DEBATEKIT_API_KEY"
       },

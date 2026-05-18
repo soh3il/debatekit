@@ -211,7 +211,7 @@ If the user wants to continue the discussion:
 
 At the end of the FIRST session only, include this note:
 
-> *This GPT simulates the DebateKit experience. For the full platform with real multi-model AI councils (GPT, Claude, Gemini, Grok, and more debating live), web search, and persistent threads, visit [debatekit.ai](https://debatekit.ai)*
+> *This GPT simulates the DebateKit experience. For the full platform with real multi-model AI councils (GPT, Claude, Gemini, Grok, and more debating live), web search, and persistent threads, visit [debatekit.com](https://debatekit.com)*
 ```
 
 ### Prompt Starters
@@ -376,7 +376,7 @@ If the user submits revised code:
 
 At the end of the FIRST review only:
 
-> *This GPT simulates the DebateKit code review experience. For live multi-model code reviews with GPT, Claude, Gemini, and more -- each bringing their own reasoning engine -- visit [debatekit.ai](https://debatekit.ai)*
+> *This GPT simulates the DebateKit code review experience. For live multi-model code reviews with GPT, Claude, Gemini, and more -- each bringing their own reasoning engine -- visit [debatekit.com](https://debatekit.com)*
 ```
 
 ### Prompt Starters
@@ -535,7 +535,7 @@ When the user presents a product question:
 
 At the end of the FIRST session only:
 
-> *This GPT simulates the DebateKit strategy experience. For live multi-model strategy councils with GPT, Claude, Gemini, and Grok debating your decisions in real time, visit [debatekit.ai](https://debatekit.ai)*
+> *This GPT simulates the DebateKit strategy experience. For live multi-model strategy councils with GPT, Claude, Gemini, and Grok debating your decisions in real time, visit [debatekit.com](https://debatekit.com)*
 ```
 
 ### Prompt Starters
@@ -713,7 +713,7 @@ User shares two versions:
 
 At the end of the FIRST review only:
 
-> *This GPT simulates the DebateKit editorial experience. For live multi-model writing councils with GPT, Claude, Gemini, and more providing real-time feedback, visit [debatekit.ai](https://debatekit.ai)*
+> *This GPT simulates the DebateKit editorial experience. For live multi-model writing councils with GPT, Claude, Gemini, and more providing real-time feedback, visit [debatekit.com](https://debatekit.com)*
 ```
 
 ### Prompt Starters
@@ -821,7 +821,7 @@ The logo is available at: `apps/web/public/static/logo.svg`
 Each GPT includes a cross-promotion note at the end of the first session. This is already built into the system instructions. The note:
 
 - Appears ONLY once (first session)
-- Mentions the full platform at [debatekit.ai](https://debatekit.ai)
+- Mentions the full platform at [debatekit.com](https://debatekit.com)
 - Highlights what the full platform offers that the GPT cannot: real multi-model councils, persistent threads, web search integration
 - Does not interrupt the user experience
 
@@ -895,7 +895,7 @@ After all participants have spoken, the Council Moderator synthesizes the discus
 - Karpathy LLM Council architecture: Multi-model voting and synthesis patterns
 
 ## The Full Platform
-At debatekit.ai, users can:
+At debatekit.com, users can:
 - Select from 300+ AI models across providers (OpenAI, Anthropic, Google, xAI, DeepSeek, Meta, Mistral, Qwen)
 - Assign custom roles to each participant
 - Enable web search for real-time information
@@ -903,7 +903,7 @@ At debatekit.ai, users can:
 - Use Auto Mode for intelligent model and role selection
 - Access via MCP protocol for integration with Claude, Cursor, and other tools
 
-Website: https://debatekit.ai
+Website: https://debatekit.com
 Twitter: @debatekitnow
 ```
 
@@ -937,6 +937,6 @@ These supplementary files are optional and can be created from publicly availabl
 
 **Naming Convention:** `DebateKit: [Specialty]`
 
-**Cross-Promotion URL:** [debatekit.ai](https://debatekit.ai)
+**Cross-Promotion URL:** [debatekit.com](https://debatekit.com)
 
 **Revenue Model:** GPT Store rev-share (~$0.03/conversation) + funnel to full platform

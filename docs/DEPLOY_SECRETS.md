@@ -11,7 +11,7 @@ See also: `docs/ENV_VARS.md` (variable catalog + provisioning order for D1 / R2 
   - export `CLOUDFLARE_API_TOKEN=...` with `Account:Workers Scripts:Edit` + `Account:D1:Edit` + `Account:R2:Edit` + `Account:Workers KV Storage:Edit`.
   Confirm with `wrangler whoami`. The bootstrap script also checks this.
 - **Account ID** must be `67bc7b518b92a0c406ac9b8526ddbb6d` (Soheil's account). The script warns if it sees a different one.
-- **Zone**: `debatekit.ai` configured in the Cloudflare account, with the routes referenced in each `wrangler.jsonc` (`api.`, `api-preview.`, `mcp.`, `mcp-preview.`, `web-preview.`, `slack.`, `telegram.`, `whatsapp.` + apex).
+- **Zone**: `debatekit.com` configured in the Cloudflare account, with the routes referenced in each `wrangler.jsonc` (`api.`, `api-preview.`, `mcp.`, `mcp-preview.`, `web-preview.`, `slack.`, `telegram.`, `whatsapp.` + apex).
 - **Provisioned resources** must exist before any deploy — D1 dbs, R2 buckets, KV namespaces, and queues. IDs are hard-coded in each `wrangler.jsonc`; create matching resources or update the IDs. Detailed list in `docs/ENV_VARS.md` → "Provisioning order".
 
 ## 2. How `.dev.vars` maps to deployed secrets

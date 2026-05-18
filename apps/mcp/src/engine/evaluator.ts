@@ -144,7 +144,7 @@ async function evaluateDebate(
     headers: {
       'Authorization': `Bearer ${env.OPENROUTER_API_KEY}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://debatekit.ai',
+      'HTTP-Referer': 'https://debatekit.com',
       'X-Title': 'DebateKit MCP Evaluator',
     },
     method: 'POST',

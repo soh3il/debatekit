@@ -5,10 +5,10 @@
 	"author": {
 		"name": "DebateKit by Deadpixel",
 		"email": "ava@deadpixel.ai",
-		"url": "https://debatekit.ai"
+		"url": "https://debatekit.com"
 	},
 	"license": "MIT",
-	"homepage": "https://debatekit.ai",
+	"homepage": "https://debatekit.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/deadpixel/debatekit-dashboard.git",

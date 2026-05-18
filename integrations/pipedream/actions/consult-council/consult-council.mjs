@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-consult-council",
   name: "Consult Council",
-  description: "Run a multi-model AI debate on any question. Multiple AI models discuss your prompt, then a moderator synthesizes all perspectives. [See the documentation](https://debatekit.ai)",
+  description: "Run a multi-model AI debate on any question. Multiple AI models discuss your prompt, then a moderator synthesizes all perspectives. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

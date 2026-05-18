@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-assess-tradeoffs",
   name: "Assess Tradeoffs",
-  description: "Evaluate options and trade-offs with structured multi-model analysis. [See the documentation](https://debatekit.ai)",
+  description: "Evaluate options and trade-offs with structured multi-model analysis. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

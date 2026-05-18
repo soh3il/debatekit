@@ -24,7 +24,7 @@ export async function handleSetKey(ctx: Context, env: Env, args: string) {
       await ctx.reply('API key is configured. To update, run:\n/setkey rpnd_your_new_key\n\nTo remove, run:\n/setkey remove')
     }
     else {
-      await ctx.reply('No API key configured.\n\nGet one at debatekit.ai/chat/settings/api-keys, then run:\n/setkey rpnd_your_key_here')
+      await ctx.reply('No API key configured.\n\nGet one at debatekit.com/chat/settings/api-keys, then run:\n/setkey rpnd_your_key_here')
     }
     return
   }
@@ -38,7 +38,7 @@ export async function handleSetKey(ctx: Context, env: Env, args: string) {
 
   // Validate format
   if (!trimmed.startsWith('rpnd_')) {
-    await ctx.reply('Invalid API key format. Keys must start with rpnd_.\n\nGet one at debatekit.ai/chat/settings/api-keys')
+    await ctx.reply('Invalid API key format. Keys must start with rpnd_.\n\nGet one at debatekit.com/chat/settings/api-keys')
     return
   }
 

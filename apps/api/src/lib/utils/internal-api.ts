@@ -15,7 +15,7 @@ import { BETTER_AUTH_COOKIE_PREFIX, BETTER_AUTH_SESSION_COOKIE_NAME } from '@/li
 /**
  * Get API base URL for current environment
  *
- * IMPORTANT: Returns the API origin (e.g., api-preview.debatekit.ai), NOT the web app URL.
+ * IMPORTANT: Returns the API origin (e.g., api-preview.debatekit.com), NOT the web app URL.
  * Queue consumers need to call the API directly, not through the web frontend proxy.
  * The web frontend proxy can lose/mishandle session cookies, causing 401 errors.
  */

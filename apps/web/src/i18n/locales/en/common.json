@@ -1392,7 +1392,7 @@
         "title": "Information We Collect"
       },
       "contact": {
-        "content": "If you have questions about this Privacy Policy, please contact us at support@debatekit.ai.",
+        "content": "If you have questions about this Privacy Policy, please contact us at support@debatekit.com.",
         "title": "Contact Us"
       },
       "cookies": {
@@ -1434,7 +1434,7 @@
         "title": "Billing and Payments"
       },
       "contact": {
-        "content": "For questions about these Terms, please contact us at support@debatekit.ai.",
+        "content": "For questions about these Terms, please contact us at support@debatekit.com.",
         "title": "Contact Us"
       },
       "effectiveYear": "Effective: {year}",
@@ -1629,7 +1629,7 @@
       "subtext": "Ask any question. Watch AI advisors deliberate in real time. Get a better answer.",
       "ctaPrimary": "New Chat",
       "ctaSecondary": "Explore Integrations",
-      "footer": "debatekit.ai"
+      "footer": "debatekit.com"
     }
   },
   "plans": {

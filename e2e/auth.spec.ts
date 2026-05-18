@@ -77,7 +77,7 @@ test.describe('Sign In Flow', () => {
     await page.getByRole('button', { name: /send magic link/i }).click();
 
     // Should show an error message (either validation error or domain restriction)
-    // The app restricts to @debatekit.ai emails only
+    // The app restricts to @debatekit.com emails only
     await expect(
       page.getByText(/email|error|restricted|invalid/i),
     ).toBeVisible({ timeout: 10000 });

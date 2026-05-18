@@ -1,6 +1,6 @@
 # crewai-debatekit
 
-CrewAI tools for [DebateKit](https://debatekit.ai) — a multi-model AI brainstorming platform.
+CrewAI tools for [DebateKit](https://debatekit.com) — a multi-model AI brainstorming platform.
 
 Give your CrewAI agents access to DebateKit's AI council: multiple models debate, review, and collaborate on your prompts.
 
@@ -12,7 +12,7 @@ pip install crewai-debatekit
 
 ## Authentication
 
-Get an API key from [debatekit.ai](https://debatekit.ai) (prefixed with `rpnd_`).
+Get an API key from [debatekit.com](https://debatekit.com) (prefixed with `rpnd_`).
 
 ```bash
 export DEBATEKIT_API_KEY="rpnd_your_key_here"

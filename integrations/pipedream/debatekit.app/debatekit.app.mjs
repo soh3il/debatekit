@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 const SUMMARY_MAX_LENGTH = 60;
 
 /** @type {string} Base URL for the DebateKit REST API */
-const BASE_URL = "https://mcp.debatekit.ai/api/v1";
+const BASE_URL = "https://mcp.debatekit.com/api/v1";
 
 /**
  * Truncates text for use in Pipedream $summary exports.

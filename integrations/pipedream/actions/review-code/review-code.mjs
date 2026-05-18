@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-review-code",
   name: "Review Code",
-  description: "Get a multi-perspective code review from multiple AI models. [See the documentation](https://debatekit.ai)",
+  description: "Get a multi-perspective code review from multiple AI models. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

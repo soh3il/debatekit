@@ -9,7 +9,7 @@ import type { FullConfig } from '@playwright/test';
  * Cleans up E2E test users and their related data after tests complete
  *
  * This ensures test data doesn't persist and cause conflicts with normal app usage.
- * Test users are identified by email pattern: e2e-*@debatekit.ai
+ * Test users are identified by email pattern: e2e-*@debatekit.com
  */
 
 const AUTH_DIR = '.playwright/auth';
@@ -40,46 +40,46 @@ function cleanupTestData(): void {
 
     const cleanupQueries = [
       // Delete credit transactions for E2E users
-      `DELETE FROM credit_transaction WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM credit_transaction WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete credit balances for E2E users
-      `DELETE FROM user_credit_balance WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM user_credit_balance WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete usage records for E2E users
-      `DELETE FROM user_chat_usage WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM user_chat_usage WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete usage history for E2E users
-      `DELETE FROM user_chat_usage_history WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM user_chat_usage_history WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete subscriptions for E2E users (via customer)
-      `DELETE FROM stripe_subscription WHERE customer_id IN (SELECT id FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai'));`,
+      `DELETE FROM stripe_subscription WHERE customer_id IN (SELECT id FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com'));`,
 
       // Delete payment methods for E2E users (via customer)
-      `DELETE FROM stripe_payment_method WHERE customer_id IN (SELECT id FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai'));`,
+      `DELETE FROM stripe_payment_method WHERE customer_id IN (SELECT id FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com'));`,
 
       // Delete Stripe customers for E2E users
-      `DELETE FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM stripe_customer WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete chat messages for E2E users (via thread owner)
-      `DELETE FROM chat_message WHERE thread_id IN (SELECT id FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai'));`,
+      `DELETE FROM chat_message WHERE thread_id IN (SELECT id FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com'));`,
 
       // Delete chat participants for E2E users
-      `DELETE FROM chat_participant WHERE thread_id IN (SELECT id FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai'));`,
+      `DELETE FROM chat_participant WHERE thread_id IN (SELECT id FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com'));`,
 
       // Delete chat threads for E2E users
-      `DELETE FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM chat_thread WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete sessions for E2E users
-      `DELETE FROM session WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM session WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete accounts for E2E users
-      `DELETE FROM account WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.ai');`,
+      `DELETE FROM account WHERE user_id IN (SELECT id FROM user WHERE email LIKE 'e2e-%@debatekit.com');`,
 
       // Delete verification tokens for E2E users
-      `DELETE FROM verification WHERE identifier LIKE 'e2e-%@debatekit.ai';`,
+      `DELETE FROM verification WHERE identifier LIKE 'e2e-%@debatekit.com';`,
 
       // Finally, delete the E2E users themselves
-      `DELETE FROM user WHERE email LIKE 'e2e-%@debatekit.ai';`,
+      `DELETE FROM user WHERE email LIKE 'e2e-%@debatekit.com';`,
     ];
 
     for (const sql of cleanupQueries) {

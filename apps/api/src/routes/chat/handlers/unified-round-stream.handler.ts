@@ -331,7 +331,7 @@ export const startUnifiedRoundStreamHandler: RouteHandler<
 
     // Build base URL for citation download links
     const protocol = c.req.header('x-forwarded-proto') || 'https';
-    const host = c.req.header('host') || 'api.debatekit.ai';
+    const host = c.req.header('host') || 'api.debatekit.com';
     const baseUrl = `${protocol}://${host}`;
 
     // Get user's subscription tier for token limits

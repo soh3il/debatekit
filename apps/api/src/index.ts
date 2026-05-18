@@ -374,8 +374,8 @@ app.doc('/doc', c => ({
     },
   },
   info: {
-    contact: { name: 'DebateKit', url: 'https://debatekit.ai' },
-    description: 'debatekit.ai API - Collaborative AI brainstorming platform. Built with Hono, Zod, and OpenAPI.',
+    contact: { name: 'DebateKit', url: 'https://debatekit.com' },
+    description: 'debatekit.com API - Collaborative AI brainstorming platform. Built with Hono, Zod, and OpenAPI.',
     license: { name: 'Proprietary' },
     title: 'DebateKit API',
     version: APP_VERSION,

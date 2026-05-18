@@ -4,7 +4,7 @@
 
 ## Executive Summary
 
-DebateKit already has a **production MCP server** (`mcp.debatekit.ai`) with 14 tools, OAuth 2.0, and 126 API endpoints. This plan leverages that foundation to distribute DebateKit across **20 platforms** reaching **1.5B+ combined users**.
+DebateKit already has a **production MCP server** (`mcp.debatekit.com`) with 14 tools, OAuth 2.0, and 126 API endpoints. This plan leverages that foundation to distribute DebateKit across **20 platforms** reaching **1.5B+ combined users**.
 
 ---
 
@@ -12,12 +12,12 @@ DebateKit already has a **production MCP server** (`mcp.debatekit.ai`) with 14 t
 
 | Asset | Status | Location |
 |-------|--------|----------|
-| MCP Server (14 tools) | Production | `apps/mcp/` → `mcp.debatekit.ai` |
-| REST API (126 endpoints) | Production | `apps/api/` → `api.debatekit.ai` |
+| MCP Server (14 tools) | Production | `apps/mcp/` → `mcp.debatekit.com` |
+| REST API (126 endpoints) | Production | `apps/api/` → `api.debatekit.com` |
 | OpenAPI Spec | Live | `GET /api/v1/doc` |
 | OAuth 2.0 | Live | MCP server endpoints |
 | API Key Auth | Live | `x-api-key` header |
-| Web App | Production | `debatekit.ai` |
+| Web App | Production | `debatekit.com` |
 
 ---
 
@@ -402,7 +402,7 @@ apps/
 
 ### Shared API Client
 
-All integrations use the existing REST API via `api.debatekit.ai`:
+All integrations use the existing REST API via `api.debatekit.com`:
 
 ```typescript
 // packages/api-client/src/index.ts

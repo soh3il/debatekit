@@ -7,7 +7,7 @@
 
 Hey everyone!
 
-I just published **n8n-nodes-debatekit-ai**, a community node that brings [DebateKit](https://debatekit.ai) into your n8n workflows.
+I just published **n8n-nodes-debatekit-ai**, a community node that brings [DebateKit](https://debatekit.com) into your n8n workflows.
 
 ## What is DebateKit?
 
@@ -52,7 +52,7 @@ Each operation supports a `thinking_level` parameter:
 
 ## Setup
 
-1. Sign up at [debatekit.ai](https://debatekit.ai)
+1. Sign up at [debatekit.com](https://debatekit.com)
 2. Go to **Settings > API Keys** and generate a key
 3. In n8n, create a **DebateKit API** credential and paste your key
 4. Drag in the DebateKit node and start building
@@ -67,8 +67,8 @@ Each operation supports a `thinking_level` parameter:
 ## Links
 
 - **npm**: [npmjs.com/package/n8n-nodes-debatekit-ai](https://www.npmjs.com/package/n8n-nodes-debatekit-ai)
-- **Website**: [debatekit.ai](https://debatekit.ai)
-- **MCP Server**: [mcp.debatekit.ai](https://mcp.debatekit.ai)
+- **Website**: [debatekit.com](https://debatekit.com)
+- **MCP Server**: [mcp.debatekit.com](https://mcp.debatekit.com)
 
 <!-- TODO: Add screenshots showing:
   1. The DebateKit node in the n8n canvas

@@ -286,7 +286,7 @@ export const trackClickHandler: RouteHandler<typeof trackClickRoute, ApiEnv> = c
     );
 
     // Redirect to destination or fallback to homepage
-    const redirectUrl = destination || 'https://debatekit.ai';
+    const redirectUrl = destination || 'https://debatekit.com';
 
     return Responses.redirect(c, redirectUrl);
   },

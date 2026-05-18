@@ -49,5 +49,5 @@ WHATSAPP_VERIFY_TOKEN=<choose-any-random-string-then-paste-into-meta-dashboard>
 # ============================================================================
 
 # Fallback DebateKit API key, used when a chat hasn't linked its own.
-# Generate at: https://debatekit.ai/settings/api-keys
+# Generate at: https://debatekit.com/settings/api-keys
 DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

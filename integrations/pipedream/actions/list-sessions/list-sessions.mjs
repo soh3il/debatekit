@@ -3,7 +3,7 @@ import debatekit from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-list-sessions",
   name: "List Sessions",
-  description: "Browse your recent DebateKit sessions with optional filtering. [See the documentation](https://debatekit.ai)",
+  description: "Browse your recent DebateKit sessions with optional filtering. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

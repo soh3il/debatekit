@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "debatekit": {
-      "serverUrl": "https://mcp.debatekit.ai/mcp",
+      "serverUrl": "https://mcp.debatekit.com/mcp",
       "headers": {
         "x-api-key": "YOUR_API_KEY"
       }

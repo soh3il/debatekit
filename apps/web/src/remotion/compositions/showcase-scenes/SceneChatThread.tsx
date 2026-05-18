@@ -496,7 +496,7 @@ export function SceneChatThread() {
         rotateZ={-0.005}
         depthBlur
       >
-        <BrowserFrame url="debatekit.ai/chat">
+        <BrowserFrame url="debatekit.com/chat">
           {/* Fixed-size viewport - overflow hidden clips the scrolling content */}
           <div
             style={{

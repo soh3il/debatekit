@@ -138,9 +138,9 @@ export type ApiErrorResponse = z.infer<typeof ApiErrorResponseSchema>
 /** User-facing messages per error code for integration UX. */
 export const API_ERROR_MESSAGES: Record<ApiErrorCode, string> = {
   INVALID_FORMAT: 'Invalid API key format. Keys must start with rpnd_.',
-  INVALID_KEY: 'Your API key is invalid or was deleted. Create a new one at debatekit.ai/chat/settings/api-keys and use /setkey.',
-  KEY_DISABLED: 'Your API key has been disabled. Re-enable it at debatekit.ai/chat/settings/api-keys.',
-  KEY_EXPIRED: 'Your API key has expired. Create a new one at debatekit.ai/chat/settings/api-keys and use /setkey.',
+  INVALID_KEY: 'Your API key is invalid or was deleted. Create a new one at debatekit.com/chat/settings/api-keys and use /setkey.',
+  KEY_DISABLED: 'Your API key has been disabled. Re-enable it at debatekit.com/chat/settings/api-keys.',
+  KEY_EXPIRED: 'Your API key has expired. Create a new one at debatekit.com/chat/settings/api-keys and use /setkey.',
   MISSING_KEY: 'No API key provided. Use /setkey rpnd_your_key to configure one.',
   RATE_LIMITED: 'Rate limit exceeded. Please try again in 60 seconds.',
 }

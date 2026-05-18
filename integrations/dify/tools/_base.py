@@ -9,7 +9,7 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 import httpx
 
-DEFAULT_BASE_URL = "https://mcp.debatekit.ai"
+DEFAULT_BASE_URL = "https://mcp.debatekit.com"
 DEFAULT_TIMEOUT = 120.0
 
 # API endpoint path constants — source of truth for all Dify tools

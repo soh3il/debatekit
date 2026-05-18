@@ -4,7 +4,7 @@
  *
  * Camera: Epic 3D zoom out, orbit rotation around interface
  * Content: Full interface visible, rainbow gradient border, logo center
- * Text: "debatekit.ai" + "Start your council today" + CTA button
+ * Text: "debatekit.com" + "Start your council today" + CTA button
  * Music: Final beat, reverb tail
  *
  * 3D Camera Effects:

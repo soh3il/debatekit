@@ -22,9 +22,9 @@ const PROTECTED_AUTH_PATHS: readonly string[] = [
  * These are exceptions to the domain restriction
  */
 const ALLOWED_EMAIL_EXCEPTIONS: readonly string[] = [
-  'e2e-free-test@debatekit.ai',
-  'e2e-pro-test@debatekit.ai',
-  'e2e-admin-test@debatekit.ai',
+  'e2e-free-test@debatekit.com',
+  'e2e-pro-test@debatekit.com',
+  'e2e-admin-test@debatekit.com',
 ];
 
 /**

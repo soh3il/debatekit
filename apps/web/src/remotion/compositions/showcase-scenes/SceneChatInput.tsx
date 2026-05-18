@@ -242,7 +242,7 @@ export function SceneChatInput() {
         rotateZ={-0.005}
         depthBlur
       >
-        <BrowserFrame url="debatekit.ai/chat">
+        <BrowserFrame url="debatekit.com/chat">
           <div
             style={{
               width: 1600,

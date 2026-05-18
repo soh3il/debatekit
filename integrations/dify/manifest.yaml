@@ -18,7 +18,7 @@ resource:
       enabled: true
     endpoint:
       enabled: false
-privacy_policy: https://debatekit.ai/legal/privacy
+privacy_policy: https://debatekit.com/legal/privacy
 meta:
   runner:
     language: python

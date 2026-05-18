@@ -441,7 +441,7 @@ export function SceneModelModal() {
         rotateZ={-0.008}
         depthBlur
       >
-        <BrowserFrame url="debatekit.ai/chat">
+        <BrowserFrame url="debatekit.com/chat">
           <div
             style={{
               width: 1600,

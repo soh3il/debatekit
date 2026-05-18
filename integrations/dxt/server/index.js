@@ -11,9 +11,9 @@ import { CallToolRequestSchema, ListToolsRequestSchema, } from '@modelcontextpro
 //   - packages/shared/src/enums/mcp-tools.ts
 // Keep them in sync when the canonical definitions change.
 // Source of truth: DEBATEKIT_DEFAULT_URL in integrations/shared/src/constants.ts
-const DEFAULT_BASE_URL = 'https://mcp.debatekit.ai';
+const DEFAULT_BASE_URL = 'https://mcp.debatekit.com';
 // Source of truth: DEBATEKIT_APP_URL in integrations/shared/src/constants.ts
-const APP_URL = 'https://debatekit.ai';
+const APP_URL = 'https://debatekit.com';
 // ChatModeSchema values from packages/shared/src/enums/chat.ts
 const CHAT_MODES = ['analyzing', 'brainstorming', 'debating', 'solving'];
 // McpThinkingLevelSchema values from packages/shared/src/enums/mcp-tools.ts

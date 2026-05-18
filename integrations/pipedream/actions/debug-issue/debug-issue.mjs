@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-debug-issue",
   name: "Debug Issue",
-  description: "Debug an issue using multiple AI models analyzing the problem from different angles. [See the documentation](https://debatekit.ai)",
+  description: "Debug an issue using multiple AI models analyzing the problem from different angles. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

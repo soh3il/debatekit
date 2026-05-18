@@ -41,5 +41,5 @@ TELEGRAM_WEBHOOK_SECRET=<generate-with-openssl-rand-hex-32>
 # ============================================================================
 
 # Fallback DebateKit API key, used when a chat hasn't linked its own via /apikey.
-# Generate at: https://debatekit.ai/settings/api-keys
+# Generate at: https://debatekit.com/settings/api-keys
 DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

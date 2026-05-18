@@ -1,6 +1,6 @@
 # n8n-nodes-debatekit
 
-n8n community node for [DebateKit](https://debatekit.ai) — multi-model AI brainstorming.
+n8n community node for [DebateKit](https://debatekit.com) — multi-model AI brainstorming.
 
 Run consultations with multiple AI models that debate, analyze, and synthesize answers, all from your n8n workflows.
 
@@ -17,7 +17,7 @@ In your n8n instance:
 
 You need a DebateKit API key:
 
-1. Sign in at [debatekit.ai](https://debatekit.ai)
+1. Sign in at [debatekit.com](https://debatekit.com)
 2. Go to **Settings > API Keys**
 3. Generate a new key
 4. In n8n, create a **DebateKit API** credential and paste the key

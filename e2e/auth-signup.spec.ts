@@ -26,11 +26,11 @@ import { expect, test } from '@playwright/test';
 function generateUniqueEmail(prefix: string = 'test') {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 1000);
-  return `${prefix}-${timestamp}-${random}@debatekit.ai`;
+  return `${prefix}-${timestamp}-${random}@debatekit.com`;
 }
 
 const INVALID_DOMAIN_EMAIL = 'test@example.com';
-const _WHITELISTED_DOMAIN = '@debatekit.ai';
+const _WHITELISTED_DOMAIN = '@debatekit.com';
 
 // ============================================================================
 // Signup Page Initial Load

@@ -18,7 +18,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EXPECTED_ACCOUNT_ID="67bc7b518b92a0c406ac9b8526ddbb6d"
-TURNSTILE_CALLBACK_DOMAIN="debatekit.ai"
+TURNSTILE_CALLBACK_DOMAIN="debatekit.com"
 
 # Parallel arrays: APP_KEYS[i] -> APP_DIRS[i].
 APP_KEYS=(api  web      mcp      slack                  telegram                  whatsapp)

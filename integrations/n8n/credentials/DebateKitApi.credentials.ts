@@ -12,7 +12,7 @@ export class DebateKitApi implements ICredentialType {
 
 	icon = { light: 'file:../nodes/DebateKit/debatekit.svg', dark: 'file:../nodes/DebateKit/debatekit.svg' } as const;
 
-	documentationUrl = 'https://debatekit.ai';
+	documentationUrl = 'https://debatekit.com';
 
 	properties: INodeProperties[] = [
 		{
@@ -22,13 +22,13 @@ export class DebateKitApi implements ICredentialType {
 			typeOptions: { password: true },
 			default: '',
 			required: true,
-			description: 'Your DebateKit API key. Generate one at https://debatekit.ai/chat/settings/api-keys.',
+			description: 'Your DebateKit API key. Generate one at https://debatekit.com/chat/settings/api-keys.',
 		},
 		{
 			displayName: 'Base URL',
 			name: 'baseUrl',
 			type: 'string',
-			default: 'https://mcp.debatekit.ai',
+			default: 'https://mcp.debatekit.com',
 			description: 'DebateKit API base URL. Override for self-hosted instances.',
 		},
 	];

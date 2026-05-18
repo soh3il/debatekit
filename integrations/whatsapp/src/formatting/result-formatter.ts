@@ -12,7 +12,7 @@ import type { ConsultResponse, ParticipantResponse } from '@debatekit/integratio
 
 const MAX_MESSAGE_LENGTH = 4096;
 
-const TRUNCATION_NOTICE = '\n\n_... truncated. View full discussion at debatekit.ai_';
+const TRUNCATION_NOTICE = '\n\n_... truncated. View full discussion at debatekit.com_';
 
 // ---------------------------------------------------------------------------
 // Helpers

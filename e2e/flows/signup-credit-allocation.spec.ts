@@ -26,7 +26,7 @@ import { ensureModelsSelected, getMessageInput } from '../helpers';
 function generateUniqueEmail(prefix = 'signup-credit') {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 10000);
-  return `${prefix}-${timestamp}-${random}@debatekit.ai`;
+  return `${prefix}-${timestamp}-${random}@debatekit.com`;
 }
 
 function generatePassword() {

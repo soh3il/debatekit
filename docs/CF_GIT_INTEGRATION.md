@@ -87,7 +87,7 @@ After attaching:
 
 1. Push a small change (whitespace) on a feature branch → confirm a preview build runs and you get a shareable URL.
 2. Open a PR → CF posts a comment with the preview link.
-3. Merge to `main` → confirm production build runs and `https://api.debatekit.ai` (or the relevant subdomain) updates.
+3. Merge to `main` → confirm production build runs and `https://api.debatekit.com` (or the relevant subdomain) updates.
 
 ## Related docs
 

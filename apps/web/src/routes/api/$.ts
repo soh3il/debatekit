@@ -7,8 +7,8 @@
  *
  * Architecture:
  * - Local: Frontend (5173) proxies to API (8787)
- * - Preview: Frontend proxies to api-preview.debatekit.ai
- * - Production: Frontend proxies to api.debatekit.ai
+ * - Preview: Frontend proxies to api-preview.debatekit.com
+ * - Production: Frontend proxies to api.debatekit.com
  *
  * Uses shared base-urls config as single source of truth with hostname-based fallback.
  *

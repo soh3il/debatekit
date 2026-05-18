@@ -87,7 +87,7 @@ Required:
 
 Options:
   --with-types           Also run \`bun run check-types\` (slow).
-  --with-dns             Also verify DNS for debatekit.ai.
+  --with-dns             Also verify DNS for debatekit.com.
   --json                 Emit a structured JSON report instead of text.
   --strict               Treat warnings as failures (affects exit code).
   --help                 Show this message.
@@ -833,18 +833,18 @@ if [ "$WITH_DNS" -eq 1 ]; then
   if ! command -v dig >/dev/null 2>&1; then
     fail "dig missing — cannot verify DNS" "brew install bind"
   else
-    ns_out="$(dig +short NS debatekit.ai @8.8.8.8 2>/dev/null)"
+    ns_out="$(dig +short NS debatekit.com @8.8.8.8 2>/dev/null)"
     if printf "%s" "$ns_out" | grep -qi cloudflare; then
       pass "NS records point to Cloudflare"
     else
-      fail "debatekit.ai NS records don't include Cloudflare" \
+      fail "debatekit.com NS records don't include Cloudflare" \
            "set nameservers to Cloudflare at your registrar"
     fi
-    a_out="$(dig +short A debatekit.ai @1.1.1.1 2>/dev/null)"
+    a_out="$(dig +short A debatekit.com @1.1.1.1 2>/dev/null)"
     if [ -n "$a_out" ]; then
-      pass "debatekit.ai resolves (A record present)"
+      pass "debatekit.com resolves (A record present)"
     else
-      fail "debatekit.ai has no A record from 1.1.1.1" \
+      fail "debatekit.com has no A record from 1.1.1.1" \
            "add an A/CNAME record in the Cloudflare DNS dashboard"
     fi
   fi
@@ -881,9 +881,9 @@ check_url_reachable() {
   esac
 }
 
-check_url_reachable "https://debatekit.ai/"
+check_url_reachable "https://debatekit.com/"
 if [ "$ENV_NAME" = "preview" ]; then
-  check_url_reachable "https://web-preview.debatekit.ai/"
+  check_url_reachable "https://web-preview.debatekit.com/"
 fi
 
 # ---------------------------------------------------------------------------

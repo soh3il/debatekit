@@ -518,7 +518,7 @@ bun run i18n:check-unused   # Find unused translation keys
 
 ## 🙏 Acknowledgments
 
-- **[DebateKit](https://debatekit.ai)** - For creating this advanced AI collaboration platform
+- **[DebateKit](https://debatekit.com)** - For creating this advanced AI collaboration platform
 - **[Next.js](https://nextjs.org)** - For the amazing React framework
 - **[Cloudflare](https://cloudflare.com)** - For the edge computing platform
 - **[shadcn](https://twitter.com/shadcn)** - For the beautiful UI component library
@@ -540,6 +540,6 @@ bun run i18n:check-unused   # Find unused translation keys
 
 *Watch multiple models debate and brainstorm together*
 
-*Built by [DebateKit](https://debatekit.ai/) for the AI collaboration community*
+*Built by [DebateKit](https://debatekit.com/) for the AI collaboration community*
 
 </div>

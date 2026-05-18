@@ -15,11 +15,11 @@ Multi-model AI debates for Dify. GPT-4o, Claude, Gemini, and 200+ models discuss
 
 ## Configuration
 
-1. Get an API key at [debatekit.ai/chat/settings/api-keys](https://debatekit.ai/chat/settings/api-keys)
+1. Get an API key at [debatekit.com/chat/settings/api-keys](https://debatekit.com/chat/settings/api-keys)
 2. Install the plugin in your Dify workspace
 3. Enter your API key (`rpnd_xxxxxxxxxxxx`) in the plugin credentials
 
 ## Links
 
-- Website: [debatekit.ai](https://debatekit.ai)
-- Privacy Policy: [debatekit.ai/legal/privacy](https://debatekit.ai/legal/privacy)
+- Website: [debatekit.com](https://debatekit.com)
+- Privacy Policy: [debatekit.com/legal/privacy](https://debatekit.com/legal/privacy)

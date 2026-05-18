@@ -27,7 +27,7 @@ import { z } from 'zod';
  *
  * VITE_WEBAPP_ENV defaults to 'prod' for SAFETY: if somehow missing in a
  * production build (CI misconfiguration, wrong wrangler env), we want
- * production URLs (debatekit.ai), not localhost. Local dev always has
+ * production URLs (debatekit.com), not localhost. Local dev always has
  * this set via .env and wrangler.jsonc.
  */
 const RequiredEnvSchema = z.object({

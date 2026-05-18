@@ -17,12 +17,12 @@ declare namespace Cloudflare {
 		WEBAPP_ENV: "preview";
 		APP_NAME: "DebateKit API";
 		TURNSTILE_SITE_KEY: "0x4AAAAAACN3_OeMcDjErTqV";
-		R2_PUBLIC_URL: "https://api-preview.debatekit.ai/uploads";
-		SES_VERIFIED_EMAIL: "noreply@debatekit.ai";
+		R2_PUBLIC_URL: "https://api-preview.debatekit.com/uploads";
+		SES_VERIFIED_EMAIL: "noreply@debatekit.com";
 		STRIPE_CUSTOMER_PORTAL_CONFIG_ID: "bpc_1STOnK52vWNZ3v8wteUMwNCy";
 		STRIPE_PUBLISHABLE_KEY: "pk_test_51SPXN852vWNZ3v8wCfrjOoFGG1RFsCq8LC7vJcVJGOEpjJOjmNU4eofpw7ulsSh6LET81iBtYomVYaoHrf8RyPqE00mdMsc6Oy";
 		AUTH_GOOGLE_ID: "815574816934-2chacenekb6gnis24lksiit84eddt3af.apps.googleusercontent.com";
-		BETTER_AUTH_URL: "https://api-preview.debatekit.ai";
+		BETTER_AUTH_URL: "https://api-preview.debatekit.com";
 		NODE_ENV: "production";
 		BETTER_AUTH_SECRET: string;
 		AUTH_GOOGLE_SECRET: string;
@@ -52,12 +52,12 @@ declare namespace Cloudflare {
 		WEBAPP_ENV: "prod";
 		APP_NAME: "DebateKit API";
 		TURNSTILE_SITE_KEY: "0x4AAAAAACN3_OeMcDjErTqV";
-		R2_PUBLIC_URL: "https://api.debatekit.ai/uploads";
-		SES_VERIFIED_EMAIL: "noreply@debatekit.ai";
+		R2_PUBLIC_URL: "https://api.debatekit.com/uploads";
+		SES_VERIFIED_EMAIL: "noreply@debatekit.com";
 		STRIPE_CUSTOMER_PORTAL_CONFIG_ID: "bpc_1STOnK52vWNZ3v8wteUMwNCy";
 		STRIPE_PUBLISHABLE_KEY: "pk_live_51SPXN852vWNZ3v8w0JKMpuzcvZHMyvFLy0SRfadVpFXtIhfYwty1hNfmxSlyTFRfbTbpcOOKuPepnUUayr0Owy9v006fE9vdeS";
 		AUTH_GOOGLE_ID: "815574816934-2chacenekb6gnis24lksiit84eddt3af.apps.googleusercontent.com";
-		BETTER_AUTH_URL: "https://api.debatekit.ai";
+		BETTER_AUTH_URL: "https://api.debatekit.com";
 		NODE_ENV: "production";
 		BETTER_AUTH_SECRET: string;
 		AUTH_GOOGLE_SECRET: string;
@@ -102,12 +102,12 @@ declare namespace Cloudflare {
 		WEBAPP_ENV: "preview" | "prod" | "local";
 		APP_NAME: "DebateKit API";
 		TURNSTILE_SITE_KEY: "0x4AAAAAACN3_OeMcDjErTqV";
-		R2_PUBLIC_URL: "https://api-preview.debatekit.ai/uploads" | "https://api.debatekit.ai/uploads" | "http://localhost:8787/uploads";
-		SES_VERIFIED_EMAIL: "noreply@debatekit.ai";
+		R2_PUBLIC_URL: "https://api-preview.debatekit.com/uploads" | "https://api.debatekit.com/uploads" | "http://localhost:8787/uploads";
+		SES_VERIFIED_EMAIL: "noreply@debatekit.com";
 		STRIPE_CUSTOMER_PORTAL_CONFIG_ID: "bpc_1STOnK52vWNZ3v8wteUMwNCy";
 		STRIPE_PUBLISHABLE_KEY: "pk_test_51SPXN852vWNZ3v8wCfrjOoFGG1RFsCq8LC7vJcVJGOEpjJOjmNU4eofpw7ulsSh6LET81iBtYomVYaoHrf8RyPqE00mdMsc6Oy" | "pk_live_51SPXN852vWNZ3v8w0JKMpuzcvZHMyvFLy0SRfadVpFXtIhfYwty1hNfmxSlyTFRfbTbpcOOKuPepnUUayr0Owy9v006fE9vdeS";
 		AUTH_GOOGLE_ID: "815574816934-2chacenekb6gnis24lksiit84eddt3af.apps.googleusercontent.com";
-		BETTER_AUTH_URL: "https://api-preview.debatekit.ai" | "https://api.debatekit.ai" | "http://localhost:8787";
+		BETTER_AUTH_URL: "https://api-preview.debatekit.com" | "https://api.debatekit.com" | "http://localhost:8787";
 		NODE_ENV: "production" | "development";
 		UPLOAD_CLEANUP_SCHEDULER: DurableObjectNamespace<import("./worker").UploadCleanupScheduler>;
 	}

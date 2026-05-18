@@ -6,8 +6,8 @@
  *
  * ARCHITECTURE (TanStack Start + Separate API):
  * - Local: Web on 5173 (Vite), API on 8787 (Wrangler)
- * - Preview: Web on web-preview.debatekit.ai, API on api-preview.debatekit.ai
- * - Production: Web on debatekit.ai, API on api.debatekit.ai
+ * - Preview: Web on web-preview.debatekit.com, API on api-preview.debatekit.com
+ * - Production: Web on debatekit.com, API on api.debatekit.com
  *
  * IMPORTANT: Always fallback to production URLs for safety.
  */
@@ -52,19 +52,19 @@ export const BASE_URL_CONFIG: Record<WebAppEnv, BaseUrlConfig> = {
     useSecureCookies: false,
   },
   [WebAppEnvs.PREVIEW]: {
-    api: 'https://api-preview.debatekit.ai/api/v1',
-    apiOrigin: 'https://api-preview.debatekit.ai',
-    app: 'https://web-preview.debatekit.ai',
-    cookieDomain: '.debatekit.ai',
-    mcp: 'https://mcp-preview.debatekit.ai/mcp',
+    api: 'https://api-preview.debatekit.com/api/v1',
+    apiOrigin: 'https://api-preview.debatekit.com',
+    app: 'https://web-preview.debatekit.com',
+    cookieDomain: '.debatekit.com',
+    mcp: 'https://mcp-preview.debatekit.com/mcp',
     useSecureCookies: true,
   },
   [WebAppEnvs.PROD]: {
-    api: 'https://api.debatekit.ai/api/v1',
-    apiOrigin: 'https://api.debatekit.ai',
-    app: 'https://debatekit.ai',
-    cookieDomain: '.debatekit.ai',
-    mcp: 'https://mcp.debatekit.ai/mcp',
+    api: 'https://api.debatekit.com/api/v1',
+    apiOrigin: 'https://api.debatekit.com',
+    app: 'https://debatekit.com',
+    cookieDomain: '.debatekit.com',
+    mcp: 'https://mcp.debatekit.com/mcp',
     useSecureCookies: true,
   },
 };
@@ -83,16 +83,16 @@ export const FALLBACK_URLS = BASE_URL_CONFIG[WebAppEnvs.PROD];
  * Resolve API origin from a request hostname
  * Used as fallback when environment detection fails
  *
- * @param hostname - The hostname from the request (e.g., 'debatekit.ai')
+ * @param hostname - The hostname from the request (e.g., 'debatekit.com')
  * @returns The API origin URL
  */
 export function resolveApiOriginFromHostname(hostname: string): string {
-  // Production: debatekit.ai -> api.debatekit.ai
-  if (hostname === 'debatekit.ai') {
+  // Production: debatekit.com -> api.debatekit.com
+  if (hostname === 'debatekit.com') {
     return BASE_URL_CONFIG[WebAppEnvs.PROD].apiOrigin;
   }
 
-  // Preview: web-preview.debatekit.ai -> api-preview.debatekit.ai
+  // Preview: web-preview.debatekit.com -> api-preview.debatekit.com
   if (hostname.includes('preview') || hostname.includes('-preview')) {
     return BASE_URL_CONFIG[WebAppEnvs.PREVIEW].apiOrigin;
   }
@@ -113,7 +113,7 @@ export function resolveApiOriginFromHostname(hostname: string): string {
  * @returns The web app URL
  */
 export function resolveAppUrlFromHostname(hostname: string): string {
-  if (hostname === 'debatekit.ai') {
+  if (hostname === 'debatekit.com') {
     return BASE_URL_CONFIG[WebAppEnvs.PROD].app;
   }
 

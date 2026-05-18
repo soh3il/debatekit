@@ -17,7 +17,7 @@ import { FONTS } from '../lib/design-tokens';
 type BrowserFrameProps = {
   /** Content to display inside the browser frame */
   children: ReactNode;
-  /** URL to display in the address bar (default: 'debatekit.ai') */
+  /** URL to display in the address bar (default: 'debatekit.com') */
   url?: string;
   /** Whether to show the traffic light buttons (default: true) */
   showTrafficLights?: boolean;
@@ -48,7 +48,7 @@ const FRAME_STYLES = {
 
 export function BrowserFrame({
   children,
-  url = 'debatekit.ai',
+  url = 'debatekit.com',
   showTrafficLights = true,
 }: BrowserFrameProps) {
   const frame = useCurrentFrame();

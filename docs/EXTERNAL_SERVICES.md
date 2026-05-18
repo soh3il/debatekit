@@ -20,12 +20,12 @@ If anything in this file disagrees with one of those, **trust the code / `.dev.v
 - **Never commit real secrets.** All secrets land in `.dev.vars` (gitignored) and `wrangler secret put` for deployed envs. Public values (`AUTH_GOOGLE_ID`, `STRIPE_PUBLISHABLE_KEY`, `TURNSTILE_SITE_KEY`, `STRIPE_CUSTOMER_PORTAL_CONFIG_ID`, etc.) go in the worker's `wrangler.jsonc` under `vars`.
 - **Three envs.** Wherever a service distinguishes test vs live or has per-env keys (Stripe, Telegram, OAuth redirects), provision separately for `preview` and `prod`. `local` shares the `preview` (test) keys.
 - **Redirect / webhook URLs** are based on the canonical hosts:
-  - Web (frontend): `http://localhost:5173` / `https://web-preview.debatekit.ai` / `https://debatekit.ai`
-  - API (Hono): `http://localhost:8787` / `https://api-preview.debatekit.ai` / `https://api.debatekit.ai`
-  - MCP: `http://localhost:8788` / `https://mcp-preview.debatekit.ai` / `https://mcp.debatekit.ai`
-  - Telegram bot: `https://telegram.debatekit.ai` (prod only)
-  - Slack bot: `https://slack.debatekit.ai` (prod only)
-  - WhatsApp bot: `https://whatsapp.debatekit.ai` (prod only)
+  - Web (frontend): `http://localhost:5173` / `https://web-preview.debatekit.com` / `https://debatekit.com`
+  - API (Hono): `http://localhost:8787` / `https://api-preview.debatekit.com` / `https://api.debatekit.com`
+  - MCP: `http://localhost:8788` / `https://mcp-preview.debatekit.com` / `https://mcp.debatekit.com`
+  - Telegram bot: `https://telegram.debatekit.com` (prod only)
+  - Slack bot: `https://slack.debatekit.com` (prod only)
+  - WhatsApp bot: `https://whatsapp.debatekit.com` (prod only)
 
 ---
 
@@ -83,7 +83,7 @@ Free up to 1M events/month and 5k session recordings; debate-heavy usage may pus
 After deploying with the key set:
 
 ```
-curl https://api-preview.debatekit.ai/api/v1/test/posthog
+curl https://api-preview.debatekit.com/api/v1/test/posthog
 # => { "hasApiKey": true, "host": "https://us.i.posthog.com", "environment": "preview" }
 ```
 
@@ -103,11 +103,11 @@ Then in PostHog → Activity → confirm test events arrive within a few seconds
 2. Developers → API keys → reveal **Secret key** → copy `sk_test_…`. Copy the **Publishable key** `pk_test_…` too.
 3. Settings → Billing → Customer portal → configure the portal (enable subscription cancellation, payment method updates, invoice history). Click **Save**. Copy the **Configuration ID** shown at the top: `bpc_…`.
 4. Developers → Webhooks → "+ Add endpoint":
-   - URL: `https://api-preview.debatekit.ai/webhooks/stripe`
+   - URL: `https://api-preview.debatekit.com/webhooks/stripe`
    - Events: at minimum `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_succeeded`, `invoice.payment_failed`. (Cross-check against `apps/api/src/routes/webhooks/stripe.handler.ts` for the full list.)
    - After creation → reveal **Signing secret** → copy `whsec_…`.
 5. Repeat steps 2–4 in **Live mode** with:
-   - Webhook URL: `https://api.debatekit.ai/webhooks/stripe`
+   - Webhook URL: `https://api.debatekit.com/webhooks/stripe`
    - Customer portal: re-save in live mode → gives a different `bpc_…` ID
    - Use `sk_live_…` / `pk_live_…`
 6. For local development, install the Stripe CLI and run `stripe listen --forward-to http://localhost:8787/webhooks/stripe` — the CLI prints a `whsec_…` for the tunnel. Use that as `STRIPE_WEBHOOK_SECRET` in `apps/api/.dev.vars`.
@@ -147,9 +147,9 @@ In test mode: `stripe trigger checkout.session.completed` then watch `wrangler t
 2. Wait for the project to be created, then switch to it.
 3. APIs & Services → OAuth consent screen → set User Type **External** → Create. Fill in:
    - App name: `DebateKit`
-   - User support email: `support@debatekit.ai`
+   - User support email: `support@debatekit.com`
    - App logo: optional (square PNG ≥ 120px)
-   - App domain: `debatekit.ai`; authorized domain `debatekit.ai`
+   - App domain: `debatekit.com`; authorized domain `debatekit.com`
    - Developer contact: `ava@deadpixel.ai`
 4. Scopes step → "Add or remove scopes" → check `openid`, `.../auth/userinfo.email`, `.../auth/userinfo.profile`. Save.
 5. Test users → add `ava@deadpixel.ai`, `soheil@deadpixel.ai`, and anyone else who needs preview access while the app is in test mode.
@@ -157,12 +157,12 @@ In test mode: `stripe trigger checkout.session.completed` then watch `wrangler t
 7. APIs & Services → Credentials → "+ Create credentials" → "OAuth client ID" → Application type **Web application** → name `DebateKit Web`.
 8. Add **Authorized redirect URIs** — note these point at the API worker (`/api/auth/callback/google`), not the frontend, because Better-Auth is mounted on `apps/api`:
    - `http://localhost:8787/api/auth/callback/google`
-   - `https://api-preview.debatekit.ai/api/auth/callback/google`
-   - `https://api.debatekit.ai/api/auth/callback/google`
+   - `https://api-preview.debatekit.com/api/auth/callback/google`
+   - `https://api.debatekit.com/api/auth/callback/google`
 9. Authorized JavaScript origins (used by the One Tap widget if you ever enable it; harmless to add now):
    - `http://localhost:5173`
-   - `https://web-preview.debatekit.ai`
-   - `https://debatekit.ai`
+   - `https://web-preview.debatekit.com`
+   - `https://debatekit.com`
 10. Create → modal shows **Client ID** and **Client secret**. Copy both.
 
 ### Keys to capture
@@ -180,7 +180,7 @@ Free.
 
 ### Sanity test
 
-Open `https://web-preview.debatekit.ai/sign-in` → click "Continue with Google" → consent screen shows app name "DebateKit" and the right redirect host → bounces back signed in.
+Open `https://web-preview.debatekit.com/sign-in` → click "Continue with Google" → consent screen shows app name "DebateKit" and the right redirect host → bounces back signed in.
 
 ---
 
@@ -233,18 +233,18 @@ See `docs/DOMAIN_MIGRATION.md` and `docs/ENV_VARS.md` for domain DNS specifics �
 
 1. SES console → Verified identities → "Create identity":
    - Type: **Domain**
-   - Domain: `debatekit.ai`
-   - **Use a custom MAIL FROM domain**: `mail.debatekit.ai`
+   - Domain: `debatekit.com`
+   - **Use a custom MAIL FROM domain**: `mail.debatekit.com`
    - Easy DKIM, RSA 2048
    - Create
-2. SES shows three CNAME records — copy them into Cloudflare DNS for `debatekit.ai` (the migration doc covers this). Wait for status to flip to **Verified** (usually < 15 min).
+2. SES shows three CNAME records — copy them into Cloudflare DNS for `debatekit.com` (the migration doc covers this). Wait for status to flip to **Verified** (usually < 15 min).
 3. Verified identities → "Create identity" (single email — for sandbox sender):
    - Type: **Email address**
-   - Email: `noreply@debatekit.ai`
+   - Email: `noreply@debatekit.com`
    - Create → AWS sends a confirmation email → forward to whoever owns the mailbox (Cloudflare Email Routing → forwards to a real inbox).
 4. Verified identities → "Create identity" again:
    - Type: **Email address**
-   - Email: `hello@mail.debatekit.ai`
+   - Email: `hello@mail.debatekit.com`
    - Confirm.
 5. Account dashboard → "Request production access" → fill out the form. Use case: "Transactional + opt-in marketing for DebateKit users (sign-in magic links, debate notifications, weekly digests). Bounce/complaint rate handled via SES suppression list + app-side double opt-in." Takes ~24 hours.
 6. IAM → Users → Add users → name `debatekit-ses-sender` → "Access key — Programmatic access".
@@ -270,10 +270,10 @@ See `docs/DOMAIN_MIGRATION.md` and `docs/ENV_VARS.md` for domain DNS specifics �
 | `AWS_SES_ACCESS_KEY_ID` | IAM → debatekit-ses-sender → Security credentials → Access keys | `AKIA…` | secret |
 | `AWS_SES_SECRET_ACCESS_KEY` | same screen, shown once | 40-char base64-ish | secret; reset by deactivating + creating a new key if lost |
 | `AWS_SES_REGION` | constant | `eu-north-1` | public, already in wrangler `vars` |
-| `SES_VERIFIED_EMAIL` | matches the verified single email | `noreply@debatekit.ai` | public, already in wrangler `vars` |
-| `FROM_EMAIL` | same as above | `noreply@debatekit.ai` | public, already in wrangler `vars` |
-| `MARKETING_FROM_EMAIL` | second verified email | `hello@mail.debatekit.ai` | public, already in wrangler `vars` |
-| `SES_REPLY_TO_EMAIL` | constant | `support@debatekit.ai` | public, already in wrangler `vars` |
+| `SES_VERIFIED_EMAIL` | matches the verified single email | `noreply@debatekit.com` | public, already in wrangler `vars` |
+| `FROM_EMAIL` | same as above | `noreply@debatekit.com` | public, already in wrangler `vars` |
+| `MARKETING_FROM_EMAIL` | second verified email | `hello@mail.debatekit.com` | public, already in wrangler `vars` |
+| `SES_REPLY_TO_EMAIL` | constant | `support@debatekit.com` | public, already in wrangler `vars` |
 
 ### Cost / free tier
 
@@ -283,13 +283,13 @@ $0.10 per 1,000 emails; first 62k/month free **if** sent from Lambda/EC2 in the 
 
 ```
 aws ses send-email --region eu-north-1 \
-  --from noreply@debatekit.ai \
+  --from noreply@debatekit.com \
   --to your-real-inbox@somewhere \
   --subject "SES sanity" \
   --text "hi"
 ```
 
-In the app: trigger a magic-link sign-in from `https://web-preview.debatekit.ai/sign-in` → email arrives in seconds. Check SES → Reputation metrics dashboard for delivery + bounce rate.
+In the app: trigger a magic-link sign-in from `https://web-preview.debatekit.com/sign-in` → email arrives in seconds. Check SES → Reputation metrics dashboard for delivery + bounce rate.
 
 ---
 
@@ -318,7 +318,7 @@ In the app: trigger a magic-link sign-in from `https://web-preview.debatekit.ai/
 8. After `integrations/telegram` is deployed to prod, register the webhook (replace `<TOKEN>` and `<SECRET>`):
    ```
    curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
-     -d "url=https://telegram.debatekit.ai/webhook" \
+     -d "url=https://telegram.debatekit.com/webhook" \
      -d "secret_token=<SECRET>"
    ```
 
@@ -355,7 +355,7 @@ Then DM the bot `/start` → integration replies.
 
 1. Turnstile → "Add Site":
    - Site name: `debatekit-web`
-   - Domains: `debatekit.ai`, `web-preview.debatekit.ai`, `localhost`
+   - Domains: `debatekit.com`, `web-preview.debatekit.com`, `localhost`
    - Widget mode: **Managed** (best UX; falls back to interactive challenge for suspicious traffic)
 2. Create → Cloudflare reveals the **Site key** and **Secret key**. Copy both.
 3. We currently re-use **one widget across all three envs** (its site key `0x4AAAAAACN3_OeMcDjErTqV` is already in `wrangler.jsonc`). If you ever want isolation, create three widgets (`debatekit-web-local`, `…-preview`, `…-prod`) and swap per env.
@@ -391,8 +391,8 @@ Open sign-in page → widget renders → no console errors. Server log: `wrangle
 4. App settings → User authentication settings → Set up:
    - App permissions: **Read and write** (we post tweets; don't need DM access)
    - Type of App: **Web App, Automated App or Bot**
-   - App info → Callback URI: `https://api.debatekit.ai/api/v1/social/twitter/callback` (placeholder; we use OAuth 1.0a PIN flow today, so this is rarely hit but required to save)
-   - Website URL: `https://debatekit.ai`
+   - App info → Callback URI: `https://api.debatekit.com/api/v1/social/twitter/callback` (placeholder; we use OAuth 1.0a PIN flow today, so this is rarely hit but required to save)
+   - Website URL: `https://debatekit.com`
    - Save
 5. Keys and tokens tab:
    - **API Key and Secret** (= consumer key/secret): "Regenerate" → copy both immediately. Once dismissed they can be regenerated but never re-shown.
@@ -573,7 +573,7 @@ curl "https://finnhub.io/api/v1/quote?symbol=AAPL&token=$FINNHUB_API_KEY"
 
 1. Click "Request API Key" → fill out the short form:
    - Application name: `DebateKit`
-   - Application URL: `https://debatekit.ai`
+   - Application URL: `https://debatekit.com`
    - Description: "AI-assisted debate platform; FRED data used in economics-themed debates."
 2. Key is issued instantly — copy it.
 
@@ -620,7 +620,7 @@ Free. It's `/dev/urandom`.
 
 ### Sanity test
 
-After deploy, sign in via the web app, then call an MCP tool that requires auth (`curl https://mcp-preview.debatekit.ai/sse` with the session cookie). MCP returns user identity → secret matches.
+After deploy, sign in via the web app, then call an MCP tool that requires auth (`curl https://mcp-preview.debatekit.com/sse` with the session cookie). MCP returns user identity → secret matches.
 
 If you ever rotate `BETTER_AUTH_SECRET`, all existing sessions are immediately invalid (users get signed out) — do it during a maintenance window and update **both** workers in the same deploy.
 
@@ -631,14 +631,14 @@ If you ever rotate `BETTER_AUTH_SECRET`, all existing sessions are immediately i
 Provisioning has dependencies — the wrong order means rework. Recommended sequence:
 
 1. **Cloudflare account access.** Confirm `ava@deadpixel.ai` has access to Soheil's Cloudflare account `67bc7b518b92a0c406ac9b8526ddbb6d` (SSO or shared password). Without this you can't add the domain or provision workers / KV / D1 / R2 / Queues / Turnstile.
-2. **Register `debatekit.ai`** at Cloudflare Registrar (or transfer in), and add the zone to the account above.
+2. **Register `debatekit.com`** at Cloudflare Registrar (or transfer in), and add the zone to the account above.
 3. **Provision Cloudflare resources** — run `scripts/provision-cf-resources.sh` (or follow `docs/ENV_VARS.md` § 1–2) to create D1, KV, R2, Queues, AI binding, Durable Object. Capture all resource IDs into the wrangler.jsonc files.
 4. **Cloudflare Turnstile widget** (§7) — needs the zone to exist for domain whitelisting. The site key already in the repo is fine to reuse.
-5. **Google OAuth client** (§3) — needs the canonical hostnames (`api-preview.debatekit.ai`, `api.debatekit.ai`) registered as redirect URIs, which requires steps 2–3 done first.
+5. **Google OAuth client** (§3) — needs the canonical hostnames (`api-preview.debatekit.com`, `api.debatekit.com`) registered as redirect URIs, which requires steps 2–3 done first.
 6. **In parallel (no inter-deps):** PostHog (§1), Stripe (§2), OpenRouter (§4), Upstash (§10), ElevenLabs (§9), Serper.dev (§11), Finnhub (§12), FRED (§13), Better-Auth secret (§14).
 7. **AWS SES** (§5) — start the production-access request **early**; approval takes ~24 h and we can't send to non-verified addresses until it's done. The domain DKIM verification requires Cloudflare DNS (step 2).
 8. **Twitter / X Developer Portal** (§8) — Basic tier review can take several days; start the application as soon as the company Twitter account exists. Free tier is enough for preview.
-9. **Telegram BotFather** (§6) — last, because the prod webhook (`https://telegram.debatekit.ai/webhook`) needs the integrations/telegram worker deployed to prod first. Create the bots earlier so you have the tokens; defer the `setWebhook` call until after deploy.
+9. **Telegram BotFather** (§6) — last, because the prod webhook (`https://telegram.debatekit.com/webhook`) needs the integrations/telegram worker deployed to prod first. Create the bots earlier so you have the tokens; defer the `setWebhook` call until after deploy.
 10. **Push everything to preview + prod** via `wrangler secret put` per `docs/DEPLOY_SECRETS.md`, then re-run `bun run cf-typegen` in each app so worker types pick up the new bindings.
 11. **Sanity-check every service** using the per-service test commands above, plus `GET /system/health` on `apps/api` (returns 200 only when `BETTER_AUTH_SECRET` + `WEBAPP_ENV` are set) and `GET /api/v1/test/posthog` (returns `{ hasApiKey: true }`).
 

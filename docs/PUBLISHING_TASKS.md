@@ -10,7 +10,7 @@
 > | Integration | Version | Tools | Status | Key Changes |
 > |-------------|---------|-------|--------|-------------|
 > | **Shared** | 1.0.0 | — | **Complete** | `@debatekit/integration-shared` — Zod types, enum 5-part pattern, API client, formatters, URL helpers |
-> | Telegram | 1.0.0 | 7/13 | **LIVE (prod)** | `telegram.debatekit.ai` — inline processing, typing keep-alive, slash-only (no implicit consult) |
+> | Telegram | 1.0.0 | 7/13 | **LIVE (prod)** | `telegram.debatekit.com` — inline processing, typing keep-alive, slash-only (no implicit consult) |
 > | Slack | 1.0.0 | 2/13 | Code complete | Needs api.slack.com app creation + secrets + deploy |
 > | WhatsApp | 1.0.0 | 2/13 | Code complete | Zod safeParse for webhooks (was `as` cast), barrel deleted, zod dep added |
 > | n8n | 1.0.0 | 11/13 | **LIVE (npm)** | `n8n-nodes-debatekit-ai@1.0.0` — 56 files on npmjs.com, published 2026-03-11 |
@@ -27,7 +27,7 @@
 > ### MCP REST API (updated 2026-03-12):
 > - Added `GET /api/v1/threads/:sessionId/link` — returns `{ dashboardUrl, isPublic, publicUrl }`
 > - Added `PATCH /api/v1/threads/:sessionId/visibility` — set thread public/private
-> - Both deployed to production at `mcp.debatekit.ai`
+> - Both deployed to production at `mcp.debatekit.com`
 >
 > ### Anti-patterns fixed globally (final sweep):
 > - Zero `any`, `unknown` (except JSON parse boundary), `Record<string, unknown>`, `@ts-ignore`, `.passthrough()`
@@ -64,7 +64,7 @@
 - [x] Enable Web Search + Code Interpreter
 - [x] Select GPT-5.3 recommended model
 - [x] Configure OAuth 2.0 authentication (client_id + client_secret flow)
-- [x] Add OpenAPI Actions pointing to `mcp.debatekit.ai/api/v1/` (6 endpoints)
+- [x] Add OpenAPI Actions pointing to `mcp.debatekit.com/api/v1/` (6 endpoints)
 - [x] Select "GPT Store" visibility → Category: Research & Analysis
 - [x] Click Update → confirmed published
 - [x] GPT Store URL: `https://chatgpt.com/g/g-69af4ee48f388191a0e92a24151e788e-debatekit`
@@ -99,7 +99,7 @@
 
 #### Post-Publish (All GPTs)
 - [ ] Add cross-links between GPTs in descriptions
-- [ ] Create landing page at debatekit.ai/chatgpt listing all 4 GPTs
+- [ ] Create landing page at debatekit.com/chatgpt listing all 4 GPTs
 - [ ] Add GPT Store links to docs/CONNECTOR_SUBMISSIONS.md
 
 ---
@@ -123,15 +123,15 @@
 - [ ] Fill short description (120 chars): "Multi-AI brainstorming — consult a council of AI models that debate your question and synthesize insights."
 - [ ] Fill long description from `docs/CONNECTOR_SUBMISSIONS.md` Section 2
 - [ ] Upload app icon: `apps/web/public/icons/icon-512x512.png` (512x512 PNG)
-- [ ] Set MCP server URL: `https://mcp.debatekit.ai/mcp`
+- [ ] Set MCP server URL: `https://mcp.debatekit.com/mcp`
 - [ ] Configure OAuth 2.0:
-  - Authorization URL: `https://mcp.debatekit.ai/authorize`
-  - Token URL: `https://mcp.debatekit.ai/token`
+  - Authorization URL: `https://mcp.debatekit.com/authorize`
+  - Token URL: `https://mcp.debatekit.com/token`
   - Scopes: `mcp:tools`
-- [ ] Set widget domain: `debatekit.ai`
+- [ ] Set widget domain: `debatekit.com`
 - [ ] Select category: "Productivity" or "AI Tools"
-- [ ] Add privacy policy URL: `https://debatekit.ai/legal/privacy`
-- [ ] Add terms of service URL: `https://debatekit.ai/legal/terms`
+- [ ] Add privacy policy URL: `https://debatekit.com/legal/privacy`
+- [ ] Add terms of service URL: `https://debatekit.com/legal/terms`
 - [ ] Submit for review
 - [ ] Monitor review status
 - [ ] After approval, verify widget renders in ChatGPT
@@ -143,7 +143,7 @@
 **Goal:** DebateKit listed in Claude's official Connectors directory.
 
 #### Prerequisites
-- [x] MCP server live at `mcp.debatekit.ai/mcp`
+- [x] MCP server live at `mcp.debatekit.com/mcp`
 - [x] Streamable HTTP transport (not legacy SSE)
 - [x] OAuth 2.0 with PKCE + Dynamic Client Registration
 - [x] Tool annotations (`readOnlyHint`) on all tools
@@ -163,8 +163,8 @@
 - [x] Open: https://docs.google.com/forms/d/e/1FAIpQLSeafJF2NDI7oYx1r8o0ycivCSVLNq92Mpc1FPxMKSw1CzDkqA/viewform
 - [x] Company name: Deadpixel
 - [x] Connector name: DebateKit
-- [x] Website: https://debatekit.ai
-- [x] MCP server URL: https://mcp.debatekit.ai/mcp
+- [x] Website: https://debatekit.com
+- [x] MCP server URL: https://mcp.debatekit.com/mcp
 - [x] Description: paste from `docs/CONNECTOR_SUBMISSIONS.md` Section 1
 - [x] Category: Productivity / AI Tools
 - [x] Auth type: Bearer token + OAuth 2.0 with PKCE
@@ -234,10 +234,10 @@
 - [x] Create account / sign in (Google OAuth as Ava Bagherzadeh)
 - [x] Submit MCP server:
   - Namespace: debatekit / Server ID: debatekit
-  - Server URL: https://mcp.debatekit.ai/mcp
+  - Server URL: https://mcp.debatekit.com/mcp
   - API key parameter configured (header: x-api-key, required)
   - Description: "Your AI Board of Directors. Run multi-model debates..."
-  - Homepage: https://debatekit.ai
+  - Homepage: https://debatekit.com
 - [x] Server registered: https://smithery.ai/servers/debatekit/debatekit
 - [x] Made listing public (unlisted unchecked)
 - [x] Tool discovery scan SUCCESS — 13 tools, 3 prompts, 3 resources discovered
@@ -259,7 +259,7 @@
 #### Setup
 - [x] `apps/mcp/gemini-extension.json` created
 - [x] `apps/mcp/GEMINI.md` context file created
-- [x] URL fixed to debatekit.ai (was .ai)
+- [x] URL fixed to debatekit.com (was .ai)
 
 #### Publishing
 - [x] Research: No formal marketplace — auto-indexed at geminicli.com/extensions via GitHub topic
@@ -341,7 +341,7 @@
 - [ ] Test commands in Slack workspace
 
 #### App Directory Submission
-- [ ] Prepare landing page at debatekit.ai/slack
+- [ ] Prepare landing page at debatekit.com/slack
 - [ ] Add privacy policy URL
 - [ ] Add support URL
 - [ ] Under "Manage Distribution" → Activate Public Distribution
@@ -477,7 +477,7 @@
 - [ ] Access Make App development environment
 - [ ] Create new app "DebateKit"
 - [ ] Upload icon (256x256, transparent background, no text)
-- [ ] Configure base URL: `https://mcp.debatekit.ai`
+- [ ] Configure base URL: `https://mcp.debatekit.com`
 
 #### API Modules
 - [ ] Create "Consult" action module
@@ -630,11 +630,11 @@
 - [x] Created `integrations/shared/debatekit-icon.svg` — brand-aligned SVG icon
 
 ### Landing Pages
-- [ ] Create debatekit.ai/integrations hub page
-- [ ] Create debatekit.ai/chatgpt — GPT Store links
-- [ ] Create debatekit.ai/slack — Slack bot install
-- [ ] Create debatekit.ai/docs/mcp-setup — Universal MCP setup guide
-- [ ] Create debatekit.ai/docs/api — API documentation
+- [ ] Create debatekit.com/integrations hub page
+- [ ] Create debatekit.com/chatgpt — GPT Store links
+- [ ] Create debatekit.com/slack — Slack bot install
+- [ ] Create debatekit.com/docs/mcp-setup — Universal MCP setup guide
+- [ ] Create debatekit.com/docs/api — API documentation
 
 ### Documentation
 - [ ] Keep docs/DISTRIBUTION_PLAN.md updated with status
@@ -686,7 +686,7 @@
 - Icon auto-detected from favicon at MCP server URL
 
 ### Smithery MCP Marketplace
-- Self-service: `smithery mcp publish "https://mcp.debatekit.ai/mcp" -n @debatekit/debatekit`
+- Self-service: `smithery mcp publish "https://mcp.debatekit.com/mcp" -n @debatekit/debatekit`
 - Or web UI at smithery.ai/new
 - Icon max 1MB (PNG/JPG)
 - Ranked by usage (leaderboard at smithery.ai/leaderboard)

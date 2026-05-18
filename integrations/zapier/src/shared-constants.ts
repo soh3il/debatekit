@@ -13,8 +13,8 @@ import { z } from 'zod';
 // ---------------------------------------------------------------------------
 
 export const API_KEY_HEADER = 'x-api-key';
-export const API_KEY_SETTINGS_URL = 'https://debatekit.ai/chat/settings/api-keys';
-export const DEBATEKIT_DEFAULT_URL = 'https://mcp.debatekit.ai';
+export const API_KEY_SETTINGS_URL = 'https://debatekit.com/chat/settings/api-keys';
+export const DEBATEKIT_DEFAULT_URL = 'https://mcp.debatekit.com';
 
 // ---------------------------------------------------------------------------
 // THINKING LEVELS (5-part enum pattern)

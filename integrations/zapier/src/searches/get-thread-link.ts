@@ -51,8 +51,8 @@ export default {
 
     sample: {
       session_id: 'abc12345-6789-0000-aaaa-bbbbccccdddd',
-      public_url: 'https://debatekit.ai/public/chat/debatekit-rest-vs-graphql-a1b2c3',
-      dashboard_url: 'https://debatekit.ai/chat/debatekit-rest-vs-graphql-a1b2c3',
+      public_url: 'https://debatekit.com/public/chat/debatekit-rest-vs-graphql-a1b2c3',
+      dashboard_url: 'https://debatekit.com/chat/debatekit-rest-vs-graphql-a1b2c3',
       is_public: true,
     },
 

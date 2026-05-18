@@ -3,7 +3,7 @@ import debatekit, { truncate } from "../../debatekit.app/debatekit.app.mjs";
 export default {
   key: "debatekit-plan-implementation",
   name: "Plan Implementation",
-  description: "Create a step-by-step implementation plan with multi-model input. [See the documentation](https://debatekit.ai)",
+  description: "Create a step-by-step implementation plan with multi-model input. [See the documentation](https://debatekit.com)",
   version: "1.0.0",
   type: "action",
   props: {

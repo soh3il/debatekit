@@ -1,6 +1,6 @@
 # DebateKit Bootstrap
 
-From `git clone` to a live `https://debatekit.ai` in one sitting.
+From `git clone` to a live `https://debatekit.com` in one sitting.
 
 This is the master "from zero to deployed" runbook. Other docs go deep on individual steps — this one stitches them together in order. If a section feels thin, follow the linked doc.
 
@@ -34,7 +34,7 @@ Otherwise: do sections **1 → 8** in order. First-time setup is ~60–90 min, a
 
 - [ ] **Cloudflare**: Soheil's account ID `67bc7b518b92a0c406ac9b8526ddbb6d`. Team members log in via Google SSO using their `@deadpixel.ai` email, then switch to Soheil's account from the dashboard chooser.
 - [ ] **GitHub**: Push access to `soh3il/debatekit`.
-- [ ] **GoDaddy** (optional, only for DNS swap): registrar login is `firstexhotic@gmail.com`. Needed only the first time `debatekit.ai` is pointed at Cloudflare.
+- [ ] **GoDaddy** (optional, only for DNS swap): registrar login is `firstexhotic@gmail.com`. Needed only the first time `debatekit.com` is pointed at Cloudflare.
 - [ ] **1Password / shared vault**: where production secrets and seed values live. Ask Soheil if you don't have access.
 
 Verify the toolchain in one shot:
@@ -77,7 +77,7 @@ This is the heaviest section, and the only one you do exactly once per environme
 
 Follow **`docs/DOMAIN_MIGRATION.md`** end to end:
 
-1. Register `debatekit.ai` on the registrar (already done — listed under `firstexhotic@gmail.com`).
+1. Register `debatekit.com` on the registrar (already done — listed under `firstexhotic@gmail.com`).
 2. Add the zone to Cloudflare under Soheil's account.
 3. Swap nameservers at the registrar to the Cloudflare-issued pair.
 4. Wait for the zone to flip to **Active** in the Cloudflare dashboard (usually < 1 hour, occasionally up to 24).
@@ -135,7 +135,7 @@ See **`docs/ENV_VARS.md`** for the canonical list of every variable, what it doe
 
 ## 5. Email (one-time)
 
-DebateKit uses Cloudflare Email Routing for inbound (`reply@debatekit.ai`, `support@debatekit.ai`, …) and AWS SES for outbound transactional mail.
+DebateKit uses Cloudflare Email Routing for inbound (`reply@debatekit.com`, `support@debatekit.com`, …) and AWS SES for outbound transactional mail.
 
 Follow **`docs/EMAIL_SETUP.md`** to:
 
@@ -206,8 +206,8 @@ What each step does:
 
 Verify the result:
 
-- `https://web-preview.debatekit.ai` — landing + app
-- `https://api-preview.debatekit.ai/health` — should return `{ "ok": true }`
+- `https://web-preview.debatekit.com` — landing + app
+- `https://api-preview.debatekit.com/health` — should return `{ "ok": true }`
 
 ---
 
@@ -225,8 +225,8 @@ bun run deploy:production
 
 Verify:
 
-- `https://debatekit.ai` — landing + app
-- `https://api.debatekit.ai/health` — `{ "ok": true }`
+- `https://debatekit.com` — landing + app
+- `https://api.debatekit.com/health` — `{ "ok": true }`
 - One real end-to-end flow: sign up, start a debate, confirm a transactional email arrives.
 
 See **`docs/DEPLOY_SECRETS.md`** for the secret rotation policy and emergency-revoke procedures.
@@ -300,7 +300,7 @@ For bulk rotation, update `.dev.vars` and re-run `bootstrap-cf-secrets.sh`.
 | `wrangler deploy` fails with `Authentication error`    | Wrong Cloudflare account or expired session        | `bunx wrangler logout && bunx wrangler login`, verify with `bunx wrangler whoami`    |
 | `D1 binding "DB" not found`                            | Resource never provisioned for this env            | `./scripts/provision-cf-resources.sh`, then redeploy                                 |
 | TypeScript errors right after `git pull`               | `cloudflare-env.d.ts` out of sync                  | `bun install && bun run cf-typegen`                                                  |
-| OAuth `redirect_uri_mismatch`                          | Google OAuth client missing the env's callback URL | Add `https://<env>.debatekit.ai/api/auth/callback/google` to the OAuth client        |
+| OAuth `redirect_uri_mismatch`                          | Google OAuth client missing the env's callback URL | Add `https://<env>.debatekit.com/api/auth/callback/google` to the OAuth client        |
 | `bun run dev` exits with "missing required env var X"  | `.dev.vars` is incomplete                          | Diff against `.dev.vars.example`, populate the missing key                           |
 | Preview deploy succeeds but page 404s                  | Custom domain route not bound                      | Check the `routes` block in `apps/web/wrangler.jsonc`; zone must be Active           |
 | `db:migrate:prod` says "no migrations to apply" but schema is stale | Drizzle metadata table out of sync     | Open Drizzle Studio against prod, inspect `__drizzle_migrations`, escalate to Soheil |
@@ -314,7 +314,7 @@ For anything not listed here, check **`docs/FLOW_DOCUMENTATION.md`** for the arc
 
 | Doc                                | What it covers                                     |
 | ---------------------------------- | -------------------------------------------------- |
-| `docs/DOMAIN_MIGRATION.md`         | Registering and pointing `debatekit.ai` at Cloudflare |
+| `docs/DOMAIN_MIGRATION.md`         | Registering and pointing `debatekit.com` at Cloudflare |
 | `docs/EXTERNAL_SERVICES.md`        | PostHog, Stripe, Google OAuth, OpenRouter, SES, Telegram setup |
 | `docs/EMAIL_SETUP.md`              | Cloudflare Email Routing + AWS SES                 |
 | `docs/ENV_VARS.md`                 | Every env var, what it does, which env             |

@@ -30,7 +30,7 @@ export default {
       type: 'string',
       required: true,
       helpText:
-        `Find your API key at [debatekit.ai](${API_KEY_SETTINGS_URL}). Keys start with \`rpnd_\`.`,
+        `Find your API key at [debatekit.com](${API_KEY_SETTINGS_URL}). Keys start with \`rpnd_\`.`,
     },
   ],
   connectionLabel: (_z: ZObject, bundle: Bundle) => {
