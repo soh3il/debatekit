@@ -9,7 +9,7 @@
 #   - CLOUDFLARE_API_TOKEN   — Cloudflare API token with Workers/D1/R2/KV/Pages
 #                              Edit + Account Settings Read scopes. Create at
 #                              https://dash.cloudflare.com/profile/api-tokens
-#   - CLOUDFLARE_ACCOUNT_ID  — `67bc7b518b92a0c406ac9b8526ddbb6d` (Soheil's).
+#   - CLOUDFLARE_ACCOUNT_ID  — `c21c4d074e34a8b1b9d335a41c2f69e3` (Soheil's).
 #                              Already baked into every wrangler.jsonc; kept as
 #                              belt-and-suspenders.
 #

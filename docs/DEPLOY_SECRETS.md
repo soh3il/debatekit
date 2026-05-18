@@ -10,7 +10,7 @@ See also: `docs/ENV_VARS.md` (variable catalog + provisioning order for D1 / R2 
   - `wrangler login` (browser OAuth, picks up the Cloudflare account), or
   - export `CLOUDFLARE_API_TOKEN=...` with `Account:Workers Scripts:Edit` + `Account:D1:Edit` + `Account:R2:Edit` + `Account:Workers KV Storage:Edit`.
   Confirm with `wrangler whoami`. The bootstrap script also checks this.
-- **Account ID** must be `67bc7b518b92a0c406ac9b8526ddbb6d` (Soheil's account). The script warns if it sees a different one.
+- **Account ID** must be `c21c4d074e34a8b1b9d335a41c2f69e3` (Soheil's account). The script warns if it sees a different one.
 - **Zone**: `debatekit.com` configured in the Cloudflare account, with the routes referenced in each `wrangler.jsonc` (`api.`, `api-preview.`, `mcp.`, `mcp-preview.`, `web-preview.`, `slack.`, `telegram.`, `whatsapp.` + apex).
 - **Provisioned resources** must exist before any deploy — D1 dbs, R2 buckets, KV namespaces, and queues. IDs are hard-coded in each `wrangler.jsonc`; create matching resources or update the IDs. Detailed list in `docs/ENV_VARS.md` → "Provisioning order".
 
@@ -88,7 +88,7 @@ broken secret, fix the value in `.dev.vars` and re-run the bootstrap script — 
 
 ## 5. Common errors
 
-- **`Account ID mismatch`** — `wrangler whoami` shows a different account. Either re-`wrangler login`, or set `CLOUDFLARE_ACCOUNT_ID=67bc7b518b92a0c406ac9b8526ddbb6d`, or pick the right account in the API token.
+- **`Account ID mismatch`** — `wrangler whoami` shows a different account. Either re-`wrangler login`, or set `CLOUDFLARE_ACCOUNT_ID=c21c4d074e34a8b1b9d335a41c2f69e3`, or pick the right account in the API token.
 - **`R2 bucket "..." does not exist`** — bucket missing in the account. Create it (`wrangler r2 bucket create debatekit-dashboard-r2-uploads-preview-weur` etc.) before deploying. See `docs/ENV_VARS.md`.
 - **`KV namespace not found` / `D1 database not found`** — the IDs in `wrangler.jsonc` reference resources in a specific account. Either you're on the wrong account or the resources weren't created.
 - **`Authentication error [code: 10000]`** — API token expired or missing scopes. Regenerate with the scopes listed in §1.

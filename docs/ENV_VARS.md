@@ -391,7 +391,7 @@ Same string, used by 2+ workers. When you rotate or regenerate one of these, upd
 | `DEBATEKIT_APP_URL` | `integrations/slack`, `integrations/telegram`, `integrations/whatsapp` | per env: localhost / `preview.debatekit.com` / `debatekit.com` |
 | `WEBAPP_ENV` | `apps/api`, `apps/mcp`, `apps/web` (as `VITE_WEBAPP_ENV`), repo scripts | drives all base-URL resolution |
 | `NODE_ENV` | every worker + scripts | `development` locally, `production` deployed |
-| `CLOUDFLARE_ACCOUNT_ID` | every wrangler.jsonc, repo `.env` | `67bc7b518b92a0c406ac9b8526ddbb6d` |
+| `CLOUDFLARE_ACCOUNT_ID` | every wrangler.jsonc, repo `.env` | `c21c4d074e34a8b1b9d335a41c2f69e3` |
 
 ---
 
@@ -402,7 +402,7 @@ For a brand new contributor or a brand new account, do this in order:
 ### 1. Cloudflare account + domain
 
 1. Register `debatekit.com` (Cloudflare Registrar or transferred in).
-2. Add the zone to Soheil's Cloudflare account `67bc7b518b92a0c406ac9b8526ddbb6d`.
+2. Add the zone to Soheil's Cloudflare account `c21c4d074e34a8b1b9d335a41c2f69e3`.
 3. Create a Cloudflare API token (`CLOUDFLARE_API_TOKEN`) with these scopes:
    - Account → Workers Scripts: Edit
    - Account → Workers KV Storage: Edit

@@ -19,7 +19,7 @@ DebateKit ships via 6 Cloudflare Workers (`api`, `web`, `mcp`, `slack-bot`, `tel
 
 ## Setup via Cloudflare dashboard (one-time, per worker)
 
-For each of the 6 workers in `https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/workers-and-pages`:
+For each of the 6 workers in `https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/workers-and-pages`:
 
 1. Click into the worker (or create it via `wrangler deploy` first).
 2. **Settings → Build → Connect**.

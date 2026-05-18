@@ -17,7 +17,7 @@
  *   --skip-if-no-token  Don't error if token is missing (for optional cleanup)
  */
 
-const ACCOUNT_ID = '67bc7b518b92a0c406ac9b8526ddbb6d'
+const ACCOUNT_ID = 'c21c4d074e34a8b1b9d335a41c2f69e3'
 
 const CACHE_BUCKETS = {
   preview: 'debatekit-dashboard-r2-cache-preview',

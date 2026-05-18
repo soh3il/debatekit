@@ -32,7 +32,7 @@ Otherwise: do sections **1 → 8** in order. First-time setup is ~60–90 min, a
 
 ### Account access checklist
 
-- [ ] **Cloudflare**: Soheil's account ID `67bc7b518b92a0c406ac9b8526ddbb6d`. Team members log in via Google SSO using their `@deadpixel.ai` email, then switch to Soheil's account from the dashboard chooser.
+- [ ] **Cloudflare**: Soheil's account ID `c21c4d074e34a8b1b9d335a41c2f69e3`. Team members log in via Google SSO using their `@deadpixel.ai` email, then switch to Soheil's account from the dashboard chooser.
 - [ ] **GitHub**: Push access to `soh3il/debatekit`.
 - [ ] **GoDaddy** (optional, only for DNS swap): registrar login is `firstexhotic@gmail.com`. Needed only the first time `debatekit.com` is pointed at Cloudflare.
 - [ ] **1Password / shared vault**: where production secrets and seed values live. Ask Soheil if you don't have access.
