@@ -1,5 +1,56 @@
-SLACK_BOT_TOKEN=xoxb-your-bot-token
-SLACK_SIGNING_SECRET=your-signing-secret
-SLACK_CLIENT_ID=your-slack-client-id
-SLACK_CLIENT_SECRET=your-slack-client-secret
-DEBATEKIT_API_KEY=your-debatekit-api-key
+# ============================================================================
+# DebateKit Slack Bot — Local Development Secrets
+# ============================================================================
+#
+# WHAT THIS FILE IS:
+#   Secrets for the Slack integration worker (`debatekit-slack-bot`,
+#   Cloudflare Worker that receives Slack events and proxies to the
+#   DebateKit MCP API). Wrangler loads `.dev.vars` automatically during
+#   `wrangler dev` and exposes them as `c.env.*` / `env.*`.
+#
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# DEPLOYING:
+#   wrangler secret put <NAME> --env preview
+#   wrangler secret put <NAME> --env production
+#
+# NON-SECRET VARS:
+#   DEBATEKIT_API_URL + DEBATEKIT_APP_URL live in wrangler.jsonc.
+# ============================================================================
+
+
+# ============================================================================
+# SLACK OAUTH (for "Add to Slack" multi-tenant install flow)
+# ============================================================================
+
+# Slack OAuth client ID — public-ish (sent in install URLs) but kept here for parity.
+# Get from: https://api.slack.com/apps → your app → Basic Information → App Credentials
+SLACK_CLIENT_ID=<get-from-slack-app-basic-information>
+
+# Slack OAuth client secret.
+SLACK_CLIENT_SECRET=<get-from-slack-app-basic-information>
+
+
+# ============================================================================
+# SLACK BOT RUNTIME
+# ============================================================================
+
+# Fallback bot token, used when a workspace hasn't completed OAuth (single-tenant mode).
+# In multi-tenant mode, tokens are read from KV per workspace.
+# Get from: https://api.slack.com/apps → your app → Install App → Bot User OAuth Token
+SLACK_BOT_TOKEN=xoxb-<get-from-slack-app-install-page>
+
+# Slack request signing secret — verifies inbound webhooks are from Slack.
+# Get from: https://api.slack.com/apps → your app → Basic Information → Signing Secret
+SLACK_SIGNING_SECRET=<get-from-slack-app-basic-information>
+
+
+# ============================================================================
+# DEBATEKIT API
+# ============================================================================
+
+# Fallback DebateKit API key, used when a workspace hasn't linked its own.
+# Generate at: https://debatekit.ai/settings/api-keys
+DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

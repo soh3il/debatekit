@@ -1,6 +1,45 @@
-TELEGRAM_BOT_TOKEN=your-bot-token-from-botfather
-TELEGRAM_BOT_USERNAME=debatekitnowbot
-TELEGRAM_WEBHOOK_SECRET=your-webhook-secret
-DEBATEKIT_API_KEY=your-debatekit-api-key
-DEBATEKIT_API_URL=https://mcp.debatekit.ai
-DEBATEKIT_APP_URL=https://debatekit.ai
+# ============================================================================
+# DebateKit Telegram Bot — Local Development Secrets
+# ============================================================================
+#
+# WHAT THIS FILE IS:
+#   Secrets for the Telegram integration worker (`debatekit-telegram-bot`,
+#   Cloudflare Worker that handles Telegram bot webhooks). Wrangler loads
+#   `.dev.vars` automatically during `wrangler dev` and exposes them as
+#   `c.env.*` / `env.*`.
+#
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# DEPLOYING:
+#   wrangler secret put <NAME> --env preview
+#   wrangler secret put <NAME> --env production
+#
+# NON-SECRET VARS:
+#   DEBATEKIT_API_URL, DEBATEKIT_APP_URL, TELEGRAM_BOT_USERNAME live in wrangler.jsonc.
+#   BOT_INFO (cached getMe JSON) is set as a runtime var by an init script.
+# ============================================================================
+
+
+# ============================================================================
+# TELEGRAM BOT
+# ============================================================================
+
+# Telegram bot token from @BotFather.
+# Get one: open @BotFather in Telegram → /newbot (or /token for an existing bot).
+TELEGRAM_BOT_TOKEN=<get-from-telegram-botfather>
+
+# Shared secret returned in every Telegram webhook (X-Telegram-Bot-Api-Secret-Token).
+# Choose any random 64+ char string; set the same value when calling setWebhook.
+# Generate: `openssl rand -hex 32`
+TELEGRAM_WEBHOOK_SECRET=<generate-with-openssl-rand-hex-32>
+
+
+# ============================================================================
+# DEBATEKIT API
+# ============================================================================
+
+# Fallback DebateKit API key, used when a chat hasn't linked its own via /apikey.
+# Generate at: https://debatekit.ai/settings/api-keys
+DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

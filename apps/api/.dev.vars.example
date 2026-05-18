@@ -1,36 +1,139 @@
-# API Secrets - Loaded by wrangler during local dev
-# Copy to .dev.vars and fill in values.
-# For production: wrangler secret put <NAME> --env <preview|production>
+# ============================================================================
+# DebateKit API Worker — Local Development Secrets
+# ============================================================================
+#
+# WHAT THIS FILE IS:
+#   Secrets for the API worker (`debatekit-api`, Hono on Cloudflare Workers).
+#   Wrangler loads `.dev.vars` automatically during `wrangler dev` and exposes
+#   them as `c.env.*` / `env.*` (the same shape as production secrets).
+#
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# DEPLOYING:
+#   For preview/production, push each secret with:
+#     wrangler secret put <NAME> --env preview
+#     wrangler secret put <NAME> --env production
+#
+# NON-SECRET VARS:
+#   Public config (APP_NAME, BETTER_AUTH_URL, FROM_EMAIL, STRIPE_PUBLISHABLE_KEY,
+#   TURNSTILE_SITE_KEY, AUTH_GOOGLE_ID, etc.) is committed in wrangler.jsonc
+#   under `vars` — do NOT duplicate those here.
+#
+# SECURITY:
+#   Never commit `.dev.vars`. Anything in this file should be a secret a new
+#   dev should fetch from the team password manager / service console.
+# ============================================================================
 
-# Authentication
-BETTER_AUTH_SECRET=your-secret-min-32-chars
-AUTH_GOOGLE_SECRET=your-google-oauth-secret
-TURNSTILE_SECRET_KEY=your-turnstile-secret
 
-# AWS SES
-AWS_SES_ACCESS_KEY_ID=your-aws-key-id
-AWS_SES_SECRET_ACCESS_KEY=your-aws-secret
+# ============================================================================
+# AUTHENTICATION
+# ============================================================================
 
-# Stripe
-STRIPE_SECRET_KEY=sk_test_your-key
-STRIPE_WEBHOOK_SECRET=whsec_your-secret
+# Better Auth session encryption key. Min 32 chars, cryptographically random.
+# Generate: `openssl rand -base64 48`
+# MUST match BETTER_AUTH_SECRET in apps/mcp/.dev.vars (shared auth).
+BETTER_AUTH_SECRET=<generate-with-openssl-rand-base64-48>
 
-# AI & Analytics
-OPENROUTER_API_KEY=sk-or-your-key
-POSTHOG_API_KEY=phc_your-key
+# Google OAuth client secret (paired with AUTH_GOOGLE_ID in wrangler.jsonc).
+# Get from: https://console.cloud.google.com/apis/credentials
+AUTH_GOOGLE_SECRET=<get-from-google-cloud-console>
 
-# Web Search (Serper.dev)
-SERP_API_KEY=your-serper-api-key-from-serper-dev
+# Cloudflare Turnstile secret key (paired with TURNSTILE_SITE_KEY in wrangler.jsonc).
+# Get from: https://dash.cloudflare.com/?to=/:account/turnstile
+TURNSTILE_SECRET_KEY=<get-from-cloudflare-turnstile-dashboard>
 
-# Upstash Redis
-UPSTASH_REDIS_REST_URL=https://your-instance.upstash.io
-UPSTASH_REDIS_REST_TOKEN=your-token
 
-# Podcast (ElevenLabs)
-ELEVENLABS_API_KEY=your-elevenlabs-api-key
+# ============================================================================
+# EMAIL — AWS SES
+# (Region, from-address, reply-to live in wrangler.jsonc vars)
+# ============================================================================
 
-# Twitter/X API (OAuth 1.0a - for tweet posting)
-TWITTER_API_KEY=your-twitter-api-key
-TWITTER_API_SECRET=your-twitter-api-secret
-TWITTER_ACCESS_TOKEN=your-twitter-access-token
-TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret
+# IAM user with ONLY `ses:SendEmail` + `ses:SendRawEmail` permissions.
+# Create at: https://console.aws.amazon.com/iam/home#/users
+AWS_SES_ACCESS_KEY_ID=<get-from-aws-iam-console>
+AWS_SES_SECRET_ACCESS_KEY=<get-from-aws-iam-console>
+
+
+# ============================================================================
+# PAYMENTS — STRIPE
+# (Publishable key + customer portal config ID live in wrangler.jsonc vars)
+# ============================================================================
+
+# Stripe secret key — test mode locally, live mode in prod.
+# Get from: https://dashboard.stripe.com/apikeys
+# Use `sk_test_...` for local dev; `sk_live_...` is only deployed to prod.
+STRIPE_SECRET_KEY=sk_test_<get-from-stripe-dashboard>
+
+# Stripe webhook signing secret. One per endpoint (local CLI, preview, prod).
+# Local: `stripe listen --forward-to http://localhost:8787/webhooks/stripe`
+# Hosted: https://dashboard.stripe.com/webhooks → endpoint → Signing secret
+STRIPE_WEBHOOK_SECRET=whsec_<get-from-stripe-cli-or-dashboard>
+
+
+# ============================================================================
+# AI — MODEL ROUTING & GENERATION
+# ============================================================================
+
+# OpenRouter API key — used for all LLM calls (multi-model debates).
+# Get from: https://openrouter.ai/keys
+OPENROUTER_API_KEY=sk-or-v1-<get-from-openrouter-dashboard>
+
+# ElevenLabs API key — used for podcast / TTS generation.
+# Get from: https://elevenlabs.io/app/settings/api-keys
+ELEVENLABS_API_KEY=<get-from-elevenlabs-dashboard>
+
+
+# ============================================================================
+# THIRD-PARTY APIs
+# ============================================================================
+
+# Serper.dev API key — Google search results for the web-search tool.
+# Get from: https://serper.dev/api-key
+SERP_API_KEY=<get-from-serper-dev-dashboard>
+
+# Finnhub API key — financial market data tool.
+# Get from: https://finnhub.io/dashboard
+FINNHUB_API_KEY=<get-from-finnhub-dashboard>
+
+# FRED (Federal Reserve Economic Data) API key — macro data tool.
+# Get from: https://fred.stlouisfed.org/docs/api/api_key.html
+FRED_API_KEY=<get-from-fred-stlouisfed-org>
+
+
+# ============================================================================
+# OBSERVABILITY — POSTHOG
+# (POSTHOG_HOST lives in wrangler.jsonc vars)
+# ============================================================================
+
+# PostHog project API key (server-side ingest).
+# Get from: https://us.posthog.com/project/settings → "Project API Key"
+POSTHOG_API_KEY=phc_<get-from-posthog-project-settings>
+
+
+# ============================================================================
+# CACHING / RATE LIMITING — UPSTASH REDIS
+# ============================================================================
+
+# Upstash Redis REST API endpoint.
+# Get from: https://console.upstash.com/redis → database → REST API tab
+UPSTASH_REDIS_REST_URL=https://<your-instance>.upstash.io
+
+# Upstash Redis REST API token (paired with the URL above).
+UPSTASH_REDIS_REST_TOKEN=<get-from-upstash-console>
+
+
+# ============================================================================
+# SOCIAL — TWITTER / X (OAuth 1.0a, for tweet posting)
+# ============================================================================
+
+# Twitter app consumer key + secret.
+# Get from: https://developer.twitter.com/en/portal/projects-and-apps → app → Keys and tokens
+TWITTER_API_KEY=<get-from-twitter-developer-portal>
+TWITTER_API_SECRET=<get-from-twitter-developer-portal>
+
+# Twitter user access token + secret (the account that tweets are posted from).
+# Generate from the same Keys and tokens page → "Access Token and Secret".
+TWITTER_ACCESS_TOKEN=<get-from-twitter-developer-portal>
+TWITTER_ACCESS_TOKEN_SECRET=<get-from-twitter-developer-portal>

@@ -1,7 +1,53 @@
-WHATSAPP_ACCESS_TOKEN=your-system-user-access-token
-WHATSAPP_APP_SECRET=your-app-secret
-WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
-WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token
-DEBATEKIT_API_KEY=your-debatekit-api-key
-DEBATEKIT_API_URL=https://mcp.debatekit.ai
-DEBATEKIT_APP_URL=https://debatekit.ai
+# ============================================================================
+# DebateKit WhatsApp Bot — Local Development Secrets
+# ============================================================================
+#
+# WHAT THIS FILE IS:
+#   Secrets for the WhatsApp integration worker (`debatekit-whatsapp-bot`,
+#   Cloudflare Worker that handles WhatsApp Cloud API webhooks). Wrangler
+#   loads `.dev.vars` automatically during `wrangler dev` and exposes them
+#   as `c.env.*` / `env.*`.
+#
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# DEPLOYING:
+#   wrangler secret put <NAME> --env preview
+#   wrangler secret put <NAME> --env production
+#
+# NON-SECRET VARS:
+#   DEBATEKIT_API_URL + DEBATEKIT_APP_URL live in wrangler.jsonc.
+# ============================================================================
+
+
+# ============================================================================
+# WHATSAPP CLOUD API (Meta)
+# ============================================================================
+
+# System user access token used to send messages via the Graph API.
+# Get from: https://developers.facebook.com/apps → your app → WhatsApp → API Setup
+# (For production, generate a permanent token via a Meta System User.)
+WHATSAPP_ACCESS_TOKEN=<get-from-meta-developers-whatsapp-api-setup>
+
+# WhatsApp app secret — verifies the SHA-256 signature on inbound webhooks.
+# Get from: https://developers.facebook.com/apps → your app → Settings → Basic → App Secret
+WHATSAPP_APP_SECRET=<get-from-meta-app-settings-basic>
+
+# WhatsApp Business phone number ID (NOT the phone number itself).
+# Get from: https://developers.facebook.com/apps → your app → WhatsApp → API Setup
+WHATSAPP_PHONE_NUMBER_ID=<paste-from-meta-developers-whatsapp-api-setup>
+
+# Webhook subscription verify token — any string you choose; must match the value
+# entered in the Meta dashboard when subscribing the webhook URL.
+# Generate: `openssl rand -hex 16`
+WHATSAPP_VERIFY_TOKEN=<choose-any-random-string-then-paste-into-meta-dashboard>
+
+
+# ============================================================================
+# DEBATEKIT API
+# ============================================================================
+
+# Fallback DebateKit API key, used when a chat hasn't linked its own.
+# Generate at: https://debatekit.ai/settings/api-keys
+DEBATEKIT_API_KEY=rpnd_<generate-at-debatekit-settings-api-keys>

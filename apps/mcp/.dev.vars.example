@@ -1,5 +1,53 @@
-# OpenRouter API key for model generation
-OPENROUTER_API_KEY=sk-or-v1-xxxx
+# ============================================================================
+# DebateKit MCP Worker — Local Development Secrets
+# ============================================================================
+#
+# WHAT THIS FILE IS:
+#   Secrets for the MCP server (`debatekit-mcp`, exposes DebateKit tools to
+#   MCP clients like Claude Desktop, Cursor, Windsurf, etc.). Runs on
+#   Cloudflare Workers; wrangler loads `.dev.vars` automatically during
+#   `wrangler dev` and exposes them as `env.*`.
+#
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# DEPLOYING:
+#   wrangler secret put <NAME> --env preview
+#   wrangler secret put <NAME> --env production
+#
+# NON-SECRET VARS:
+#   WEBAPP_ENV, APP_NAME, POSTHOG_HOST, NODE_ENV live in wrangler.jsonc.
+#   D1 + KV bindings are shared with the API (same database).
+# ============================================================================
 
-# Better Auth secret (must match apps/api BETTER_AUTH_SECRET)
-BETTER_AUTH_SECRET=your-better-auth-secret
+
+# ============================================================================
+# AI — MODEL ROUTING & GENERATION
+# ============================================================================
+
+# OpenRouter API key — used for all LLM calls from MCP tools.
+# Get from: https://openrouter.ai/keys
+# Can re-use the same key as the API worker, or use a separate key for
+# per-product spend tracking.
+OPENROUTER_API_KEY=sk-or-v1-<get-from-openrouter-dashboard>
+
+
+# ============================================================================
+# AUTHENTICATION
+# ============================================================================
+
+# Better Auth session encryption key. Min 32 chars.
+# MUST match BETTER_AUTH_SECRET in apps/api/.dev.vars — the MCP worker
+# verifies sessions issued by the API.
+BETTER_AUTH_SECRET=<must-match-apps-api-BETTER_AUTH_SECRET>
+
+
+# ============================================================================
+# OBSERVABILITY — POSTHOG
+# (POSTHOG_HOST lives in wrangler.jsonc vars)
+# ============================================================================
+
+# PostHog project API key (server-side ingest, for MCP tool-call analytics).
+# Get from: https://us.posthog.com/project/settings → "Project API Key"
+POSTHOG_API_KEY=phc_<get-from-posthog-project-settings>

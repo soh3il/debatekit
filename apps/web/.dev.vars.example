@@ -1,34 +1,40 @@
-# Web App Secrets for Local Wrangler Development
-# Copy this file to .dev.vars and add your actual secret values
+# ============================================================================
+# DebateKit Web — Local Development Secrets
+# ============================================================================
 #
-# These secrets are loaded by wrangler during local development.
-# For deployed environments, use `wrangler secret put <NAME>` instead.
+# WHAT THIS FILE IS:
+#   Runtime secrets for the web app's SSR worker (`debatekit-web`,
+#   TanStack Start on Cloudflare Workers). Wrangler loads `.dev.vars`
+#   automatically during `wrangler dev` and exposes them as `env.*`.
 #
-# SECURITY: Never commit .dev.vars - it contains real secrets!
+# HOW TO USE:
+#   cp .dev.vars.example .dev.vars
+#   Then fill in real values. `.dev.vars` is gitignored.
+#
+# IMPORTANT:
+#   The web app currently has NO required server-side secrets — all auth,
+#   AI calls, payments, etc. happen via the API worker (apps/api) and the
+#   browser hits it directly with credentialed fetches.
+#
+#   Public, browser-exposed config (PostHog client key, maintenance flag,
+#   env label) is committed in apps/web/.env / .env.preview / .env.production
+#   as `VITE_*` vars, statically replaced by Vite at build time.
+#
+#   This file exists for future server-only secrets (e.g. a server-side
+#   PostHog feature-flag personal key, an SSR-only third-party API). Add
+#   them here as needed and run `wrangler secret put <NAME> --env <env>`
+#   for deployed envs.
+#
+# DEPLOYING:
+#   For preview/production:
+#     wrangler secret put <NAME> --env preview
+#     wrangler secret put <NAME> --env production
+# ============================================================================
+
 
 # ============================================================================
-# AUTHENTICATION SECRETS
+# (no required secrets yet — add SSR-only secrets here as the app grows)
 # ============================================================================
 
-# Better Auth Session Encryption
-# Minimum 32 characters, used to encrypt session cookies
-# MUST match the API's BETTER_AUTH_SECRET for session compatibility
-BETTER_AUTH_SECRET=your-better-auth-secret-min-32-characters-here
-
-# Google OAuth Client Secret
-# Get from: https://console.cloud.google.com/apis/credentials
-AUTH_GOOGLE_SECRET=your-google-oauth-client-secret
-
-# ============================================================================
-# AWS SES EMAIL SERVICE (for magic link emails)
-# ============================================================================
-
-# AWS IAM credentials with SES permissions
-# Create dedicated IAM user with only SES:SendEmail permission
-AWS_SES_ACCESS_KEY_ID=your-aws-access-key-id
-AWS_SES_SECRET_ACCESS_KEY=your-aws-secret-access-key
-
-# SES Region and Email Configuration
-AWS_SES_REGION=eu-north-1
-FROM_EMAIL=noreply@debatekit.ai
-SES_REPLY_TO_EMAIL=support@debatekit.ai
+# Example (uncomment and rename when adding a secret):
+# MY_SERVER_ONLY_API_KEY=<get-from-service-console>
