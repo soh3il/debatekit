@@ -1,5 +1,4 @@
 #!/usr/bin/env bunx tsx
-/* eslint-disable no-console */
 /**
  * User Upgrade Script
  *

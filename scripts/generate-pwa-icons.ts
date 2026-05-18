@@ -68,7 +68,7 @@ async function generateIcons() {
         .png()
         .toFile(outputPath);
     }
-  } catch (error) {
+  } catch {
     process.exit(1);
   }
 }

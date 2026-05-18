@@ -38,6 +38,18 @@ async function createRootConfig(): Promise<Linter.Config[]> {
     },
   });
 
+  // Build/maintenance scripts: allow console output and dynamic fs paths.
+  // These scripts are CLI tools (run via `bun run i18n:*`, `tsx scripts/*.ts`)
+  // where console logging is the intended UX and file paths are intentionally
+  // constructed from CLI args / glob results.
+  configs.push({
+    files: ['scripts/**/*.ts'],
+    rules: {
+      'no-console': 'off',
+      'security/detect-non-literal-fs-filename': 'off',
+    },
+  });
+
   return configs;
 }
 

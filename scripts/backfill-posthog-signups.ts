@@ -1,4 +1,4 @@
-/* eslint-disable no-console, security/detect-non-literal-fs-filename, no-promise-executor-return */
+/* eslint-disable no-promise-executor-return */
 /**
  * Backfill PostHog signup events from D1 database export.
  *

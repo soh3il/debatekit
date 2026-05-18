@@ -1,5 +1,4 @@
 #!/usr/bin/env tsx
-/* eslint-disable no-console, security/detect-non-literal-fs-filename */
 /**
  * E2E Auth Setup Script
  * Creates test users, authenticates them, and saves auth state for Playwright
