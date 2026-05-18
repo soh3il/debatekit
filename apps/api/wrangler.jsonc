@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": "worker.ts",
   "name": "debatekit-api",
-  "account_id": "c21c4d074e34a8b1b9d335a41c2f69e3",
+  "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
   "compatibility_date": "2026-01-20",
   "compatibility_flags": ["nodejs_compat"],
   "minify": true,

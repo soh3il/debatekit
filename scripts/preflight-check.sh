@@ -21,7 +21,7 @@ set -o pipefail
 # Constants
 # ---------------------------------------------------------------------------
 
-readonly EXPECTED_ACCOUNT_ID="c21c4d074e34a8b1b9d335a41c2f69e3"
+readonly EXPECTED_ACCOUNT_ID="67bc7b518b92a0c406ac9b8526ddbb6d"
 readonly EXPECTED_ACCOUNT_LABEL="Soheil"
 readonly EXPECTED_REPO_SSH="git@github.com:soh3il/debatekit.git"
 readonly EXPECTED_REPO_HTTPS="https://github.com/soh3il/debatekit.git"

@@ -28,7 +28,7 @@ All inbound forwards to: `ava@deadpixel.ai`, `soheil@deadpixel.ai`.
 
 ### Option A — set up via dashboard (recommended for first run)
 
-1. Open <https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/debatekit.com/email/routing>.
+1. Open <https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/debatekit.com/email/routing>.
 2. Click **Enable Email Routing**. Cloudflare adds the MX and SPF records to the zone automatically.
 3. Under **Destination addresses**, add `ava@deadpixel.ai` and `soheil@deadpixel.ai`. Cloudflare emails each address a confirm link — both recipients must click it.
 4. Under **Routing rules**, create:

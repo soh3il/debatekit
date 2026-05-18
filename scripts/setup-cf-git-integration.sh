@@ -34,7 +34,7 @@
 #                            "Workers Builds: Edit" scopes. Create at
 #                            https://dash.cloudflare.com/profile/api-tokens
 #   - CLOUDFLARE_ACCOUNT_ID  defaults to the value baked into wrangler.jsonc
-#                            (c21c4d074e34a8b1b9d335a41c2f69e3).
+#                            (67bc7b518b92a0c406ac9b8526ddbb6d).
 #
 # Idempotency: if a build config already exists, the API call is logged as
 # "exists" and skipped. The plan output is always idempotent — re-running it
@@ -45,7 +45,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-ACCOUNT_ID_DEFAULT="c21c4d074e34a8b1b9d335a41c2f69e3"
+ACCOUNT_ID_DEFAULT="67bc7b518b92a0c406ac9b8526ddbb6d"
 GITHUB_REPO="soh3il/debatekit"
 GITHUB_PROD_BRANCH="main"
 

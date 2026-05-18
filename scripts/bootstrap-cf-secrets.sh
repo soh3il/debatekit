@@ -8,7 +8,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-EXPECTED_ACCOUNT_ID="c21c4d074e34a8b1b9d335a41c2f69e3"
+EXPECTED_ACCOUNT_ID="67bc7b518b92a0c406ac9b8526ddbb6d"
 
 # Parallel arrays: APP_KEYS[i] → APP_DIRS[i].
 APP_KEYS=(api  web      mcp      slack                  telegram                  whatsapp)

@@ -349,7 +349,7 @@ Then DM the bot `/start` → integration replies.
 
 - **Why we use it.** Bot protection on sign-in, sign-up, and password reset flows. Client renders the widget; `apps/api` verifies the token server-side.
 - **Login URL.** <https://dash.cloudflare.com/> → pick the deadpixel account → left nav → **Turnstile**.
-- **Identity.** Cloudflare account `c21c4d074e34a8b1b9d335a41c2f69e3` (Soheil's). Access via SSO or shared 1Password login.
+- **Identity.** Cloudflare account `67bc7b518b92a0c406ac9b8526ddbb6d` (Soheil's). Access via SSO or shared 1Password login.
 
 ### Steps
 
@@ -630,7 +630,7 @@ If you ever rotate `BETTER_AUTH_SECRET`, all existing sessions are immediately i
 
 Provisioning has dependencies — the wrong order means rework. Recommended sequence:
 
-1. **Cloudflare account access.** Confirm `ava@deadpixel.ai` has access to Soheil's Cloudflare account `c21c4d074e34a8b1b9d335a41c2f69e3` (SSO or shared password). Without this you can't add the domain or provision workers / KV / D1 / R2 / Queues / Turnstile.
+1. **Cloudflare account access.** Confirm `ava@deadpixel.ai` has access to Soheil's Cloudflare account `67bc7b518b92a0c406ac9b8526ddbb6d` (SSO or shared password). Without this you can't add the domain or provision workers / KV / D1 / R2 / Queues / Turnstile.
 2. **Register `debatekit.com`** at Cloudflare Registrar (or transfer in), and add the zone to the account above.
 3. **Provision Cloudflare resources** — run `scripts/provision-cf-resources.sh` (or follow `docs/ENV_VARS.md` § 1–2) to create D1, KV, R2, Queues, AI binding, Durable Object. Capture all resource IDs into the wrangler.jsonc files.
 4. **Cloudflare Turnstile widget** (§7) — needs the zone to exist for domain whitelisting. The site key already in the repo is fine to reuse.

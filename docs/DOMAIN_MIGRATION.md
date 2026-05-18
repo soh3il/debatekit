@@ -12,7 +12,7 @@ This runbook walks the operator through registering `debatekit.com` (if not alre
 
 ## 1. Prerequisites
 
-- [ ] Cloudflare access: log in as `ava@deadpixel.ai` via Google SSO at https://dash.cloudflare.com/login, then switch to **Soheil's account** (id `c21c4d074e34a8b1b9d335a41c2f69e3`) via the account switcher in the top-left.
+- [ ] Cloudflare access: log in as `ava@deadpixel.ai` via Google SSO at https://dash.cloudflare.com/login, then switch to **Soheil's account** (id `67bc7b518b92a0c406ac9b8526ddbb6d`) via the account switcher in the top-left.
 - [ ] GoDaddy access: log in as `firstexhotic@gmail.com` at https://sso.godaddy.com/login (Ava's personal GoDaddy).
 - [ ] Decide: is `debatekit.com` already registered?
   - Check via WHOIS: https://www.whois.com/whois/debatekit.com
@@ -43,7 +43,7 @@ Steps:
 
 ## 3. Add zone to Cloudflare
 
-1. Open https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/add-site
+1. Open https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/add-site
 2. Enter `debatekit.com` and click **Continue**.
 3. Select **Free** plan. (Free is sufficient for our needs. Upgrade later only if we want WAF rules, Argo Smart Routing, or Image Resizing.)
 4. Cloudflare will scan existing DNS records. For a freshly registered domain this should be **empty** — that's fine.
@@ -66,7 +66,7 @@ Steps:
 ## 5. Wait for propagation
 
 - Typical wait: **5–30 min** for a freshly registered domain; up to **24h** for older domains with cached NS records.
-- Cloudflare will email Soheil's account email (`ava@deadpixel.ai` if logged in via that SSO) when activation completes. Zone status will flip to **Active** in https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/debatekit.com
+- Cloudflare will email Soheil's account email (`ava@deadpixel.ai` if logged in via that SSO) when activation completes. Zone status will flip to **Active** in https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/debatekit.com
 - Optional local check (operator runs):
 
   ```bash
@@ -166,7 +166,7 @@ In the Cloudflare dashboard for the `debatekit.com` zone:
 After NS swap + Workers deploy:
 
 - [ ] `dig +short NS debatekit.com @8.8.8.8` returns two `*.ns.cloudflare.com` entries
-- [ ] Cloudflare zone status shows **Active** (https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/debatekit.com)
+- [ ] Cloudflare zone status shows **Active** (https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/debatekit.com)
 - [ ] `https://debatekit.com` loads and the browser shows a Cloudflare-issued cert (click the padlock → "Certificate is valid" → issuer is Google Trust Services or Let's Encrypt via CF)
 - [ ] Each Worker's custom domain appears under **Workers & Pages → `<worker>` → Settings → Triggers → Custom Domains** with status **Active**
 - [ ] No "I'm not the DNS authority for this zone" warning in the CF zone overview banner
@@ -207,8 +207,8 @@ For a permanent removal: delete the zone from CF afterward via **Manage Account 
 
 ## Appendix — useful links
 
-- Cloudflare account: https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3
-- Add a zone: https://dash.cloudflare.com/c21c4d074e34a8b1b9d335a41c2f69e3/add-site
+- Cloudflare account: https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d
+- Add a zone: https://dash.cloudflare.com/67bc7b518b92a0c406ac9b8526ddbb6d/add-site
 - GoDaddy portfolio: https://dcc.godaddy.com/control/portfolio
 - GoDaddy DNS for debatekit.com: https://dcc.godaddy.com/manage/dns?domainName=debatekit.com
 - GoDaddy registration search: https://www.godaddy.com/domainsearch/find?domainToCheck=debatekit.com
