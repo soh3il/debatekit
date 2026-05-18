@@ -192,7 +192,7 @@
         { "binding": "KV", "id": "146b84bc30474873a73161b779c19b81", "preview_id": "146b84bc30474873a73161b779c19b81" }
       ],
       "r2_buckets": [
-        { "binding": "UPLOADS_R2_BUCKET", "bucket_name": "debatekit-dashboard-r2-uploads-preview-weur", "preview_bucket_name": "debatekit-dashboard-r2-uploads-preview-weur" }
+        { "binding": "UPLOADS_R2_BUCKET", "bucket_name": "debatekit-dashboard-r2-uploads-preview-weur", "preview_bucket_name": "debatekit-dashboard-r2-uploads-preview-weur", "location_hint": "weur" }
       ],
       "ai": { "binding": "AI", "remote": true },
       "durable_objects": {
@@ -260,7 +260,7 @@
         { "binding": "KV", "id": "8c335928a67d4d5db3de6e52f685296f", "preview_id": "8c335928a67d4d5db3de6e52f685296f" }
       ],
       "r2_buckets": [
-        { "binding": "UPLOADS_R2_BUCKET", "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur", "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur" }
+        { "binding": "UPLOADS_R2_BUCKET", "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur", "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur", "location_hint": "weur" }
       ],
       "ai": { "binding": "AI", "remote": true },
       "durable_objects": {

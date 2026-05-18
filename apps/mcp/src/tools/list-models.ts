@@ -1,7 +1,7 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getMultiplierForModelId } from '@debatekit/shared';
 import type { McpThinkingLevel } from '@debatekit/shared/enums';
 import { MCP_THINKING_LEVELS } from '@debatekit/shared/enums';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 
 import { ensureRegistry, getAllRegistryModels } from '../engine/model-registry';

@@ -1,5 +1,5 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { DEFAULT_CHAT_MODE, DEFAULT_MCP_OUTPUT_FORMAT, DEFAULT_MCP_THINKING_LEVEL } from '@debatekit/shared/enums';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { analyzeForAutoMode } from '../engine/auto-mode';
 import { MIN_PARTICIPANTS, THINKING_PRESETS } from '../engine/presets';

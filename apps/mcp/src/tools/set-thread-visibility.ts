@@ -1,6 +1,6 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { createDb } from '@debatekit/db/factory';
 import { findThreadByMcpSessionId, updateThreadVisibility, verifySessionOwnership } from '@debatekit/db/services';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getMcpAuthContext } from 'agents/mcp';
 import { z } from 'zod';
 

@@ -1,5 +1,5 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { formatMs } from '@debatekit/shared';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getMcpAuthContext } from 'agents/mcp';
 import { z } from 'zod';
 

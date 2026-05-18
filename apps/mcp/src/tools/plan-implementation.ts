@@ -1,5 +1,5 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { DEFAULT_MCP_THINKING_LEVEL } from '@debatekit/shared/enums';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { buildKnowledgeContext, buildPriorSessionContext } from '../lib/context-helpers';
 import { debateErrorResult, executeDebate, resolveDebateAuth } from '../lib/debate-tool-runner';
