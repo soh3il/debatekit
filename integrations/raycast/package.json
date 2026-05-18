@@ -1,0 +1,108 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "debatekit",
+  "version": "1.0.0",
+  "title": "DebateKit",
+  "description": "Consult an AI council — multiple models debate your question, then a moderator synthesizes the best answer.",
+  "icon": "extension-icon.png",
+  "author": "deadpixel",
+  "categories": ["Developer Tools", "Productivity"],
+  "platforms": ["macOS"],
+  "license": "MIT",
+  "preferences": [
+    {
+      "name": "apiKey",
+      "type": "password",
+      "required": true,
+      "title": "API Key",
+      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.ai/chat/settings/api-keys.",
+      "placeholder": "rpnd_..."
+    },
+    {
+      "name": "baseUrl",
+      "type": "textfield",
+      "required": false,
+      "title": "API Base URL",
+      "description": "Override the default API endpoint.",
+      "default": "https://mcp.debatekit.ai",
+      "placeholder": "https://mcp.debatekit.ai"
+    }
+  ],
+  "commands": [
+    {
+      "name": "consult",
+      "title": "Consult DebateKit",
+      "subtitle": "DebateKit",
+      "description": "Ask a question and get responses from multiple AI models with a synthesized summary.",
+      "mode": "view",
+      "icon": "command-consult.png",
+      "keywords": ["ai", "brainstorm", "council", "debate"]
+    },
+    {
+      "name": "review-code",
+      "title": "Review Code",
+      "subtitle": "DebateKit",
+      "description": "Get a multi-model code review with security, performance, and quality analysis.",
+      "mode": "view",
+      "icon": "command-review.png",
+      "keywords": ["review", "code", "lint", "quality"]
+    },
+    {
+      "name": "debug",
+      "title": "Debug Issue",
+      "subtitle": "DebateKit",
+      "description": "Debug a problem with multiple AI models collaborating on root cause analysis.",
+      "mode": "view",
+      "icon": "command-debug.png",
+      "keywords": ["debug", "error", "fix", "bug"]
+    },
+    {
+      "name": "plan-implementation",
+      "title": "Plan Implementation",
+      "subtitle": "DebateKit",
+      "description": "Create step-by-step implementation plans with multi-model input.",
+      "mode": "view",
+      "icon": "command-consult.png",
+      "keywords": ["plan", "implement", "steps", "feature"]
+    },
+    {
+      "name": "assess-tradeoffs",
+      "title": "Assess Tradeoffs",
+      "subtitle": "DebateKit",
+      "description": "Evaluate options and trade-offs with structured multi-model analysis.",
+      "mode": "view",
+      "icon": "command-consult.png",
+      "keywords": ["tradeoffs", "compare", "evaluate", "decision"]
+    },
+    {
+      "name": "sessions",
+      "title": "Recent Sessions",
+      "subtitle": "DebateKit",
+      "description": "Browse your recent DebateKit sessions.",
+      "mode": "view",
+      "icon": "command-sessions.png",
+      "keywords": ["history", "sessions", "past"]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.83.0",
+    "@raycast/utils": "^1.17.0",
+    "@debatekit/integration-shared": "file:../shared"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "eslint": "^8.57.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"Error: no publish\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "now.debatekit.mcp/debatekit",
+  "title": "DebateKit",
+  "description": "Multi-model AI debates: GPT-4o, Claude, Gemini & 200+ models discuss, then synthesize insight.",
+  "repository": {
+    "url": "https://github.com/deadpixel/debatekit-dashboard",
+    "source": "github"
+  },
+  "version": "1.0.2",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.debatekit.ai/mcp",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "Your DebateKit API key. Get one at https://debatekit.ai/chat/settings/api-keys",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

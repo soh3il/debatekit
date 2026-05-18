@@ -1,0 +1,770 @@
+import {
+  ChatModeSchema,
+  DEFAULT_PROJECT_COLOR,
+  DEFAULT_PROJECT_ICON,
+  PROJECT_LIMITS,
+  ScreenModes,
+  UploadStatuses,
+} from '@debatekit/shared';
+import { Link } from '@tanstack/react-router';
+import type { ChatStatus } from 'ai';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { ChatInput } from '@/components/chat/chat-input';
+import { ChatInputContainer } from '@/components/chat/chat-input-container';
+import { ChatInputHeader } from '@/components/chat/chat-input-header';
+import { ChatInputToolbarMenu } from '@/components/chat/chat-input-toolbar-menu';
+import { ConversationModeModal } from '@/components/chat/conversation-mode-modal';
+import type { ModelSelectionModalProps } from '@/components/chat/model-selection-modal';
+import { useThreadHeader } from '@/components/chat/thread-header-context';
+import { LimitReachedDialog, ProjectIconBadge } from '@/components/projects';
+import { useChatStore, useChatStoreApi, useModelPreferencesStore } from '@/components/providers';
+import { Button } from '@/components/ui/button';
+import { useCustomRolesQuery, useModelsQuery } from '@/hooks/queries';
+import {
+  useBoolean,
+  useChatAttachments,
+  useIsMobile,
+  useModelLookup,
+  useOrderedModels,
+} from '@/hooks/utils';
+import { useSession } from '@/lib/auth/client';
+import { getDefaultChatMode } from '@/lib/config/chat-modes';
+import { MODEL_PRESETS } from '@/lib/config/model-presets';
+import { MIN_PARTICIPANTS_REQUIRED } from '@/lib/config/participant-limits';
+import { useTranslations } from '@/lib/i18n';
+import type { ParticipantConfig } from '@/lib/schemas';
+import { useShallow } from '@/lib/store';
+import { showApiErrorToast, toastManager } from '@/lib/toast';
+import {
+  getApiErrorDetails,
+  getDetailedIncompatibleModelIds,
+  hasNonNullField,
+  isDocumentFile,
+  isImageFile,
+} from '@/lib/utils';
+import dynamic from '@/lib/utils/dynamic';
+import type { GetProjectResponse, Model } from '@/services/api';
+import { ChatPhases, deriveWaitingToStartStreaming, useAutoModeAnalysis, useChatFormActions, useOverviewActions, useOverviewFormCallbacks } from '@/stores/chat';
+
+import { ChatView } from '../chat/ChatView';
+
+const ModelSelectionModal = dynamic<ModelSelectionModalProps>(
+  () => import('@/components/chat/model-selection-modal').then(m => ({ default: m.ModelSelectionModal })),
+  { ssr: false },
+);
+
+type ProjectChatScreenProps = {
+  projectId: string;
+  project: GetProjectResponse['data'] | null;
+};
+
+export default function ProjectChatScreen({ project, projectId }: ProjectChatScreenProps) {
+  const t = useTranslations();
+  const { data: session } = useSession();
+  const sessionUser = session?.user;
+  const storeApi = useChatStoreApi();
+  const { setThreadActions } = useThreadHeader();
+  const isMobile = useIsMobile();
+  const [isThreadLimitDialogOpen, setIsThreadLimitDialogOpen] = useState(false);
+
+  // Check if thread limit is reached for this project
+  const threadCount = project?.threadCount ?? 0;
+  const isThreadLimitReached = threadCount >= PROJECT_LIMITS.MAX_THREADS_PER_PROJECT;
+
+  const { defaultModelId } = useModelLookup();
+  const incompatibleModelIdsRef = useRef<Set<string>>(new Set());
+  const initStateRef = useRef({
+    modelOrder: false,
+    participants: false,
+    reset: false,
+    sync: false,
+    threadActions: false,
+  });
+
+  const {
+    _hasHydrated: preferencesHydrated,
+    enableWebSearch: persistedWebSearch,
+    modelOrder: persistedModelOrder,
+    selectedMode: persistedMode,
+    selectedModelIds: persistedModelIds,
+    setModelOrder: setPersistedModelOrder,
+    setSelectedMode: setPersistedMode,
+    setSelectedModelIds: setPersistedModelIds,
+    syncWithAccessibleModels,
+  } = useModelPreferencesStore(useShallow(s => ({
+    _hasHydrated: s._hasHydrated,
+    enableWebSearch: s.enableWebSearch,
+    modelOrder: s.modelOrder,
+    selectedMode: s.selectedMode,
+    selectedModelIds: s.selectedModelIds,
+    setModelOrder: s.setModelOrder,
+    setSelectedMode: s.setSelectedMode,
+    setSelectedModelIds: s.setSelectedModelIds,
+    syncWithAccessibleModels: s.syncWithAccessibleModels,
+  })));
+
+  const {
+    addParticipant,
+    autoMode,
+    createdThreadId,
+    dataSources,
+    enableWebSearch,
+    inputValue,
+    isAnalyzingPrompt,
+    isCreatingThread,
+    isStreaming,
+    modelOrder,
+    removeParticipant,
+    resetToOverview,
+    selectedMode,
+    selectedParticipants,
+    setEnableWebSearch,
+    setInputValue,
+    setModelOrder,
+    setSelectedMode,
+    setSelectedParticipants,
+    showInitialUI,
+    updateParticipant,
+    waitingToStartStreaming,
+  } = useChatStore(
+    useShallow(s => ({
+      addParticipant: s.addParticipant,
+      autoMode: s.autoMode,
+      createdThreadId: s.createdThreadId,
+      dataSources: s.dataSources,
+      enableWebSearch: s.enableWebSearch,
+      inputValue: s.inputValue,
+      isAnalyzingPrompt: s.isAnalyzingPrompt,
+      isCreatingThread: s.isCreatingThread,
+      // Derive streaming state from phase (source of truth)
+      isStreaming: s.phase === ChatPhases.PRESEARCH
+        || s.phase === ChatPhases.PARTICIPANTS
+        || s.phase === ChatPhases.MODERATOR,
+      modelOrder: s.modelOrder,
+      removeParticipant: s.removeParticipant,
+      resetToOverview: s.resetToOverview,
+      selectedMode: s.selectedMode,
+      selectedParticipants: s.selectedParticipants,
+      setEnableWebSearch: s.setEnableWebSearch,
+      setInputValue: s.setInputValue,
+      setModelOrder: s.setModelOrder,
+      setSelectedMode: s.setSelectedMode,
+      setSelectedParticipants: s.setSelectedParticipants,
+      showInitialUI: s.showInitialUI,
+      updateParticipant: s.updateParticipant,
+      // Derive waiting state from phase + pendingMessage (source of truth)
+      waitingToStartStreaming: deriveWaitingToStartStreaming(s.phase, s.pendingMessage),
+    })),
+  );
+
+  const showChatView = !showInitialUI && createdThreadId;
+
+  const modeModal = useBoolean(false);
+  const modelModal = useBoolean(false);
+
+  const chatAttachments = useChatAttachments();
+  const attachmentClickRef = useRef<(() => void) | null>(null);
+
+  const { data: modelsData, isLoading: isModelsLoading } = useModelsQuery();
+  const { data: customRolesData } = useCustomRolesQuery(modelModal.value && !isStreaming);
+  const { analyzeAndApply } = useAutoModeAnalysis(false); // Don't sync to preferences for project chats
+  const formActions = useChatFormActions();
+
+  // Handle URL updates for overview actions
+  useOverviewActions({ projectId });
+
+  const allEnabledModels = useMemo(() => {
+    if (!modelsData?.success) {
+      return [];
+    }
+    return modelsData.data.items;
+  }, [modelsData]);
+
+  const customRoles = useMemo(() => {
+    if (!customRolesData?.pages) {
+      return [];
+    }
+    return customRolesData.pages.flatMap((page) => {
+      if (!page?.success) {
+        return [];
+      }
+      return page.data.items;
+    });
+  }, [customRolesData?.pages]);
+
+  const userTierConfig = useMemo(() => {
+    if (!modelsData?.success) {
+      return undefined;
+    }
+    return modelsData.data.user_tier_config;
+  }, [modelsData]);
+
+  const accessibleModelIds = useMemo(() => {
+    if (allEnabledModels.length === 0) {
+      return [];
+    }
+    return allEnabledModels
+      .filter((m: Model) => m.is_accessible_to_user)
+      .map((m: Model) => m.id);
+  }, [allEnabledModels]);
+
+  const initialParticipants = useMemo<ParticipantConfig[]>(() => {
+    const firstPreset = MODEL_PRESETS[0];
+    if (!preferencesHydrated || accessibleModelIds.length === 0) {
+      return [];
+    }
+
+    if (persistedModelIds.length > 0) {
+      const validIds = persistedModelIds.filter(id => accessibleModelIds.includes(id));
+      if (validIds.length > 0) {
+        return validIds.map((modelId, index) => ({
+          id: modelId,
+          modelId,
+          priority: index,
+          role: '',
+        }));
+      }
+    }
+
+    if (firstPreset) {
+      const accessibleSet = new Set(accessibleModelIds);
+      const presetParticipants = firstPreset.modelRoles
+        .filter(mr => accessibleSet.has(mr.modelId))
+        .map((mr, index) => ({
+          id: mr.modelId,
+          modelId: mr.modelId,
+          priority: index,
+          role: mr.role,
+        }));
+      if (presetParticipants.length > 0) {
+        return presetParticipants;
+      }
+    }
+
+    const defaultIds = accessibleModelIds.slice(0, 3);
+    if (defaultIds.length > 0) {
+      return defaultIds.map((modelId: string, index: number) => ({
+        id: modelId,
+        modelId,
+        priority: index,
+        role: '',
+      }));
+    }
+
+    if (defaultModelId) {
+      return [{
+        id: defaultModelId,
+        modelId: defaultModelId,
+        priority: 0,
+        role: '',
+      }];
+    }
+
+    return [];
+  }, [preferencesHydrated, accessibleModelIds, persistedModelIds, defaultModelId]);
+
+  const orderedModels = useOrderedModels({
+    allEnabledModels,
+    modelOrder,
+    selectedParticipants,
+  });
+
+  const { fileIncompatibleModelIds, incompatibleModelIds, visionIncompatibleModelIds } = useMemo(() => {
+    const incompatible = new Set<string>();
+    const visionIncompatible = new Set<string>();
+    const fileIncompatible = new Set<string>();
+
+    for (const model of allEnabledModels) {
+      if (!model.is_accessible_to_user) {
+        incompatible.add(model.id);
+      }
+    }
+
+    // Overview/new-chat screen: no existing thread messages, only check new attachments
+    const hasImageFiles = chatAttachments.attachments.some(att => isImageFile(att.file.type));
+    const hasDocumentFiles = chatAttachments.attachments.some(att => isDocumentFile(att.file.type));
+
+    const filesToCheck: { mimeType: string }[] = [];
+    if (hasImageFiles) {
+      filesToCheck.push({ mimeType: 'image/png' });
+    }
+    if (hasDocumentFiles) {
+      filesToCheck.push({ mimeType: 'application/pdf' });
+    }
+
+    if (filesToCheck.length > 0) {
+      const modelsWithCapabilities = allEnabledModels.map((m: Model) => ({
+        capabilities: {
+          file: m.supports_file,
+          vision: m.supports_vision,
+        },
+        id: m.id,
+      }));
+      const detailed = getDetailedIncompatibleModelIds(modelsWithCapabilities, filesToCheck);
+      for (const id of detailed.incompatibleIds) {
+        incompatible.add(id);
+      }
+      for (const id of detailed.visionIncompatibleIds) {
+        visionIncompatible.add(id);
+      }
+      for (const id of detailed.fileIncompatibleIds) {
+        fileIncompatible.add(id);
+      }
+    }
+
+    return { fileIncompatibleModelIds: fileIncompatible, incompatibleModelIds: incompatible, visionIncompatibleModelIds: visionIncompatible };
+  }, [chatAttachments.attachments, allEnabledModels]);
+
+  useEffect(() => {
+    incompatibleModelIdsRef.current = incompatibleModelIds;
+  }, [incompatibleModelIds]);
+
+  const formCallbacks = useOverviewFormCallbacks({
+    accessibleModelIds,
+    fallbackParticipants: initialParticipants,
+    incompatibleModelIds,
+    incompatibleModelIdsRef,
+  });
+
+  // Reset store on mount (once only)
+  useEffect(() => {
+    if (!initStateRef.current.reset) {
+      initStateRef.current.reset = true;
+      resetToOverview();
+    }
+  }, [resetToOverview]);
+
+  // Initialize state progressively as data becomes available
+  useEffect(() => {
+    const init = initStateRef.current;
+
+    // Initialize model order
+    if (
+      !init.modelOrder
+      && allEnabledModels.length > 0
+      && modelOrder.length === 0
+      && preferencesHydrated
+    ) {
+      init.modelOrder = true;
+      let fullOrder: string[];
+      if (persistedModelOrder.length > 0) {
+        const availableIds = new Set(allEnabledModels.map((m: Model) => m.id));
+        const validPersistedOrder = persistedModelOrder.filter((id: string) => availableIds.has(id));
+        const newModelIds = allEnabledModels
+          .filter((m: Model) => !validPersistedOrder.includes(m.id))
+          .map((m: Model) => m.id);
+        fullOrder = [...validPersistedOrder, ...newModelIds];
+      } else {
+        fullOrder = allEnabledModels.map((m: Model) => m.id);
+      }
+      setModelOrder(fullOrder);
+    }
+
+    // Initialize participants
+    if (
+      !init.participants
+      && selectedParticipants.length === 0
+      && defaultModelId
+      && initialParticipants.length > 0
+    ) {
+      init.participants = true;
+      setSelectedParticipants(initialParticipants);
+      if (!selectedMode) {
+        const modeResult = ChatModeSchema.safeParse(persistedMode);
+        const firstPreset = MODEL_PRESETS[0];
+        const defaultMode = firstPreset?.mode ?? getDefaultChatMode();
+        setSelectedMode(modeResult.success ? modeResult.data : defaultMode);
+      }
+      const firstPreset = MODEL_PRESETS[0];
+      const defaultWebSearch = firstPreset?.searchEnabled === true;
+      setEnableWebSearch(persistedWebSearch ?? defaultWebSearch);
+    }
+
+    // Sync accessible models
+    if (
+      !init.sync
+      && preferencesHydrated
+      && accessibleModelIds.length > 0
+    ) {
+      init.sync = true;
+      syncWithAccessibleModels(accessibleModelIds);
+    }
+
+    // Clear thread actions for project new chat screen
+    if (!init.threadActions) {
+      init.threadActions = true;
+      setThreadActions(null);
+    }
+  }, [
+    allEnabledModels,
+    modelOrder.length,
+    persistedModelOrder,
+    setModelOrder,
+    preferencesHydrated,
+    selectedParticipants.length,
+    defaultModelId,
+    initialParticipants,
+    setSelectedParticipants,
+    selectedMode,
+    persistedMode,
+    setSelectedMode,
+    persistedWebSearch,
+    setEnableWebSearch,
+    accessibleModelIds,
+    syncWithAccessibleModels,
+    setThreadActions,
+  ]);
+
+  const isOperationBlocked = isStreaming || isCreatingThread || waitingToStartStreaming || formActions.isSubmitting || isAnalyzingPrompt;
+  const isToggleDisabled = isOperationBlocked;
+
+  const handleAttachmentClick = useCallback(() => {
+    attachmentClickRef.current?.();
+  }, []);
+
+  const handlePromptSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!inputValue.trim() || isOperationBlocked) {
+      return;
+    }
+
+    // Check thread limit before proceeding
+    if (isThreadLimitReached) {
+      setIsThreadLimitDialogOpen(true);
+      return;
+    }
+
+    if (!chatAttachments.allUploaded) {
+      return;
+    }
+
+    if (autoMode && inputValue.trim()) {
+      const hasImageFiles = chatAttachments.attachments.some(att => isImageFile(att.file.type));
+      const hasDocumentFiles = chatAttachments.attachments.some(att => isDocumentFile(att.file.type));
+      const accessibleSet = new Set<string>(accessibleModelIds);
+
+      await analyzeAndApply({
+        accessibleModelIds: accessibleSet,
+        hasDocumentFiles,
+        hasImageFiles,
+        prompt: inputValue.trim(),
+      });
+    }
+
+    const currentParticipants = storeApi.getState().selectedParticipants;
+    if (currentParticipants.length < MIN_PARTICIPANTS_REQUIRED) {
+      return;
+    }
+
+    try {
+      const attachmentIds = chatAttachments.getUploadIds();
+      const attachmentInfos = chatAttachments.attachments
+        .filter(att => att.status === UploadStatuses.COMPLETED && att.uploadId)
+        .map((att) => {
+          if (!att.uploadId) {
+            throw new Error('Upload ID required');
+          }
+          return {
+            filename: att.file.name,
+            mimeType: att.file.type,
+            previewUrl: att.preview?.url,
+            uploadId: att.uploadId,
+          };
+        });
+
+      await formActions.handleCreateThread(attachmentIds, attachmentInfos, projectId);
+      chatAttachments.clearAttachments();
+    } catch (error) {
+      // Check if this is a thread limit error from the API
+      const errorDetails = getApiErrorDetails(error);
+      const isLimitError = errorDetails.message.toLowerCase().includes('thread limit')
+        || errorDetails.message.toLowerCase().includes('limit reached');
+      if (isLimitError) {
+        setIsThreadLimitDialogOpen(true);
+      } else {
+        showApiErrorToast('Error creating thread', error);
+      }
+    }
+  }, [inputValue, isOperationBlocked, isThreadLimitReached, chatAttachments, autoMode, accessibleModelIds, analyzeAndApply, storeApi, formActions, projectId]);
+
+  const handleToggleModel = useCallback((modelId: string) => {
+    const orderedModel = orderedModels.find(om => om.model.id === modelId);
+    if (!orderedModel) {
+      return;
+    }
+
+    if (orderedModel.participant) {
+      removeParticipant(modelId);
+      const currentParticipants = storeApi.getState().selectedParticipants;
+      setPersistedModelIds(currentParticipants.map(p => p.modelId));
+    } else {
+      const latestIncompatible = incompatibleModelIdsRef.current;
+      if (latestIncompatible.has(modelId)) {
+        toastManager.warning(t('chat.models.cannotSelectModel'), t('chat.models.modelIncompatibleWithFiles'));
+        return;
+      }
+
+      const newParticipant: ParticipantConfig = {
+        id: modelId,
+        modelId,
+        priority: 0,
+        role: '',
+      };
+      addParticipant(newParticipant);
+      const currentParticipants = storeApi.getState().selectedParticipants;
+      setPersistedModelIds(currentParticipants.map(p => p.modelId));
+    }
+  }, [orderedModels, removeParticipant, addParticipant, setPersistedModelIds, storeApi, t]);
+
+  const handleRoleChange = useCallback((modelId: string, role: string, customRoleId?: string) => {
+    updateParticipant(modelId, { customRoleId, role });
+  }, [updateParticipant]);
+
+  const handleClearRole = useCallback(
+    (modelId: string) => updateParticipant(modelId, { customRoleId: undefined, role: '' }),
+    [updateParticipant],
+  );
+
+  const handleReorderModels = useCallback((newOrder: typeof orderedModels) => {
+    const newModelOrder = newOrder.map(om => om.model.id);
+    setModelOrder(newModelOrder);
+
+    const reorderedParticipants = newOrder
+      .filter(hasNonNullField('participant'))
+      .map((om, index) => ({ ...om.participant, priority: index }));
+    setSelectedParticipants(reorderedParticipants);
+
+    setPersistedModelOrder(newModelOrder);
+    setPersistedModelIds(reorderedParticipants.map(p => p.modelId));
+  }, [setSelectedParticipants, setModelOrder, setPersistedModelOrder, setPersistedModelIds]);
+
+  const chatInputToolbar = useMemo(() => (
+    <ChatInputToolbarMenu
+      selectedParticipants={selectedParticipants}
+      allModels={allEnabledModels}
+      onOpenModelModal={() => modelModal.onTrue()}
+      selectedMode={selectedMode || getDefaultChatMode()}
+      onOpenModeModal={() => modeModal.onTrue()}
+      enableWebSearch={enableWebSearch}
+      onWebSearchToggle={formCallbacks.handleWebSearchToggle}
+      dataSources={dataSources}
+      onDataSourceToggle={formCallbacks.handleDataSourceToggle}
+      onAttachmentClick={handleAttachmentClick}
+      attachmentCount={chatAttachments.attachments.length}
+      enableAttachments={!isOperationBlocked}
+      disabled={isOperationBlocked}
+      autoMode={autoMode}
+      isModelsLoading={isModelsLoading}
+    />
+  ), [
+    selectedParticipants,
+    allEnabledModels,
+    modelModal,
+    selectedMode,
+    modeModal,
+    enableWebSearch,
+    formCallbacks.handleWebSearchToggle,
+    dataSources,
+    formCallbacks.handleDataSourceToggle,
+    handleAttachmentClick,
+    chatAttachments.attachments.length,
+    isOperationBlocked,
+    isModelsLoading,
+    autoMode,
+  ]);
+
+  const sharedChatInputProps = useMemo(() => {
+    const status: ChatStatus = isOperationBlocked ? 'submitted' : 'ready';
+    return {
+      attachmentClickRef,
+      attachments: chatAttachments.attachments,
+      autoMode,
+      enableAttachments: !isOperationBlocked,
+      isModelsLoading,
+      isSubmitting: formActions.isSubmitting,
+      isUploading: chatAttachments.isUploading,
+      onAddAttachments: chatAttachments.addFiles,
+      onChange: setInputValue,
+      onRemoveAttachment: chatAttachments.removeAttachment,
+      onRemoveParticipant: isOperationBlocked ? undefined : removeParticipant,
+      onSubmit: handlePromptSubmit,
+      participants: selectedParticipants,
+      placeholder: t('chat.input.placeholder'),
+      status,
+      toolbar: chatInputToolbar,
+      value: inputValue,
+    };
+  }, [
+    inputValue,
+    setInputValue,
+    handlePromptSubmit,
+    isOperationBlocked,
+    isModelsLoading,
+    t,
+    selectedParticipants,
+    removeParticipant,
+    chatAttachments.attachments,
+    chatAttachments.addFiles,
+    chatAttachments.removeAttachment,
+    chatInputToolbar,
+    formActions.isSubmitting,
+    chatAttachments.isUploading,
+    autoMode,
+  ]);
+
+  if (!project) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-destructive">{t('projects.notFound')}</h1>
+          <p className="text-muted-foreground mt-2">
+            {t('projects.notFoundDescription')}
+          </p>
+          <Button asChild className="mt-4">
+            <Link to="/chat">{t('projects.backToChat')}</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="flex flex-col relative flex-1">
+        {showInitialUI && (
+          <>
+            {/* Center content area */}
+            <div className="flex-1 relative flex flex-col items-center justify-center">
+              <div className="container max-w-4xl mx-auto px-5 md:px-6 relative flex flex-col items-center">
+                <div className="w-full">
+                  <div className="flex flex-col items-center gap-3 text-center relative">
+                    {/* Project icon */}
+                    <ProjectIconBadge
+                      icon={project.icon ?? DEFAULT_PROJECT_ICON}
+                      color={project.color ?? DEFAULT_PROJECT_COLOR}
+                      size="xl"
+                      className="size-16 sm:size-20 rounded-xl"
+                      iconClassName="size-8 sm:size-10"
+                    />
+
+                    {/* Project name + helper text */}
+                    <div className="flex flex-col items-center gap-1">
+                      <h1 className="text-xl sm:text-2xl font-semibold text-foreground px-4 leading-tight">
+                        {project.name}
+                      </h1>
+                      <p className="text-sm text-muted-foreground max-w-2xl px-4">
+                        {t('projects.startConversation')}
+                      </p>
+                    </div>
+
+                    {/* Desktop: Input in center */}
+                    {!isMobile && (
+                      <div className="w-full mt-8">
+                        <ChatInputContainer
+                          participants={selectedParticipants}
+                          inputValue={inputValue}
+                          isModelsLoading={isModelsLoading}
+                          autoMode={autoMode}
+                        >
+                          <ChatInputHeader
+                            autoMode={autoMode}
+                            onAutoModeChange={formCallbacks.handleAutoModeChange}
+                            isAnalyzing={isAnalyzingPrompt}
+                            disabled={isToggleDisabled && !isAnalyzingPrompt}
+                            className="border-0 rounded-none"
+                          />
+                          <ChatInput {...sharedChatInputProps} className="border-0 shadow-none rounded-none" hideInternalAlerts />
+                        </ChatInputContainer>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile: Sticky bottom input */}
+            {isMobile && (
+              <div className="sticky bottom-0 z-30 bg-gradient-to-t from-background via-background to-transparent pt-4">
+                <div className="container max-w-4xl mx-auto px-5 pb-4">
+                  <ChatInputContainer
+                    participants={selectedParticipants}
+                    inputValue={inputValue}
+                    isModelsLoading={isModelsLoading}
+                    autoMode={autoMode}
+                  >
+                    <ChatInputHeader
+                      autoMode={autoMode}
+                      onAutoModeChange={formCallbacks.handleAutoModeChange}
+                      isAnalyzing={isAnalyzingPrompt}
+                      disabled={isToggleDisabled && !isAnalyzingPrompt}
+                      className="border-0 rounded-none"
+                    />
+                    <ChatInput {...sharedChatInputProps} className="border-0 shadow-none rounded-none" hideInternalAlerts />
+                  </ChatInputContainer>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {showChatView && (
+          <ChatView
+            user={{
+              image: sessionUser?.image || null,
+              name: sessionUser?.name || 'You',
+            }}
+            mode={ScreenModes.OVERVIEW}
+            onSubmit={handlePromptSubmit}
+            chatAttachments={chatAttachments}
+            threadId={createdThreadId || undefined}
+          />
+        )}
+      </div>
+
+      <ConversationModeModal
+        open={modeModal.value}
+        onOpenChange={modeModal.setValue}
+        selectedMode={selectedMode || getDefaultChatMode()}
+        onModeSelect={(mode) => {
+          setSelectedMode(mode);
+          setPersistedMode(mode);
+          modeModal.onFalse();
+        }}
+      />
+
+      {userTierConfig && (
+        <ModelSelectionModal
+          open={modelModal.value}
+          onOpenChange={modelModal.setValue}
+          orderedModels={orderedModels}
+          onReorder={handleReorderModels}
+          customRoles={customRoles}
+          onToggle={handleToggleModel}
+          onRoleChange={handleRoleChange}
+          onClearRole={handleClearRole}
+          onPresetSelect={formCallbacks.handlePresetSelect}
+          selectedCount={selectedParticipants.length}
+          maxModels={userTierConfig.max_models}
+          userTierInfo={{
+            can_upgrade: userTierConfig.can_upgrade,
+            current_tier: userTierConfig.tier,
+            max_models: userTierConfig.max_models,
+            tier_name: userTierConfig.tier_name,
+          }}
+          visionIncompatibleModelIds={visionIncompatibleModelIds}
+          fileIncompatibleModelIds={fileIncompatibleModelIds}
+        />
+      )}
+
+      {/* Thread Limit Dialog */}
+      <LimitReachedDialog
+        open={isThreadLimitDialogOpen}
+        onOpenChange={setIsThreadLimitDialogOpen}
+        type="thread"
+        max={PROJECT_LIMITS.MAX_THREADS_PER_PROJECT}
+      />
+    </>
+  );
+}

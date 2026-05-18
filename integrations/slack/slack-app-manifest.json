@@ -1,0 +1,86 @@
+{
+  "display_information": {
+    "name": "DebateKit",
+    "description": "Your AI Board of Directors — multi-model AI brainstorming directly in Slack",
+    "background_color": "#1a1a2e",
+    "long_description": "DebateKit brings collaborative AI brainstorming to Slack. Consult GPT-4o, Claude, Gemini, and 200+ AI models on any question — directly from your channels.\n\nHow it works:\n1. Ask a question with /debatekit or @DebateKit\n2. Multiple AI models discuss your question sequentially\n3. A moderator AI synthesizes all perspectives into actionable insight\n\nCommands:\n- /debatekit [question] — General brainstorming and consultation\n- /debatekit-review [code or description] — Expert code reviews and architecture assessments\n- @DebateKit in any channel — Start a multi-model discussion\n- Direct Message — Private AI council sessions\n\nFeatures:\n- 200+ AI models including GPT-4o, Claude 4, Gemini 2.5, Llama, Mistral, and more\n- Three thinking levels: low (fast/cheap), medium (balanced), high (maximum reasoning)\n- Structured output with moderator synthesis and individual model perspectives\n- Slack AI Assistant integration with suggested prompts\n- View full results in the DebateKit web app\n\nSetup:\n1. Install the app to your workspace\n2. Get an API key at debatekit.ai/chat/settings/api-keys\n3. Configure it in the DebateKit App Home tab\n\nLearn more at debatekit.ai"
+  },
+  "features": {
+    "app_home": {
+      "home_tab_enabled": true,
+      "messages_tab_enabled": true,
+      "messages_tab_read_only_enabled": false
+    },
+    "bot_user": {
+      "display_name": "DebateKit",
+      "always_online": true
+    },
+    "assistant_view": {
+      "assistant_description": "Multi-model AI brainstorming — get diverse perspectives from GPT-4o, Claude, Gemini, and 200+ models on any question.",
+      "suggested_prompts": [
+        {
+          "title": "Architecture Decision",
+          "message": "Should we use GraphQL or REST for our new API? Consider scalability, developer experience, and caching."
+        },
+        {
+          "title": "Security Review",
+          "message": "Review our authentication flow for security vulnerabilities and suggest improvements."
+        },
+        {
+          "title": "Brainstorm Ideas",
+          "message": "Brainstorm approaches for improving our CI/CD pipeline to reduce deploy times."
+        }
+      ]
+    },
+    "slash_commands": [
+      {
+        "command": "/debatekit",
+        "url": "https://slack.debatekit.ai/slack/commands",
+        "description": "Consult the AI council on any question",
+        "usage_hint": "[your question or topic]",
+        "should_escape": false
+      },
+      {
+        "command": "/debatekit-review",
+        "url": "https://slack.debatekit.ai/slack/commands",
+        "description": "Get an expert code review or architecture assessment",
+        "usage_hint": "[code or description to review]",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "redirect_urls": [
+      "https://slack.debatekit.ai/slack/oauth/callback"
+    ],
+    "scopes": {
+      "bot": [
+        "assistant:write",
+        "chat:write",
+        "chat:write.public",
+        "commands",
+        "app_mentions:read",
+        "im:history"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://slack.debatekit.ai/slack/events",
+      "bot_events": [
+        "app_home_opened",
+        "app_mention",
+        "assistant_thread_started",
+        "assistant_thread_context_changed",
+        "message.im"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": true,
+      "request_url": "https://slack.debatekit.ai/slack/interactions"
+    },
+    "org_deploy_enabled": true,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

@@ -1,0 +1,55 @@
+identity:
+  name: review_code
+  author: deadpixel
+  label:
+    en_US: Review Code
+description:
+  human:
+    en_US: Get a multi-perspective code review from multiple AI models.
+  llm: Submit code for a multi-model code review. Returns feedback on bugs, style, security, and improvement suggestions.
+parameters:
+  - name: code
+    type: string
+    required: true
+    label:
+      en_US: Code
+    human_description:
+      en_US: The code to review
+    llm_description: The code to review
+    form: llm
+  - name: language
+    type: string
+    required: false
+    label:
+      en_US: Language
+    human_description:
+      en_US: Programming language (auto-detected if not specified)
+    llm_description: Programming language (auto-detected if not specified)
+    form: llm
+  - name: focus
+    type: string
+    required: false
+    label:
+      en_US: Focus Areas
+    human_description:
+      en_US: Comma-separated review focus areas (e.g., security, performance)
+    llm_description: Comma-separated review focus areas (e.g., security, performance)
+    form: form
+  - name: thinking_level
+    type: select
+    required: false
+    label:
+      en_US: Thinking Level
+    human_description:
+      en_US: Review depth
+    options:
+      - value: low
+        label:
+          en_US: Low (quick scan)
+      - value: medium
+        label:
+          en_US: Medium (balanced)
+      - value: high
+        label:
+          en_US: High (thorough)
+    form: form

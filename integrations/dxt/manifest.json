@@ -1,0 +1,123 @@
+{
+  "manifest_version": "0.3",
+  "name": "debatekit",
+  "display_name": "DebateKit — AI Council",
+  "version": "1.0.0",
+  "description": "Consult a council of AI models — they debate your question, then a moderator synthesizes the best answer.",
+  "long_description": "DebateKit lets you consult multiple AI models simultaneously. Each model sees prior responses, creating a rich debate. A moderator then synthesizes the best answer.\n\n**13 tools** including:\n- **consult_council** — Ask anything, get multi-model consensus\n- **review_code** — Security, performance, and quality analysis\n- **debug_issue** — Collaborative root cause analysis\n- **design_architecture** — System design with multiple perspectives\n- **plan_implementation** — Step-by-step implementation plans\n- **assess_tradeoffs** — Evaluate options with structured analysis\n- **check_usage** — Monitor your credit balance\n- **list_models** — See available AI models\n- **list_sessions** / **get_session** — Browse past sessions\n\nPowered by OpenRouter with access to GPT-4o, Claude, Gemini, DeepSeek, and more.",
+  "author": {
+    "name": "Deadpixel",
+    "email": "ava@deadpixel.ai",
+    "url": "https://debatekit.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soh3il/debatekit.git"
+  },
+  "homepage": "https://debatekit.ai",
+  "documentation": "https://debatekit.ai",
+  "support": "https://github.com/soh3il/debatekit/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "DEBATEKIT_API_KEY": "${user_config.api_key}",
+        "DEBATEKIT_BASE_URL": "${user_config.base_url}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "consult_council",
+      "description": "Consult the AI council — multiple models debate your question, then a moderator synthesizes"
+    },
+    {
+      "name": "review_code",
+      "description": "Multi-model code review with security, performance, and quality analysis"
+    },
+    {
+      "name": "debug_issue",
+      "description": "Debug a problem with multiple AI models collaborating on root cause analysis"
+    },
+    {
+      "name": "design_architecture",
+      "description": "Design system architecture with multiple AI perspectives"
+    },
+    {
+      "name": "plan_implementation",
+      "description": "Create step-by-step implementation plans with multi-model input"
+    },
+    {
+      "name": "assess_tradeoffs",
+      "description": "Evaluate options and trade-offs with structured multi-model analysis"
+    },
+    {
+      "name": "check_usage",
+      "description": "Check your DebateKit credit balance and usage"
+    },
+    {
+      "name": "list_models",
+      "description": "List available AI models"
+    },
+    {
+      "name": "list_sessions",
+      "description": "Browse your recent DebateKit sessions"
+    },
+    {
+      "name": "get_session",
+      "description": "Get details of a specific session"
+    },
+    {
+      "name": "get_logs",
+      "description": "Get session logs"
+    },
+    {
+      "name": "get_thread_link",
+      "description": "Get a shareable link to a session thread"
+    },
+    {
+      "name": "set_thread_visibility",
+      "description": "Set thread visibility (public/private)"
+    }
+  ],
+  "keywords": [
+    "ai",
+    "brainstorming",
+    "council",
+    "debate",
+    "multi-model",
+    "code-review",
+    "debugging",
+    "architecture",
+    "mcp"
+  ],
+  "license": "MIT",
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "API Key",
+      "description": "Your DebateKit API key (starts with rpnd_). Get one at debatekit.ai/chat/settings/api-keys.",
+      "sensitive": true,
+      "required": true
+    },
+    "base_url": {
+      "type": "string",
+      "title": "API Base URL",
+      "description": "Override the default API endpoint (advanced).",
+      "default": "https://mcp.debatekit.ai",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "privacy_policies": ["https://debatekit.ai/legal/privacy"]
+}

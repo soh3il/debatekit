@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "crewai-debatekit"
+version = "1.0.0"
+description = "CrewAI tools for DebateKit — multi-model AI brainstorming platform"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "DebateKit", email = "hello@debatekit.ai" }]
+keywords = ["crewai", "debatekit", "ai", "brainstorming", "multi-model"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "crewai>=0.80.0",
+    "httpx>=0.27.0",
+    "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://debatekit.ai"
+Repository = "https://github.com/debatekitAI/debatekit-dashboard"
+Documentation = "https://docs.debatekit.ai"

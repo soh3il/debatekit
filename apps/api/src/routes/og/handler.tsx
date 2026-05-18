@@ -1,0 +1,713 @@
+/**
+ * OG Image Handler
+ *
+ * Generates dynamic Open Graph images for public threads.
+ * Uses @cf-wasm/satori + @cf-wasm/resvg for Cloudflare Workers.
+ * These are dynamically imported to avoid loading 2.4MB+ WASM on every cold start.
+ *
+ * @see /docs/backend-patterns.md - Handler conventions
+ */
+
+import type { RouteHandler } from '@hono/zod-openapi';
+import { OgImageTypes, ThreadStatusSchema } from '@debatekit/shared/enums';
+import { eq, or } from 'drizzle-orm';
+
+import { BRAND } from '@/constants';
+import { createHandler } from '@/core';
+import * as tables from '@/db';
+import { getDbAsync } from '@/db';
+import { PublicThreadCacheTags } from '@/db/cache/cache-tags';
+import {
+  getLogoBase64Sync,
+  getModelIconBase64Sync,
+  getOGFontsSync,
+} from '@/lib/ui/og-assets.generated';
+import { OG_COLORS, OG_HEIGHT, OG_WIDTH, truncateTitle } from '@/lib/ui/og-colors';
+import { rlog } from '@/lib/utils/dev-logger';
+import {
+  createCachedImageResponse,
+  generateOgCacheKey,
+  generateOgVersionHash,
+  getOgImageFromCache,
+  storeOgImageInCache,
+} from '@/services/og-cache/og-cache.service';
+import type { ApiEnv } from '@/types';
+
+import type { ogChatRoute, ogPageRoute } from './route';
+import type { OgPageType } from './schema';
+import { OgChatQuerySchema, OgPageQuerySchema } from './schema';
+
+const OG_CACHE_TTL_SECONDS = 7 * 24 * 60 * 60;
+
+// Rainbow gradient colors from brand logo
+const RAINBOW = BRAND.logoGradient;
+
+/**
+ * Generate OG image with rainbow gradient orbs and model icons
+ */
+async function generateOgImage(params: {
+  title: string;
+  participantModelIds?: string[];
+}): Promise<ArrayBuffer> {
+  const { participantModelIds = [], title } = params;
+  const logoBase64 = getLogoBase64Sync();
+  const fonts = getOGFontsSync();
+
+  // Filter out OpenRouter models and get icons (max 6)
+  const filteredModelIds = participantModelIds.filter(
+    id => !id.toLowerCase().startsWith('openrouter/'),
+  );
+  const modelIcons = filteredModelIds.slice(0, 6).map(modelId => ({
+    icon: getModelIconBase64Sync(modelId),
+    modelId,
+  }));
+
+  // Dynamic import to avoid loading 2.4MB+ WASM on every cold start
+  const { satori } = await import('@cf-wasm/satori/workerd');
+
+  const svg = await satori(
+    (
+      <div
+        style={{
+          backgroundColor: '#0a0a0a',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: 'sans-serif',
+          height: '100%',
+          position: 'relative',
+          width: '100%',
+        }}
+      >
+        {/* Top-right rainbow gradient orb - pink/purple/magenta */}
+        <div
+          style={{
+            background: `radial-gradient(circle at 70% 30%, ${RAINBOW[2]}55, ${RAINBOW[3]}38, ${RAINBOW[4]}22, ${RAINBOW[5]}10, transparent 60%)`,
+            display: 'flex',
+            filter: 'blur(60px)',
+            height: 500,
+            position: 'absolute',
+            right: -50,
+            top: -50,
+            width: 500,
+          }}
+        />
+
+        {/* Bottom-left rainbow gradient orb - blue/cyan/teal */}
+        <div
+          style={{
+            background: `radial-gradient(circle at 30% 70%, ${RAINBOW[6]}45, ${RAINBOW[7]}32, ${RAINBOW[8]}18, ${RAINBOW[9]}08, transparent 55%)`,
+            bottom: -50,
+            display: 'flex',
+            filter: 'blur(70px)',
+            height: 550,
+            left: -50,
+            position: 'absolute',
+            width: 550,
+          }}
+        />
+
+        {/* Main content container */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            padding: 60,
+            position: 'relative',
+            width: '100%',
+          }}
+        >
+          {/* Header with logo */}
+          <div
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 16,
+              marginBottom: 32,
+            }}
+          >
+            {logoBase64
+              ? (
+                  <img
+                    src={logoBase64}
+                    width={56}
+                    height={56}
+                    alt={BRAND.displayName}
+                    style={{ borderRadius: 28 }}
+                  />
+                )
+              : (
+                  <div style={{ display: 'flex', height: 56, width: 56 }} />
+                )}
+            <span
+              style={{
+                color: OG_COLORS.textPrimary,
+                fontSize: 28,
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {BRAND.displayName}
+            </span>
+          </div>
+
+          {/* Main content */}
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              paddingTop: 20,
+            }}
+          >
+            {/* Title - constrained to usable width with line clamping */}
+            <div
+              style={{
+                display: 'flex',
+                marginBottom: 24,
+                maxWidth: OG_WIDTH - 120,
+              }}
+            >
+              <span
+                style={{
+                  color: OG_COLORS.textPrimary,
+                  fontSize: 52,
+                  fontWeight: 700,
+                  letterSpacing: '-0.02em',
+                  lineClamp: 2,
+                  lineHeight: 1.3,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {truncateTitle(title)}
+              </span>
+            </div>
+
+            {/* Model icons row with glass effect */}
+            {modelIcons.length > 0
+              ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 12,
+                      marginBottom: 24,
+                      maxWidth: OG_WIDTH - 120,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {modelIcons.map(({ icon, modelId }) => (
+                      <div
+                        key={modelId}
+                        style={{
+                          alignItems: 'center',
+                          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: 16,
+                          display: 'flex',
+                          height: 64,
+                          justifyContent: 'center',
+                          width: 64,
+                        }}
+                      >
+                        {icon
+                          ? (
+                              <img src={icon} width={36} height={36} alt={modelId} />
+                            )
+                          : (
+                              <div style={{ display: 'flex', height: 36, width: 36 }} />
+                            )}
+                      </div>
+                    ))}
+                  </div>
+                )
+              : null}
+          </div>
+
+          {/* Footer with tagline */}
+          <div
+            style={{
+              borderTop: `2px solid ${OG_COLORS.glassBorder}`,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 8,
+              marginTop: 'auto',
+              paddingTop: 24,
+            }}
+          >
+            <span
+              style={{
+                color: OG_COLORS.primary,
+                fontSize: 26,
+                fontWeight: 700,
+              }}
+            >
+              Your AI Board of Directors
+            </span>
+            <span
+              style={{
+                color: OG_COLORS.textSecondary,
+                fontSize: 18,
+                fontWeight: 500,
+              }}
+            >
+              Get perspectives from multiple AI models working together
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+    {
+      fonts: fonts.map(font => ({
+        data: font.data,
+        name: font.name,
+        style: font.style,
+        weight: font.weight,
+      })),
+      height: OG_HEIGHT,
+      width: OG_WIDTH,
+    },
+  );
+
+  // Dynamic import to avoid loading 2.4MB WASM on every cold start
+  const { Resvg } = await import('@cf-wasm/resvg/workerd');
+
+  const resvg = await Resvg.async(svg, {
+    fitTo: { mode: 'width', value: OG_WIDTH },
+  });
+  const pngData = resvg.render();
+  const pngBuffer = pngData.asPng();
+
+  return pngBuffer.buffer as ArrayBuffer;
+}
+
+/**
+ * Generate fallback OG image for threads not found or not public
+ */
+async function generateFallbackOgImage(): Promise<ArrayBuffer> {
+  return await generateOgImage({
+    title: 'AI Conversation',
+  });
+}
+
+/**
+ * Create error fallback response (simple placeholder)
+ */
+function createErrorFallbackResponse(): Response {
+  const transparentPng = new Uint8Array([
+    0x89,
+    0x50,
+    0x4E,
+    0x47,
+    0x0D,
+    0x0A,
+    0x1A,
+    0x0A,
+    0x00,
+    0x00,
+    0x00,
+    0x0D,
+    0x49,
+    0x48,
+    0x44,
+    0x52,
+    0x00,
+    0x00,
+    0x00,
+    0x01,
+    0x00,
+    0x00,
+    0x00,
+    0x01,
+    0x08,
+    0x06,
+    0x00,
+    0x00,
+    0x00,
+    0x1F,
+    0x15,
+    0xC4,
+    0x89,
+    0x00,
+    0x00,
+    0x00,
+    0x0A,
+    0x49,
+    0x44,
+    0x41,
+    0x54,
+    0x78,
+    0x9C,
+    0x63,
+    0x00,
+    0x01,
+    0x00,
+    0x00,
+    0x05,
+    0x00,
+    0x01,
+    0x0D,
+    0x0A,
+    0x2D,
+    0xB4,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x49,
+    0x45,
+    0x4E,
+    0x44,
+    0xAE,
+    0x42,
+    0x60,
+    0x82,
+  ]);
+  return new Response(transparentPng.buffer, {
+    headers: {
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'image/png',
+      'X-OG-Cache': 'ERROR',
+    },
+    status: 200,
+  });
+}
+
+/**
+ * GET /og/chat - Generate OG image for public thread
+ */
+export const ogChatHandler: RouteHandler<typeof ogChatRoute, ApiEnv> = createHandler(
+  {
+    auth: 'public',
+    operationName: 'ogChat',
+    validateQuery: OgChatQuerySchema,
+  },
+  async (c) => {
+    try {
+      const { slug, v: versionParam } = c.validated.query;
+      const db = await getDbAsync();
+      const r2Bucket = c.env.UPLOADS_R2_BUCKET;
+
+      const threads = await db
+        .select()
+        .from(tables.chatThread)
+        .where(or(
+          eq(tables.chatThread.slug, slug),
+          eq(tables.chatThread.previousSlug, slug),
+        ))
+        .limit(1)
+        .$withCache({
+          config: { ex: 3600 },
+          tag: PublicThreadCacheTags.single(slug),
+        });
+
+      const thread = threads[0];
+
+      if (!thread || !thread.isPublic
+        || thread.status === ThreadStatusSchema.enum.deleted
+        || thread.status === ThreadStatusSchema.enum.archived) {
+        try {
+          const fallbackPng = await generateFallbackOgImage();
+          return new Response(fallbackPng, {
+            headers: {
+              'Cache-Control': `public, max-age=${OG_CACHE_TTL_SECONDS}, immutable`,
+              'Content-Type': 'image/png',
+              'X-OG-Cache': 'MISS',
+              'X-OG-Fallback': 'true',
+            },
+            status: 200,
+          });
+        } catch (fallbackError) {
+          rlog.stuck('og-fallback', `generation error: ${fallbackError instanceof Error ? fallbackError.message : String(fallbackError)}`);
+          return createErrorFallbackResponse();
+        }
+      }
+
+      const participants = await db.select()
+        .from(tables.chatParticipant)
+        .where(eq(tables.chatParticipant.threadId, thread.id));
+
+      const participantModelIds = participants.map(p => p.modelId);
+
+      const versionHash = versionParam ?? generateOgVersionHash({
+        messageCount: 0,
+        mode: thread.mode,
+        participantCount: participants.length,
+        title: thread.title ?? undefined,
+        updatedAt: thread.updatedAt,
+      });
+
+      const cacheKey = generateOgCacheKey(
+        OgImageTypes.PUBLIC_THREAD,
+        slug,
+        versionHash,
+      );
+
+      const cached = await getOgImageFromCache(r2Bucket, cacheKey);
+      if (cached.found && cached.data) {
+        return createCachedImageResponse(cached.data);
+      }
+
+      const pngData = await generateOgImage({
+        participantModelIds,
+        title: thread.title ?? 'AI Conversation',
+      });
+
+      storeOgImageInCache(r2Bucket, cacheKey, pngData).catch(() => {});
+
+      return new Response(pngData, {
+        headers: {
+          'Cache-Control': `public, max-age=${OG_CACHE_TTL_SECONDS}, immutable`,
+          'Content-Type': 'image/png',
+          'X-OG-Cache': 'MISS',
+        },
+        status: 200,
+      });
+    } catch (error) {
+      rlog.stuck('og-handler', `error: ${error instanceof Error ? error.message : String(error)}`);
+      try {
+        const fallbackPng = await generateFallbackOgImage();
+        return new Response(fallbackPng, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'image/png',
+            'X-OG-Cache': 'ERROR',
+            'X-OG-Fallback': 'true',
+          },
+          status: 200,
+        });
+      } catch {
+        return createErrorFallbackResponse();
+      }
+    }
+  },
+);
+
+// ============================================================================
+// PAGE OG IMAGE GENERATION
+// ============================================================================
+
+const PAGE_CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
+
+/**
+ * Page type → OG headline text
+ */
+const PAGE_OG_TEXT: Record<OgPageType, string> = {
+  'architecture-review': 'Never commit to an architecture on one model\'s opinion',
+  'compliance-advisory': 'Never sign off on compliance with one model\'s read',
+  'healthcare-clinical': 'Never diagnose on one AI\'s opinion',
+  'home': 'Multiple AI Models, One Conversation',
+  'investment-analysis': 'Never size a position on one model\'s thesis',
+  'legal-review': 'Never sign a contract one model reviewed',
+  'ma-deal-screening': 'Never close a deal on one model\'s analysis',
+  'mcp-landing': 'The MCP skill your AI is missing.',
+};
+
+/**
+ * Generate OG image for a landing/solution page
+ * Reuses Satori pipeline with a layout optimized for marketing headlines
+ */
+async function generatePageOgImage(headline: string): Promise<ArrayBuffer> {
+  const logoBase64 = getLogoBase64Sync();
+  const fonts = getOGFontsSync();
+
+  const { satori } = await import('@cf-wasm/satori/workerd');
+
+  const svg = await satori(
+    (
+      <div
+        style={{
+          backgroundColor: '#0a0a0a',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: 'sans-serif',
+          height: '100%',
+          position: 'relative',
+          width: '100%',
+        }}
+      >
+        {/* Top-right rainbow gradient orb */}
+        <div
+          style={{
+            background: `radial-gradient(circle at 70% 30%, ${RAINBOW[2]}55, ${RAINBOW[3]}38, ${RAINBOW[4]}22, ${RAINBOW[5]}10, transparent 60%)`,
+            display: 'flex',
+            filter: 'blur(60px)',
+            height: 500,
+            position: 'absolute',
+            right: -50,
+            top: -50,
+            width: 500,
+          }}
+        />
+
+        {/* Bottom-left rainbow gradient orb */}
+        <div
+          style={{
+            background: `radial-gradient(circle at 30% 70%, ${RAINBOW[6]}45, ${RAINBOW[7]}32, ${RAINBOW[8]}18, ${RAINBOW[9]}08, transparent 55%)`,
+            bottom: -50,
+            display: 'flex',
+            filter: 'blur(70px)',
+            height: 550,
+            left: -50,
+            position: 'absolute',
+            width: 550,
+          }}
+        />
+
+        {/* Main content container */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            padding: 60,
+            position: 'relative',
+            width: '100%',
+          }}
+        >
+          {/* Header with logo */}
+          <div
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 16,
+              marginBottom: 32,
+            }}
+          >
+            {logoBase64
+              ? (
+                  <img
+                    src={logoBase64}
+                    width={56}
+                    height={56}
+                    alt={BRAND.displayName}
+                    style={{ borderRadius: 28 }}
+                  />
+                )
+              : (
+                  <div style={{ display: 'flex', height: 56, width: 56 }} />
+                )}
+            <span
+              style={{
+                color: OG_COLORS.textPrimary,
+                fontSize: 28,
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {BRAND.displayName}
+            </span>
+          </div>
+
+          {/* Headline */}
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              maxWidth: OG_WIDTH - 120,
+            }}
+          >
+            <span
+              style={{
+                color: OG_COLORS.textPrimary,
+                fontSize: 60,
+                fontWeight: 700,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.2,
+              }}
+            >
+              {headline}
+            </span>
+          </div>
+
+          {/* Footer with tagline */}
+          <div
+            style={{
+              borderTop: `2px solid ${OG_COLORS.glassBorder}`,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 8,
+              marginTop: 'auto',
+              paddingTop: 24,
+            }}
+          >
+            <span
+              style={{
+                color: OG_COLORS.primary,
+                fontSize: 26,
+                fontWeight: 700,
+              }}
+            >
+              Your AI Board of Directors
+            </span>
+            <span
+              style={{
+                color: OG_COLORS.textSecondary,
+                fontSize: 18,
+                fontWeight: 500,
+              }}
+            >
+              Get perspectives from multiple AI models working together
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+    {
+      fonts: fonts.map(font => ({
+        data: font.data,
+        name: font.name,
+        style: font.style,
+        weight: font.weight,
+      })),
+      height: OG_HEIGHT,
+      width: OG_WIDTH,
+    },
+  );
+
+  const { Resvg } = await import('@cf-wasm/resvg/workerd');
+
+  const resvg = await Resvg.async(svg, {
+    fitTo: { mode: 'width', value: OG_WIDTH },
+  });
+  const pngData = resvg.render();
+  const pngBuffer = pngData.asPng();
+
+  return pngBuffer.buffer as ArrayBuffer;
+}
+
+/**
+ * GET /og/page - Generate OG image for landing/solution page
+ */
+export const ogPageHandler: RouteHandler<typeof ogPageRoute, ApiEnv> = createHandler(
+  {
+    auth: 'public',
+    operationName: 'ogPage',
+    validateQuery: OgPageQuerySchema,
+  },
+  async (c) => {
+    try {
+      const { type } = c.validated.query;
+      const headline = PAGE_OG_TEXT[type];
+
+      const pngData = await generatePageOgImage(headline);
+
+      return new Response(pngData, {
+        headers: {
+          'Cache-Control': `public, max-age=${PAGE_CACHE_TTL_SECONDS}, immutable`,
+          'Content-Type': 'image/png',
+        },
+        status: 200,
+      });
+    } catch (error) {
+      rlog.stuck('og-page-handler', `error: ${error instanceof Error ? error.message : String(error)}`);
+      return createErrorFallbackResponse();
+    }
+  },
+);

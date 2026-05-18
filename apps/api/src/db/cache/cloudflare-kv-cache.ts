@@ -1,0 +1,209 @@
+/**
+ * Cloudflare KV Cache for Drizzle ORM
+ * Automatic invalidation on mutations, configurable TTL, table-based cache keys
+ * @see https://orm.drizzle.team/docs/cache
+ *
+ * NO DEPLOYMENT ISOLATION:
+ * We removed deployment-based cache namespacing because crypto.randomUUID()
+ * generates different IDs across worker isolates, causing cache fragmentation.
+ * Instead, we rely on TTL-based expiration and explicit cache invalidation.
+ * Short TTLs (30s-120s) ensure stale data expires quickly after deployments.
+ */
+
+import type { Table as TableType } from 'drizzle-orm';
+import { getTableName, is, Table } from 'drizzle-orm';
+import { Cache } from 'drizzle-orm/cache/core';
+import type { CacheConfig } from 'drizzle-orm/cache/core/types';
+
+import { log } from '@/lib/logger';
+
+/**
+ * Serialize error to string for logging
+ */
+function serializeError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+}
+
+export type CloudflareKVCacheOptions = {
+  kv: KVNamespace;
+  global?: boolean;
+  defaultTtl?: number;
+  keyPrefix?: string;
+};
+
+export class CloudflareKVCache extends Cache {
+  private kv: KVNamespace;
+  private defaultTtl: number;
+  private globalCache: boolean;
+  private keyPrefix: string;
+  private tableToKeys: Record<string, Set<string>> = {};
+
+  constructor(options: CloudflareKVCacheOptions) {
+    super();
+    this.kv = options.kv;
+    this.defaultTtl = options.defaultTtl ?? 300;
+    this.globalCache = options.global ?? false;
+    // No deployment isolation - relies on TTL expiration and explicit invalidation
+    // Short TTLs (30s-120s) ensure stale data expires quickly after deployments
+    this.keyPrefix = options.keyPrefix ?? 'drizzle:';
+  }
+
+  override strategy(): 'explicit' | 'all' {
+    return this.globalCache ? 'all' : 'explicit';
+  }
+
+  override async get(key: string): Promise<unknown[] | undefined> {
+    try {
+      const prefixedKey = this.getPrefixedKey(key);
+      const cached = await this.kv.get<unknown[]>(prefixedKey, 'json');
+
+      if (cached !== null) {
+        return cached;
+      }
+
+      return undefined;
+    } catch (error) {
+      log.cache('error', 'Error retrieving from KV', { error: serializeError(error), key });
+      return undefined;
+    }
+  }
+
+  override async put(
+    hashedQuery: string,
+    response: unknown,
+    tables: string[],
+    isTag: boolean,
+    config?: CacheConfig,
+  ): Promise<void> {
+    try {
+      const prefixedKey = this.getPrefixedKey(hashedQuery);
+
+      // Calculate expiration
+      const ttl = this.calculateTtl(config);
+
+      // Store in KV with expiration
+      await this.kv.put(prefixedKey, JSON.stringify(response), {
+        expirationTtl: ttl,
+      });
+
+      if (!isTag) {
+        for (const table of tables) {
+          if (!this.tableToKeys[table]) {
+            this.tableToKeys[table] = new Set();
+          }
+          this.tableToKeys[table].add(hashedQuery);
+        }
+      }
+    } catch (error) {
+      log.cache('error', 'Error storing to KV', { error: serializeError(error), key: hashedQuery, tables: tables.join(',') });
+    }
+  }
+
+  override async onMutate(params: {
+    tags: string | string[];
+    tables: string | string[] | TableType | TableType[];
+  }): Promise<void> {
+    try {
+      const tagsArray = this.normalizeToArray(params.tags);
+      const tablesArray = this.normalizeToArray(params.tables);
+
+      // Collect all keys to invalidate
+      const keysToInvalidate = new Set<string>();
+
+      for (const table of tablesArray) {
+        const tableName = this.getTableName(table);
+        const keys = this.tableToKeys[tableName];
+
+        if (keys) {
+          keys.forEach(key => keysToInvalidate.add(key));
+          delete this.tableToKeys[tableName];
+        }
+      }
+
+      for (const tag of tagsArray) {
+        keysToInvalidate.add(tag);
+      }
+
+      if (keysToInvalidate.size > 0) {
+        await Promise.all(
+          Array.from(keysToInvalidate).map(async key =>
+            await this.kv.delete(this.getPrefixedKey(key)),
+          ),
+        );
+      }
+      // Skip logging "no keys to invalidate" - too noisy
+    } catch (error) {
+      log.cache('error', 'Error during invalidation', { error: serializeError(error) });
+    }
+  }
+
+  async invalidate(params: {
+    tables?: string | string[] | TableType | TableType[];
+    tags?: string | string[];
+  }): Promise<void> {
+    // Invalidation calls onMutate which handles logging
+    await this.onMutate({
+      tables: params.tables ?? [],
+      tags: params.tags ?? [],
+    });
+  }
+
+  async clearAll(): Promise<void> {
+    try {
+      const allKeys = new Set<string>();
+
+      Object.values(this.tableToKeys).forEach((keys) => {
+        keys.forEach(key => allKeys.add(key));
+      });
+
+      if (allKeys.size > 0) {
+        await Promise.all(
+          Array.from(allKeys).map(async key =>
+            await this.kv.delete(this.getPrefixedKey(key)),
+          ),
+        );
+      }
+
+      this.tableToKeys = {};
+    } catch (error) {
+      log.cache('error', 'Error clearing cache', { error: serializeError(error) });
+    }
+  }
+
+  private getPrefixedKey(key: string): string {
+    return `${this.keyPrefix}${key}`;
+  }
+
+  private calculateTtl(config?: CacheConfig): number {
+    if (config?.ex) {
+      return config.ex;
+    }
+    if (config?.px) {
+      return Math.floor(config.px / 1000);
+    }
+    if (config?.exat) {
+      return Math.max(0, config.exat - Math.floor(Date.now() / 1000));
+    }
+    if (config?.pxat) {
+      return Math.max(0, Math.floor((config.pxat - Date.now()) / 1000));
+    }
+    return this.defaultTtl;
+  }
+
+  private normalizeToArray<T>(value: T | T[] | undefined | null): T[] {
+    if (!value) {
+      return [];
+    }
+    return Array.isArray(value) ? value : [value];
+  }
+
+  private getTableName(table: string | TableType): string {
+    if (typeof table === 'string') {
+      return table;
+    }
+    return is(table, Table) ? getTableName(table) : String(table);
+  }
+}

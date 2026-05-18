@@ -1,0 +1,226 @@
+import { CREDIT_CONFIG } from '@debatekit/shared';
+import { PlanTypes } from '@debatekit/shared/enums';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import type { UserCreditBalance } from '@/db/validation';
+import * as creditService from '@/services/billing';
+
+type MockDbResult<T> = T[];
+
+let mockDbInsertReturning: MockDbResult<Partial<UserCreditBalance>> = [];
+let mockDbSelect: MockDbResult<Partial<UserCreditBalance>> = [];
+let mockDbUpdate: MockDbResult<Partial<UserCreditBalance>> = [];
+
+function createMockDb() {
+  const withCache = <T>(result: T) => ({
+    ...result,
+    $withCache: vi.fn(() => result),
+  });
+
+  return {
+    insert: vi.fn(() => ({
+      values: vi.fn(() => ({
+        onConflictDoNothing: vi.fn(() => ({
+          returning: vi.fn(() => mockDbInsertReturning),
+        })),
+      })),
+    })),
+    select: vi.fn(() => ({
+      from: vi.fn(() => ({
+        innerJoin: vi.fn(() => ({
+          where: vi.fn(() => ({
+            limit: vi.fn(() => withCache(mockDbSelect)),
+          })),
+        })),
+        orderBy: vi.fn(() => ({
+          limit: vi.fn(() => withCache(mockDbSelect)),
+          offset: vi.fn(() => mockDbSelect),
+        })),
+        where: vi.fn(() => ({
+          limit: vi.fn(() => withCache(mockDbSelect)),
+          orderBy: vi.fn(() => ({
+            limit: vi.fn(() => withCache(mockDbSelect)),
+            offset: vi.fn(() => mockDbSelect),
+          })),
+        })),
+      })),
+    })),
+    update: vi.fn(() => ({
+      set: vi.fn(() => ({
+        where: vi.fn(() => ({
+          returning: vi.fn(() => mockDbUpdate),
+        })),
+      })),
+    })),
+  };
+}
+
+vi.mock('@/db', async () => {
+  const actual = await vi.importActual('@/db');
+  return {
+    ...actual,
+    getDbAsync: vi.fn(async () => createMockDb()),
+  };
+});
+
+function createMockCreditRecord(overrides?: Partial<UserCreditBalance>): Partial<UserCreditBalance> {
+  return {
+    balance: 5_000,
+    createdAt: new Date(),
+    id: 'credit_record_123',
+    lastRefillAt: null,
+    monthlyCredits: 0,
+    nextRefillAt: null,
+    planType: PlanTypes.FREE,
+
+    updatedAt: new Date(),
+    userId: 'user_test_123',
+    version: 1,
+    ...overrides,
+  };
+}
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  mockDbInsertReturning = [];
+  mockDbSelect = [];
+  mockDbUpdate = [];
+});
+
+describe('getUserCreditBalance', () => {
+  it('returns balance for free user', async () => {
+    const record = createMockCreditRecord({
+      balance: 5_000,
+      planType: PlanTypes.FREE,
+
+      userId: 'user_free',
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const balance = await creditService.getUserCreditBalance('user_free');
+
+    expect(balance.balance).toBe(5_000);
+    expect(balance.available).toBe(5_000);
+    expect(balance.planType).toBe(PlanTypes.FREE);
+  });
+
+  it('returns balance for paid user', async () => {
+    const nextRefill = new Date('2025-02-01');
+    const proMonthlyCredits = CREDIT_CONFIG.PLANS.paid.monthlyCredits;
+    const record = createMockCreditRecord({
+      balance: 75_000,
+      monthlyCredits: proMonthlyCredits,
+      nextRefillAt: nextRefill,
+      planType: PlanTypes.PAID,
+      userId: 'user_paid',
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const balance = await creditService.getUserCreditBalance('user_paid');
+
+    expect(balance.balance).toBe(75_000);
+    expect(balance.planType).toBe(PlanTypes.PAID);
+    expect(balance.monthlyCredits).toBe(proMonthlyCredits);
+    expect(balance.nextRefillAt).toEqual(nextRefill);
+  });
+
+  it('available equals balance', async () => {
+    const record = createMockCreditRecord({
+      balance: 10_000,
+      userId: 'user_test',
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const balance = await creditService.getUserCreditBalance('user_test');
+
+    expect(balance.balance).toBe(10_000);
+    expect(balance.available).toBe(10_000);
+  });
+
+  it('handles zero balance', async () => {
+    const record = createMockCreditRecord({
+      balance: 0,
+
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const balance = await creditService.getUserCreditBalance('user_zero');
+
+    expect(balance.balance).toBe(0);
+    expect(balance.available).toBe(0);
+  });
+
+  it('creates record for new user with signup bonus', async () => {
+    const newRecord = createMockCreditRecord({
+      balance: CREDIT_CONFIG.SIGNUP_CREDITS,
+      userId: 'user_new',
+    });
+
+    mockDbSelect = [];
+    mockDbInsertReturning = [newRecord];
+    mockDbSelect = [newRecord];
+
+    const balance = await creditService.getUserCreditBalance('user_new');
+
+    expect(balance.balance).toBe(CREDIT_CONFIG.SIGNUP_CREDITS);
+    expect(balance.planType).toBe(PlanTypes.FREE);
+  });
+
+  it('handles non-existent user', async () => {
+    mockDbSelect = [];
+    mockDbInsertReturning = [];
+
+    await expect(creditService.getUserCreditBalance('user_nonexistent')).rejects.toBeDefined();
+  });
+});
+
+describe('canAffordCredits', () => {
+  it('returns true when user has sufficient credits', async () => {
+    const record = createMockCreditRecord({
+      balance: 5_000,
+
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const canAfford = await creditService.canAffordCredits('user_test', 5_000);
+
+    expect(canAfford).toBe(true);
+  });
+
+  it('returns false when user has insufficient credits', async () => {
+    const record = createMockCreditRecord({
+      balance: 2_000,
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const canAfford = await creditService.canAffordCredits('user_test', 3_000);
+
+    expect(canAfford).toBe(false);
+  });
+
+  it('returns false when balance is zero', async () => {
+    const record = createMockCreditRecord({
+      balance: 0,
+
+    });
+
+    mockDbSelect = [record];
+    mockDbInsertReturning = [record];
+
+    const canAfford = await creditService.canAffordCredits('user_test', 1);
+
+    expect(canAfford).toBe(false);
+  });
+});

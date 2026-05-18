@@ -1,0 +1,114 @@
+identity:
+  name: consult_council
+  author: deadpixel
+  label:
+    en_US: Consult Council
+description:
+  human:
+    en_US: Consult the AI coding council — multiple models discuss your engineering question sequentially, then a moderator synthesizes all perspectives.
+  llm: Consult the AI coding council — multiple models discuss your engineering question sequentially (each sees prior responses), then a moderator synthesizes. Auto-mode by default. Fully configurable with mode, format, roles, models, and thinking level.
+parameters:
+  - name: prompt
+    type: string
+    required: true
+    label:
+      en_US: Question
+    human_description:
+      en_US: The question, topic, or problem to debate
+    llm_description: The question, topic, or problem to debate
+    form: llm
+  - name: context
+    type: string
+    required: false
+    label:
+      en_US: Context
+    human_description:
+      en_US: Additional background context (code, docs, requirements)
+    llm_description: Additional background context for the debate (code, docs, requirements)
+    form: llm
+  - name: mode
+    type: select
+    required: false
+    label:
+      en_US: Mode
+    human_description:
+      en_US: Conversation mode
+    options:
+      - value: analyzing
+        label:
+          en_US: Analyzing
+      - value: brainstorming
+        label:
+          en_US: Brainstorming
+      - value: debating
+        label:
+          en_US: Debating
+      - value: solving
+        label:
+          en_US: Solving
+    form: form
+  - name: format
+    type: select
+    required: false
+    label:
+      en_US: Output Format
+    human_description:
+      en_US: Moderator output format
+    options:
+      - value: discussion
+        label:
+          en_US: Discussion (narrative)
+      - value: adr
+        label:
+          en_US: ADR (architecture decision)
+      - value: comparison
+        label:
+          en_US: Comparison (table)
+      - value: pros-cons
+        label:
+          en_US: Pros & Cons
+    form: form
+  - name: thinking_level
+    type: select
+    required: false
+    label:
+      en_US: Thinking Level
+    human_description:
+      en_US: Controls model quality and cost
+    options:
+      - value: low
+        label:
+          en_US: Low (fast/cheap)
+      - value: medium
+        label:
+          en_US: Medium (balanced)
+      - value: high
+        label:
+          en_US: High (maximum reasoning)
+    form: form
+  - name: models
+    type: string
+    required: false
+    label:
+      en_US: Models
+    human_description:
+      en_US: Comma-separated model IDs to override auto-selection (min 3)
+    llm_description: Comma-separated list of model identifiers to include (min 3)
+    form: llm
+  - name: roles
+    type: string
+    required: false
+    label:
+      en_US: Roles
+    human_description:
+      en_US: Comma-separated roles for participants (e.g., Security Architect, Backend Engineer)
+    llm_description: Comma-separated inline role names for participants
+    form: llm
+  - name: auto_route
+    type: boolean
+    required: false
+    label:
+      en_US: Auto Route
+    human_description:
+      en_US: Auto-select optimal models based on prompt analysis
+    form: form

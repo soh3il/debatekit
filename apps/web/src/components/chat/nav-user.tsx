@@ -1,0 +1,397 @@
+import { StripeSubscriptionStatuses, SubscriptionTiers } from '@debatekit/shared';
+import { UserRoles } from '@debatekit/shared/enums';
+import { useQueryClient } from '@tanstack/react-query';
+import { Link } from '@tanstack/react-router';
+import { useEffect, useMemo, useState } from 'react';
+
+import type { CancelSubscriptionDialogProps } from '@/components/chat/cancel-subscription-dialog';
+import { Icons } from '@/components/icons';
+import type { ProfileDialogProps } from '@/components/profile';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { buttonVariants } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  useCancelSubscriptionMutation,
+  useCreateCustomerPortalSessionMutation,
+  useSubscriptionsQuery,
+} from '@/hooks';
+import { useBoolean } from '@/hooks/utils';
+import { useIsAnonymous } from '@/hooks/utils/use-is-anonymous';
+import { AnalyticsEvents, DiscoverableFeatures, useAnalytics } from '@/lib/analytics';
+import { authClient, signOut, useSession } from '@/lib/auth/client';
+import type { Session, User } from '@/lib/auth/types';
+import { getAppBaseUrl } from '@/lib/config/base-urls';
+import { clearServiceWorkerCache, invalidateUserQueries } from '@/lib/data/cache';
+import { useTranslations } from '@/lib/i18n';
+import { showApiErrorToast } from '@/lib/toast';
+import { cn } from '@/lib/ui/cn';
+import dynamic from '@/lib/utils/dynamic';
+import { getUserInitials } from '@/lib/utils/get-user-initials';
+import { clearOwnCacheService } from '@/services/api';
+
+const CancelSubscriptionDialog = dynamic<CancelSubscriptionDialogProps>(
+  () => import('@/components/chat/cancel-subscription-dialog').then(m => ({ default: m.CancelSubscriptionDialog })),
+  { ssr: false },
+);
+
+const ProfileDialog = dynamic<ProfileDialogProps>(
+  () => import('@/components/profile/profile-dialog').then(m => ({ default: m.ProfileDialog })),
+  { ssr: false },
+);
+
+type NavUserProps = {
+  /** Server-side session for hydration - prevents mismatch */
+  initialSession?: { session: Session; user: User } | null;
+};
+
+export function NavUser({ initialSession }: NavUserProps) {
+  const isAnonymous = useIsAnonymous();
+  const { data: clientSession } = useSession();
+  const queryClient = useQueryClient();
+  const t = useTranslations();
+  const { track, trackFeatureDiscovery } = useAnalytics();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { data: subscriptionsData } = useSubscriptionsQuery();
+  const showCancelDialog = useBoolean(false);
+  const showProfileDialog = useBoolean(false);
+  const isStoppingImpersonation = useBoolean(false);
+  const customerPortalMutation = useCreateCustomerPortalSessionMutation();
+  const cancelSubscriptionMutation = useCancelSubscriptionMutation();
+
+  const user = clientSession?.user ?? initialSession?.user;
+
+  const userInitials = useMemo(() => getUserInitials(user), [user]);
+
+  const displayName = user?.name || t('user.defaultName');
+  const displayEmail = user?.email || '';
+  // Type narrowing: when success is true, data.items is correctly typed from API response
+  const subscriptions = subscriptionsData?.success && subscriptionsData.data?.items
+    ? subscriptionsData.data.items
+    : [];
+  const activeSubscription = subscriptions.find(
+    sub => (sub.status === StripeSubscriptionStatuses.ACTIVE || sub.status === StripeSubscriptionStatuses.TRIALING) && !sub.cancelAtPeriodEnd,
+  );
+  const handleSignOut = async () => {
+    // Track sign out event
+    track(AnalyticsEvents.SIGN_OUT_COMPLETED);
+
+    // Clear server-side caches while authenticated
+    try {
+      await clearOwnCacheService();
+    } catch { /* ignore */ }
+
+    // Sign out and redirect
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          invalidateUserQueries(queryClient);
+          clearServiceWorkerCache();
+          window.location.href = '/auth/sign-in';
+        },
+      },
+    });
+  };
+  const handleManageBilling = async () => {
+    // Track billing management click and feature discovery
+    track(AnalyticsEvents.MANAGE_BILLING_CLICKED);
+    trackFeatureDiscovery(DiscoverableFeatures.BILLING_MANAGEMENT, 'user_menu');
+
+    try {
+      const result = await customerPortalMutation.mutateAsync({
+        json: {
+          // Reading current URL (not navigating) - window.location.href is appropriate
+          returnUrl: window.location.href,
+        },
+      });
+      if (!result || !result.success) {
+        return;
+      }
+      if (result.data?.url) {
+        window.open(result.data.url, '_blank', 'noopener,noreferrer');
+      }
+    } catch (error) {
+      showApiErrorToast('Portal Error', error);
+    }
+  };
+  const handleConfirmCancellation = async () => {
+    if (!activeSubscription) {
+      return;
+    }
+    try {
+      const result = await cancelSubscriptionMutation.mutateAsync({
+        json: { immediately: false },
+        param: { id: activeSubscription.id },
+      });
+      if (result?.success) {
+        showCancelDialog.onFalse();
+      }
+    } catch (error) {
+      showApiErrorToast('Cancellation Failed', error);
+    }
+  };
+
+  const handleStopImpersonating = async () => {
+    if (!clientSession?.session?.impersonatedBy) {
+      return;
+    }
+
+    isStoppingImpersonation.onTrue();
+    const baseUrl = getAppBaseUrl();
+
+    // Just restore session, then invalidate client queries
+    // No need to clear server cache - just invalidate client state
+    authClient.admin.stopImpersonating({
+      fetchOptions: {
+        onError: (ctx) => {
+          showApiErrorToast('Failed to Stop Impersonation', ctx.error);
+          isStoppingImpersonation.onFalse();
+        },
+        onSuccess: () => {
+          invalidateUserQueries(queryClient);
+          clearServiceWorkerCache();
+          window.location.href = `${baseUrl}/admin/impersonate`;
+        },
+      },
+    });
+  };
+
+  const isImpersonating = !!clientSession?.session?.impersonatedBy;
+
+  // Track mount state for client-only functionality (dropdown opening)
+  // SSR renders the same structure - dropdown just won't open until mounted
+  const mounted = useBoolean(false);
+  useEffect(() => {
+    mounted.onTrue();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- onTrue is stable, mounted object changes on each render
+  }, []);
+
+  // Handler that only works after mount (prevents SSR/hydration issues with dropdown)
+  const handleDropdownOpenChange = (open: boolean) => {
+    if (mounted.value) {
+      setIsDropdownOpen(open);
+    }
+  };
+
+  // Anonymous users see "Sign up" (primary) + "Log in" (secondary) buttons
+  if (isAnonymous) {
+    return (
+      <div className="flex flex-col gap-2 px-3 py-2 group-data-[collapsible=icon]:px-1.5">
+        <Link
+          to="/auth/sign-in"
+          className={cn(buttonVariants({ size: 'lg', variant: 'white' }), 'w-full group-data-[collapsible=icon]:hidden')}
+        >
+          {t('anonymous.signUpFree')}
+        </Link>
+        <Link
+          to="/auth/sign-in"
+          className={cn(buttonVariants({ size: 'lg', variant: 'glass' }), 'w-full group-data-[collapsible=icon]:size-10 group-data-[collapsible=icon]:p-0')}
+        >
+          <Icons.arrowRight className="size-4 group-data-[collapsible=icon]:size-5" />
+          <span className="group-data-[collapsible=icon]:hidden">
+            {t('anonymous.logIn')}
+          </span>
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={handleDropdownOpenChange}>
+        {/* Remove asChild to avoid React 19 + Radix compose-refs infinite loop */}
+        {/* SidebarMenuButton styles applied directly to trigger */}
+        <DropdownMenuTrigger
+          data-sidebar="menu-button"
+          data-size="lg"
+          title={displayName}
+          className="peer/menu-button flex w-full min-w-0 items-center gap-2.5 overflow-hidden rounded-lg px-4 py-2 text-start text-sm outline-hidden ring-sidebar-ring transition-all duration-200 hover:bg-accent hover:bg-white/[0.07] focus-visible:ring-2 active:bg-accent active:scale-[0.998] disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pe-10 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-accent data-[active=true]:font-medium data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground data-[state=open]:hover:bg-accent group-data-[collapsible=icon]:!w-10 group-data-[collapsible=icon]:!h-10 group-data-[collapsible=icon]:!min-w-[2.5rem] group-data-[collapsible=icon]:!max-w-[2.5rem] group-data-[collapsible=icon]:!min-h-[2.5rem] group-data-[collapsible=icon]:!max-h-[2.5rem] group-data-[collapsible=icon]:!flex-shrink-0 group-data-[collapsible=icon]:!flex-grow-0 group-data-[collapsible=icon]:items-center! group-data-[collapsible=icon]:justify-center! group-data-[collapsible=icon]:gap-0! group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:rounded-lg! group-data-[collapsible=icon]:aspect-square [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-11"
+        >
+          <Avatar className="h-8 w-8 rounded-full">
+            <AvatarImage
+              src={user?.image || undefined}
+              alt={displayName}
+              loading="eager"
+            />
+            <AvatarFallback className="rounded-full">{userInitials}</AvatarFallback>
+          </Avatar>
+          <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+            <span className="truncate font-semibold">
+              {displayName}
+            </span>
+            <span className="truncate text-xs">{displayEmail}</span>
+          </div>
+          <Icons.chevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          className="w-[calc(var(--sidebar-width)-1rem)] min-w-52 sm:min-w-60 rounded-xl ml-3"
+          side="top"
+          align="start"
+          sideOffset={8}
+        >
+          <DropdownMenuLabel className="p-0 font-normal">
+            <div className="flex items-center gap-2.5 px-2 py-2 text-left text-sm">
+              <Avatar className="h-9 w-9 rounded-full">
+                <AvatarImage
+                  src={user?.image || undefined}
+                  alt={displayName}
+                  loading="eager"
+                />
+                <AvatarFallback className="rounded-full">{userInitials}</AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">
+                  {displayName}
+                </span>
+                <span className="truncate text-xs text-muted-foreground">{displayEmail}</span>
+              </div>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+
+          {isDropdownOpen && (
+            <>
+              {activeSubscription
+                ? (
+                    <DropdownMenuItem
+                      onClick={handleManageBilling}
+                      disabled={customerPortalMutation.isPending}
+                      className="text-emerald-400 focus:text-emerald-300 focus:bg-emerald-500/10"
+                    >
+                      <div className="flex items-center gap-2.5 w-full">
+                        {customerPortalMutation.isPending
+                          ? <Icons.loader className="size-4 animate-spin" />
+                          : <Icons.check className="size-4" />}
+                        <div className="flex-1">
+                          <p className="text-xs font-semibold">{t('userMenu.proPlan')}</p>
+                          <p className="text-[10px] text-muted-foreground">{t('userMenu.manageBilling')}</p>
+                        </div>
+                        <Icons.chevronRight className="size-4 opacity-50" />
+                      </div>
+                    </DropdownMenuItem>
+                  )
+                : (
+                    <DropdownMenuItem asChild className="text-emerald-400 focus:text-emerald-300 focus:bg-emerald-500/10">
+                      <Link to="/chat/pricing" preload="intent" className="flex items-center gap-2.5">
+                        <Icons.sparkles className="size-4" />
+                        <div className="flex-1">
+                          <p className="text-xs font-semibold">{t('userMenu.upgradeToPro')}</p>
+                          <p className="text-[10px] text-muted-foreground">{t('userMenu.upgradeDescription')}</p>
+                        </div>
+                        <Icons.chevronRight className="size-4 opacity-50" />
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  track(AnalyticsEvents.PROFILE_OPENED);
+                  showProfileDialog.onTrue();
+                }}
+              >
+                <Icons.user className="size-4" />
+                <div className="flex-1">
+                  <p className="text-xs font-semibold">{t('userMenu.profile')}</p>
+                  <p className="text-[10px] text-muted-foreground">{t('userMenu.profileDescription')}</p>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/chat/settings/api-keys" preload="intent" className="flex items-center gap-2">
+                  <Icons.code className="size-4" />
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold">{t('userMenu.apiKeys')}</p>
+                    <p className="text-[10px] text-muted-foreground">{t('userMenu.apiKeysDescription')}</p>
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+              {user?.role === UserRoles.ADMIN && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="gap-2">
+                      <Icons.shieldAlert className="size-4" />
+                      <div className="flex-1">
+                        <p className="text-xs font-semibold">{t('userMenu.admin')}</p>
+                        <p className="text-[10px] text-muted-foreground">{t('userMenu.adminDescription')}</p>
+                      </div>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="min-w-48">
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin/impersonate" preload="intent" className="flex items-center gap-2">
+                          <Icons.userCog className="size-4" />
+                          <div className="flex-1">
+                            <p className="text-xs font-semibold">{t('userMenu.impersonateUser')}</p>
+                            <p className="text-[10px] text-muted-foreground">{t('userMenu.impersonateDescription')}</p>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin/jobs" preload="intent" className="flex items-center gap-2">
+                          <Icons.sparkles className="size-4" />
+                          <div className="flex-1">
+                            <p className="text-xs font-semibold">{t('userMenu.automatedJobs')}</p>
+                            <p className="text-[10px] text-muted-foreground">{t('userMenu.automatedJobsDescription')}</p>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </>
+              )}
+              {isImpersonating && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleStopImpersonating}
+                    disabled={isStoppingImpersonation.value}
+                    className="text-amber-500 focus:text-amber-400 focus:bg-amber-500/10"
+                  >
+                    {isStoppingImpersonation.value
+                      ? <Icons.loader className="size-4 animate-spin" />
+                      : <Icons.alertTriangle className="size-4" />}
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold">{t('admin.banner.stopButton')}</p>
+                      <p className="text-[10px] text-muted-foreground">{t('admin.banner.impersonating', { email: user?.email || 'user' })}</p>
+                    </div>
+                  </DropdownMenuItem>
+                </>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <Icons.logOut />
+                {t('navigation.signOut')}
+              </DropdownMenuItem>
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {showCancelDialog.value && (
+        <CancelSubscriptionDialog
+          open={showCancelDialog.value}
+          onOpenChange={showCancelDialog.setValue}
+          onConfirm={handleConfirmCancellation}
+          subscriptionTier={activeSubscription ? SubscriptionTiers.PRO : SubscriptionTiers.FREE}
+          currentPeriodEnd={activeSubscription?.currentPeriodEnd}
+          isProcessing={cancelSubscriptionMutation.isPending}
+        />
+      )}
+      {showProfileDialog.value && (
+        <ProfileDialog
+          open={showProfileDialog.value}
+          onOpenChange={showProfileDialog.setValue}
+        />
+      )}
+    </>
+  );
+}

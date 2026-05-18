@@ -1,0 +1,55 @@
+identity:
+  name: design_architecture
+  author: deadpixel
+  label:
+    en_US: Design Architecture
+description:
+  human:
+    en_US: Get architecture design recommendations from a council of AI models.
+  llm: Ask the AI council to design a system architecture. Describe what you are building, the expected scale, and optional tech-stack preferences to receive a collaborative architecture proposal.
+parameters:
+  - name: description
+    type: string
+    required: true
+    label:
+      en_US: System Description
+    human_description:
+      en_US: What the system should do
+    llm_description: What the system should do
+    form: llm
+  - name: scale
+    type: select
+    required: false
+    label:
+      en_US: Scale
+    human_description:
+      en_US: Target scale
+    options:
+      - value: startup
+        label:
+          en_US: Startup (small team)
+      - value: growth
+        label:
+          en_US: Growth (scaling)
+      - value: enterprise
+        label:
+          en_US: Enterprise (large org)
+    form: form
+  - name: tech_stack
+    type: string
+    required: false
+    label:
+      en_US: Tech Stack
+    human_description:
+      en_US: Comma-separated preferred technologies
+    llm_description: Comma-separated preferred technologies
+    form: form
+  - name: focus_areas
+    type: string
+    required: false
+    label:
+      en_US: Focus Areas
+    human_description:
+      en_US: Comma-separated priority areas (e.g., security, performance)
+    llm_description: Comma-separated priority areas (e.g., security, performance)
+    form: form

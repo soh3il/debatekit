@@ -1,0 +1,73 @@
+{
+	"name": "n8n-nodes-debatekit-ai",
+	"version": "1.0.0",
+	"description": "DebateKit is a multi-model AI brainstorming platform. This n8n community node lets you consult 200+ AI models (GPT-4o, Claude, Gemini, Llama, Mistral & more) in structured debates — get diverse perspectives, expert code reviews, architecture assessments, and synthesized recommendations directly in your n8n workflows.",
+	"author": {
+		"name": "DebateKit by Deadpixel",
+		"email": "ava@deadpixel.ai",
+		"url": "https://debatekit.ai"
+	},
+	"license": "MIT",
+	"homepage": "https://debatekit.ai",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/deadpixel/debatekit-dashboard.git",
+		"directory": "integrations/n8n"
+	},
+	"bugs": {
+		"url": "https://github.com/deadpixel/debatekit-dashboard/issues"
+	},
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"debatekit",
+		"ai",
+		"brainstorming",
+		"multi-model",
+		"debate",
+		"gpt-4o",
+		"claude",
+		"gemini",
+		"llama",
+		"code-review",
+		"architecture",
+		"ai-agents",
+		"mcp"
+	],
+	"main": "dist/nodes/DebateKit/DebateKit.node.js",
+	"files": [
+		"dist/**/*.js",
+		"dist/**/*.d.ts",
+		"dist/**/*.json",
+		"dist/**/*.png",
+		"dist/**/*.js.map"
+	],
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "echo 'skipping prerelease'"
+	},
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/DebateKitApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/DebateKit/DebateKit.node.js"
+		]
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "^4.13.2",
+		"@n8n/node-cli": "0.23.0",
+		"eslint": "9.32.0",
+		"typescript": "5.9.2"
+	}
+}

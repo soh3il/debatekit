@@ -1,0 +1,109 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "src/index.ts",
+  "name": "debatekit-mcp",
+  "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
+  "compatibility_date": "2026-01-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "minify": true,
+  "upload_source_maps": false,
+  "dev": {
+    "port": 8788,
+    "inspector_port": 9230
+  },
+  "workers_dev": false,
+  "placement": {
+    "mode": "smart"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  // D1 binding shared with main API for auth + credits
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "debatekit-dashboard-db-local",
+      "database_id": "12ce87b8-9d6d-4c54-a9d4-7c59ceb3ef8e",
+      "preview_database_id": "12ce87b8-9d6d-4c54-a9d4-7c59ceb3ef8e"
+    }
+  ],
+  // KV for rate limiting + caching
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "0ab8201d8a9d43b7ab8e4236026e4811",
+      "preview_id": "0ab8201d8a9d43b7ab8e4236026e4811"
+    }
+  ],
+  "vars": {
+    "WEBAPP_ENV": "local",
+    "APP_NAME": "DebateKit MCP",
+    "POSTHOG_HOST": "https://us.i.posthog.com",
+    "NODE_ENV": "development"
+  },
+  "env": {
+    "preview": {
+      "name": "debatekit-mcp-preview",
+      "workers_dev": false,
+      "placement": { "mode": "smart" },
+      "upload_source_maps": false,
+      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "limits": { "cpu_ms": 300000 },
+      "routes": [
+        {
+          "pattern": "mcp-preview.debatekit.ai",
+          "custom_domain": true
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "debatekit-dashboard-db-preview",
+          "database_id": "ce0a7c86-7ac5-46c8-bf25-3df0a2345f9c",
+          "preview_database_id": "ce0a7c86-7ac5-46c8-bf25-3df0a2345f9c"
+        }
+      ],
+      "kv_namespaces": [
+        { "binding": "KV", "id": "146b84bc30474873a73161b779c19b81", "preview_id": "146b84bc30474873a73161b779c19b81" }
+      ],
+      "vars": {
+        "WEBAPP_ENV": "preview",
+        "APP_NAME": "DebateKit MCP",
+        "POSTHOG_HOST": "https://us.i.posthog.com",
+        "NODE_ENV": "production"
+      }
+    },
+    "production": {
+      "name": "debatekit-mcp-prod",
+      "workers_dev": false,
+      "placement": { "mode": "smart" },
+      "upload_source_maps": false,
+      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "limits": { "cpu_ms": 300000 },
+      "routes": [
+        {
+          "pattern": "mcp.debatekit.ai",
+          "custom_domain": true
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "debatekit-dashboard-db-prod",
+          "database_id": "74073b18-b9ef-4801-8176-4159905047d1",
+          "preview_database_id": "74073b18-b9ef-4801-8176-4159905047d1"
+        }
+      ],
+      "kv_namespaces": [
+        { "binding": "KV", "id": "8c335928a67d4d5db3de6e52f685296f", "preview_id": "8c335928a67d4d5db3de6e52f685296f" }
+      ],
+      "vars": {
+        "WEBAPP_ENV": "prod",
+        "APP_NAME": "DebateKit MCP",
+        "POSTHOG_HOST": "https://us.i.posthog.com",
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

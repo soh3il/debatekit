@@ -1,0 +1,607 @@
+/**
+ * Upload & Attachment Types
+ *
+ * Consolidated type definitions for file uploads, storage, and attachments.
+ * SINGLE SOURCE OF TRUTH for upload-related types across all services.
+ *
+ * Services using these types:
+ * - storage.service.ts
+ * - attachment-content.service.ts
+ * - signed-url.service.ts
+ * - upload-cleanup.service.ts
+ *
+ * @see /docs/type-inference-patterns.md for type safety patterns
+ */
+
+import { z } from '@hono/zod-openapi';
+import { NodeEnvs, WebAppEnvs } from '@debatekit/shared';
+
+import type { AppDb } from '@/db';
+import type { TypedLogger } from '@/types/logger';
+
+// ============================================================================
+// STORAGE TYPES
+// ============================================================================
+
+/**
+ * Storage operation result schema
+ */
+export const StorageResultSchema = z.object({
+  error: z.string().optional(),
+  key: z.string().optional(),
+  success: z.boolean(),
+});
+
+/** Storage operation result */
+export type StorageResult = z.infer<typeof StorageResultSchema>;
+
+/**
+ * Storage object metadata schema
+ */
+export const StorageMetadataSchema = z.object({
+  contentType: z.string().optional(),
+  customMetadata: z.record(z.string(), z.string()).optional(),
+});
+
+/** Storage object metadata */
+export type StorageMetadata = z.infer<typeof StorageMetadataSchema>;
+
+/**
+ * R2 stream result schema
+ *
+ * Result from R2 get operations with streaming body.
+ * Used for serving files directly to clients.
+ *
+ * Note: writeHttpMetadata is a function that writes R2 HTTP metadata
+ * (content-type, cache-control, etc.) to response headers.
+ * Functions cannot be fully validated at runtime, so we use z.custom()
+ * with a function type signature for TypeScript type inference.
+ */
+export const R2StreamResultSchema = z.object({
+  /** ReadableStream body for the file content, null if not found */
+  body: z.custom<ReadableStream | null>(
+    val => val === null || val instanceof ReadableStream,
+    { message: 'body must be ReadableStream or null' },
+  ),
+  /** Custom metadata stored with the object */
+  customMetadata: z.record(z.string(), z.string()).optional(),
+  /** Whether the object was found in storage */
+  found: z.boolean(),
+  /** HTTP ETag for caching */
+  httpEtag: z.string(),
+  /** File size in bytes */
+  size: z.number().nonnegative(),
+  /**
+   * Function to write R2 HTTP metadata to response headers.
+   * Uses z.custom() since functions cannot be validated at runtime.
+   */
+  writeHttpMetadata: z.custom<(headers: Headers) => void>(
+    val => typeof val === 'function',
+    { message: 'writeHttpMetadata must be a function' },
+  ),
+});
+
+/** R2 stream result for file downloads */
+export type R2StreamResult = z.infer<typeof R2StreamResultSchema>;
+
+/**
+ * Stored object info schema
+ */
+export const StoredObjectSchema = z.object({
+  customMetadata: z.record(z.string(), z.string()).optional(),
+  etag: z.string().optional(),
+  httpMetadata: z.object({
+    contentType: z.string().optional(),
+  }).optional(),
+  key: z.string(),
+  lastModified: z.date().optional(),
+  size: z.number(),
+});
+
+/** Stored object info */
+export type StoredObject = z.infer<typeof StoredObjectSchema>;
+
+// ============================================================================
+// FILE PART TYPES (AI Model Consumption)
+// ============================================================================
+
+/**
+ * File part ready for AI model consumption (non-image files like PDF)
+ *
+ * The flow:
+ * 1. File parts are added to UIMessage with url/mediaType (for UI compatibility)
+ * 2. convertToModelMessages() converts to LanguageModelV2 format
+ * 3. Our parts include `data` which the OpenRouter provider directly uses
+ */
+export const ModelFilePartSchema = z.object({
+  /** File data as Uint8Array - OpenRouter provider expects this format */
+  data: z.custom<Uint8Array>(val => val instanceof Uint8Array, {
+    message: 'data must be Uint8Array',
+  }),
+  /** Original filename for reference */
+  filename: z.string().optional(),
+  /** MIME type for UIMessage compatibility (same as mimeType) */
+  mediaType: z.string(),
+  /** MIME type of the file (AI SDK v6 LanguageModelV2 format) */
+  mimeType: z.string(),
+  type: z.literal('file'),
+  /** Data URL for UIMessage compatibility */
+  url: z.string(),
+});
+
+/** File part ready for AI model consumption */
+export type ModelFilePart = z.infer<typeof ModelFilePartSchema>;
+
+/**
+ * Binary-only file part for AI model consumption
+ *
+ * IMPORTANT: This schema has NO `url` field to prevent AI providers from
+ * attempting to download from URLs (especially localhost URLs which fail).
+ *
+ * Use this for file parts where you want to send binary data directly to the model.
+ * Some AI providers (like Azure via OpenRouter) will try to download from `url`
+ * if present, which fails for localhost URLs.
+ *
+ * AI SDK v6 LanguageModelV2 FilePart format:
+ * - type: 'file'
+ * - data: Uint8Array | URL | Buffer
+ * - mimeType: string
+ * - filename?: string
+ */
+export const ModelFilePartBinarySchema = z.object({
+  /** File data as Uint8Array - sent directly to AI provider */
+  data: z.custom<Uint8Array>(val => val instanceof Uint8Array, {
+    message: 'data must be Uint8Array',
+  }),
+  /** Original filename for reference */
+  filename: z.string().optional(),
+  /** MIME type of the file */
+  mimeType: z.string(),
+  type: z.literal('file'),
+});
+
+/** Binary-only file part (no URL field) for AI model consumption */
+export type ModelFilePartBinary = z.infer<typeof ModelFilePartBinarySchema>;
+
+/**
+ * Image part ready for AI model consumption
+ *
+ * AI SDK v6 PATTERN: Images must use type:'image' with raw base64 in 'image' field
+ * This fixes Bedrock error: "URL sources are not supported"
+ * Bedrock requires raw base64, not data URLs
+ *
+ * Matches AI SDK's ImageUIPart structure for compatibility:
+ * - type: 'image'
+ * - image: string (base64 or data URL)
+ * - mimeType: string (optional in AI SDK, required here for provider compatibility)
+ */
+export const ModelImagePartSchema = z.object({
+  /** Raw base64 string (NOT data URL) - required for Bedrock compatibility */
+  image: z.string(),
+  /** MIME type of the image - matches AI SDK's ImageUIPart.mimeType */
+  mimeType: z.string(),
+  type: z.literal('image'),
+});
+
+/** Image part ready for AI model consumption */
+export type ModelImagePart = z.infer<typeof ModelImagePartSchema>;
+
+/**
+ * URL-based file part for AI model consumption (large files)
+ *
+ * Used for files >4MB that exceed base64 memory limits.
+ * AI providers (OpenAI, Anthropic, Google, OpenRouter) fetch from the URL directly.
+ * URL must be publicly accessible with signed authentication.
+ */
+export const ModelFilePartUrlSchema = z.object({
+  /** Original filename for reference */
+  filename: z.string().optional(),
+  /** MIME type for UIMessage compatibility (same as mimeType) */
+  mediaType: z.string(),
+  /** MIME type of the file (AI SDK v6 LanguageModelV2 format) */
+  mimeType: z.string(),
+  type: z.literal('file'),
+  /** Public URL for AI provider to fetch the file */
+  url: z.string().url(),
+});
+
+/** URL-based file part for AI model consumption */
+export type ModelFilePartUrl = z.infer<typeof ModelFilePartUrlSchema>;
+
+/**
+ * URL-based image part for AI model consumption (large images)
+ *
+ * Used for images >4MB that exceed base64 memory limits.
+ * AI providers fetch the image from the URL directly.
+ */
+export const ModelImagePartUrlSchema = z.object({
+  /** Public URL for AI provider to fetch the image */
+  image: z.string().url(),
+  /** MIME type of the image */
+  mimeType: z.string(),
+  type: z.literal('image'),
+});
+
+/** URL-based image part for AI model consumption */
+export type ModelImagePartUrl = z.infer<typeof ModelImagePartUrlSchema>;
+
+/**
+ * Union type for model-ready media parts (images or files)
+ */
+export const ModelMediaPartSchema = z.discriminatedUnion('type', [
+  ModelFilePartSchema,
+  ModelImagePartSchema,
+]);
+
+/** Union type for model-ready media parts */
+export type ModelMediaPart = z.infer<typeof ModelMediaPartSchema>;
+
+/**
+ * Minimal file part with binary data (used in streaming orchestration)
+ * Subset of ModelFilePart for internal use
+ */
+export const ModelFilePartWithDataSchema = z.object({
+  data: z.custom<Uint8Array>(val => val instanceof Uint8Array, {
+    message: 'data must be Uint8Array',
+  }),
+  filename: z.string().optional(),
+  mimeType: z.string(),
+  type: z.literal('file'),
+});
+
+/** Minimal file part with binary data */
+export type ModelFilePartWithData = z.infer<typeof ModelFilePartWithDataSchema>;
+
+// ============================================================================
+// ATTACHMENT LOADING TYPES
+// ============================================================================
+
+/**
+ * Explicit types to annotate schemas and prevent TS7056.
+ */
+export type LoadAttachmentContentParams = {
+  attachmentIds: string[];
+  db: AppDb;
+  logger?: TypedLogger;
+  r2Bucket: R2Bucket | undefined;
+};
+
+export const LoadAttachmentContentParamsSchema: z.ZodType<LoadAttachmentContentParams> = z.object({
+  attachmentIds: z.array(z.string()),
+  db: z.custom<AppDb>(),
+  logger: z.custom<TypedLogger>().optional(),
+  r2Bucket: z.custom<R2Bucket | undefined>(),
+});
+
+/**
+ * Error that occurred during attachment loading
+ */
+export const AttachmentLoadErrorSchema = z.object({
+  error: z.string(),
+  uploadId: z.string(),
+});
+
+export type AttachmentLoadError = z.infer<typeof AttachmentLoadErrorSchema>;
+
+/**
+ * Statistics for attachment load operation
+ */
+export const AttachmentLoadStatsSchema = z.object({
+  failed: z.number(),
+  loaded: z.number(),
+  skipped: z.number(),
+  total: z.number(),
+});
+
+export type AttachmentLoadStats = z.infer<typeof AttachmentLoadStatsSchema>;
+
+/**
+ * Result of loading attachment content
+ */
+export const LoadAttachmentContentResultSchema = z.object({
+  errors: z.array(AttachmentLoadErrorSchema),
+  fileParts: z.array(ModelFilePartSchema),
+  stats: AttachmentLoadStatsSchema,
+});
+
+export type LoadAttachmentContentResult = z.infer<typeof LoadAttachmentContentResultSchema>;
+
+export type LoadMessageAttachmentsParams = {
+  db: AppDb;
+  logger?: TypedLogger;
+  messageIds: string[];
+  r2Bucket: R2Bucket | undefined;
+};
+
+export const LoadMessageAttachmentsParamsSchema: z.ZodType<LoadMessageAttachmentsParams> = z.object({
+  db: z.custom<AppDb>(),
+  logger: z.custom<TypedLogger>().optional(),
+  messageIds: z.array(z.string()),
+  r2Bucket: z.custom<R2Bucket | undefined>(),
+});
+
+/**
+ * Error that occurred during message attachment loading
+ */
+export const MessageAttachmentLoadErrorSchema = z.object({
+  error: z.string(),
+  messageId: z.string(),
+  uploadId: z.string(),
+});
+
+export type MessageAttachmentLoadError = z.infer<typeof MessageAttachmentLoadErrorSchema>;
+
+/**
+ * Statistics for message attachment load operation
+ */
+export const MessageAttachmentLoadStatsSchema = z.object({
+  failed: z.number(),
+  loaded: z.number(),
+  messagesWithAttachments: z.number(),
+  skipped: z.number(),
+  totalUploads: z.number(),
+});
+
+export type MessageAttachmentLoadStats = z.infer<typeof MessageAttachmentLoadStatsSchema>;
+
+/**
+ * Result of loading message attachments
+ */
+export const LoadMessageAttachmentsResultSchema = z.object({
+  errors: z.array(MessageAttachmentLoadErrorSchema),
+  filePartsByMessageId: z.custom<Map<string, ModelFilePart[]>>(),
+  stats: MessageAttachmentLoadStatsSchema,
+});
+
+export type LoadMessageAttachmentsResult = z.infer<typeof LoadMessageAttachmentsResultSchema>;
+
+export type LoadAttachmentContentUrlParams = LoadAttachmentContentParams & {
+  baseUrl: string;
+  secret: string;
+  threadId?: string;
+  userId: string;
+};
+
+/**
+ * Parameters for loading attachment content with URL generation
+ * Extends base parameters with URL generation requirements
+ */
+export const LoadAttachmentContentUrlParamsSchema: z.ZodType<LoadAttachmentContentUrlParams> = z.object({
+  attachmentIds: z.array(z.string()),
+  baseUrl: z.string().min(1),
+  db: z.custom<AppDb>(),
+  logger: z.custom<TypedLogger>().optional(),
+  r2Bucket: z.custom<R2Bucket | undefined>(),
+  secret: z.string().min(1),
+  threadId: z.string().optional(),
+  userId: z.string().min(1),
+});
+
+export type LoadMessageAttachmentsUrlParams = LoadMessageAttachmentsParams & {
+  baseUrl: string;
+  secret: string;
+  threadId?: string;
+  userId: string;
+};
+
+/**
+ * Parameters for loading message attachments with URL generation
+ * Extends base parameters with URL generation requirements
+ */
+export const LoadMessageAttachmentsUrlParamsSchema: z.ZodType<LoadMessageAttachmentsUrlParams> = z.object({
+  baseUrl: z.string().min(1),
+  db: z.custom<AppDb>(),
+  logger: z.custom<TypedLogger>().optional(),
+  messageIds: z.array(z.string()),
+  r2Bucket: z.custom<R2Bucket | undefined>(),
+  secret: z.string().min(1),
+  threadId: z.string().optional(),
+  userId: z.string().min(1),
+});
+
+// ============================================================================
+// SIGNED URL TYPES
+// ============================================================================
+
+/**
+ * Options for generating signed URLs (owner-only access)
+ */
+export const SignedUrlOptionsSchema = z.object({
+  /** Expiration time in milliseconds (default: 15 minutes) */
+  expirationMs: z.number().optional(),
+  /** Optional thread ID for thread-scoped access */
+  threadId: z.string().optional(),
+  /** Upload ID to sign */
+  uploadId: z.string(),
+  /** User ID who owns the file and is being granted access */
+  userId: z.string(),
+});
+
+export type SignedUrlOptions = z.infer<typeof SignedUrlOptionsSchema>;
+
+/**
+ * Signed URL query parameters
+ */
+export const SignedUrlParamsSchema = z.object({
+  /** Expiration timestamp (Unix ms) */
+  exp: z.number(),
+  /** Upload ID */
+  id: z.string(),
+  /** Cryptographic signature */
+  sig: z.string(),
+  /** Optional thread ID */
+  tid: z.string().optional(),
+  /** User ID or 'public' */
+  uid: z.string(),
+});
+
+export type SignedUrlParams = z.infer<typeof SignedUrlParamsSchema>;
+
+/**
+ * Valid signature result (owner-only, no public access)
+ */
+export const ValidSignatureResultSchema = z.object({
+  threadId: z.string().optional(),
+  uploadId: z.string(),
+  userId: z.string(),
+  valid: z.literal(true),
+});
+
+/**
+ * Invalid signature result
+ */
+export const InvalidSignatureResultSchema = z.object({
+  error: z.string(),
+  valid: z.literal(false),
+});
+
+/**
+ * Signature validation result (discriminated union)
+ */
+export const ValidateSignatureResultSchema = z.discriminatedUnion('valid', [
+  ValidSignatureResultSchema,
+  InvalidSignatureResultSchema,
+]);
+
+export type ValidateSignatureResult = z.infer<typeof ValidateSignatureResultSchema>;
+
+// ============================================================================
+// UPLOAD CLEANUP TYPES
+// ============================================================================
+
+/**
+ * Upload cleanup state schema
+ */
+export const UploadCleanupStateSchema = z.object({
+  createdAt: z.number(),
+  r2Key: z.string(),
+  scheduledAt: z.number(),
+  uploadId: z.string(),
+  userId: z.string(),
+});
+
+export type UploadCleanupState = z.infer<typeof UploadCleanupStateSchema>;
+
+/**
+ * Schedule cleanup result
+ */
+export const ScheduleCleanupResultSchema = z.object({
+  alarmTime: z.number(),
+  scheduled: z.boolean(),
+});
+
+export type ScheduleCleanupResult = z.infer<typeof ScheduleCleanupResultSchema>;
+
+/**
+ * Cancel cleanup result
+ */
+export const CancelCleanupResultSchema = z.object({
+  cancelled: z.boolean(),
+});
+
+export type CancelCleanupResult = z.infer<typeof CancelCleanupResultSchema>;
+
+/**
+ * Get cleanup state result
+ */
+export const GetCleanupStateResultSchema = z.object({
+  state: UploadCleanupStateSchema.nullable(),
+});
+
+export type GetCleanupStateResult = z.infer<typeof GetCleanupStateResultSchema>;
+
+// ============================================================================
+// TYPE GUARDS
+// ============================================================================
+
+/**
+ * Type guard: Check if value is a ModelFilePart
+ */
+export function isModelFilePart(value: unknown): value is ModelFilePart {
+  return ModelFilePartSchema.safeParse(value).success;
+}
+
+/**
+ * Type guard: Check if value is a ModelFilePartWithData
+ */
+export function isModelFilePartWithData(
+  value: unknown,
+): value is ModelFilePartWithData {
+  return ModelFilePartWithDataSchema.safeParse(value).success;
+}
+
+/**
+ * Type guard: Check if value is a ModelImagePart
+ */
+export function isModelImagePart(value: unknown): value is ModelImagePart {
+  return ModelImagePartSchema.safeParse(value).success;
+}
+
+/**
+ * Type guard: Check if value is a ModelMediaPart (image or file)
+ */
+export function isModelMediaPart(value: unknown): value is ModelMediaPart {
+  return ModelMediaPartSchema.safeParse(value).success;
+}
+
+/**
+ * Type guard: Check if value is a ModelFilePartUrl
+ */
+export function isModelFilePartUrl(value: unknown): value is ModelFilePartUrl {
+  return ModelFilePartUrlSchema.safeParse(value).success;
+}
+
+/**
+ * Type guard: Check if value is a ModelImagePartUrl
+ */
+export function isModelImagePartUrl(value: unknown): value is ModelImagePartUrl {
+  return ModelImagePartUrlSchema.safeParse(value).success;
+}
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const IS_LOCAL_DEV = process.env.WEBAPP_ENV === WebAppEnvs.LOCAL || process.env.NODE_ENV === NodeEnvs.DEVELOPMENT;
+
+/**
+ * Maximum file size to load into worker memory
+ *
+ * PRODUCTION (10MB): Balanced for Cloudflare Workers (128MB HARD platform limit)
+ * Memory breakdown for vision-only files (no PDF.js):
+ * - V8 runtime + framework overhead: ~30MB
+ * - Messages + system prompt + streaming: ~25MB
+ * - 10MB file → ~13MB base64 string (33% overhead)
+ * - Total: 30 + 25 + 23 = ~78MB (50MB safety margin)
+ *
+ * Memory breakdown with PDF.js text extraction:
+ * - V8 runtime + framework overhead: ~30MB
+ * - PDF.js initialization + parsing: ~20MB (can spike)
+ * - Messages + streaming: ~25MB
+ * - File + base64: ~23MB
+ * - Total: ~98MB (30MB safety margin)
+ *
+ * LOCAL DEV (25MB): Node.js has much more memory available
+ * - No worker memory constraints
+ * - Allows testing larger files without Cloudflare infrastructure
+ *
+ * Files larger than the limit should use:
+ * 1. Pre-extracted text (no file loading needed)
+ * 2. Cloudflare AI toMarkdown() for PDFs (processing offloaded)
+ * 3. URL-based delivery (AI provider fetches directly)
+ *
+ * @see https://developers.cloudflare.com/workers/platform/limits/
+ */
+export const MAX_BASE64_FILE_SIZE = IS_LOCAL_DEV ? 25 * 1024 * 1024 : 10 * 1024 * 1024;
+
+/** Default URL expiration time (15 minutes) - owner-only access */
+export const DEFAULT_URL_EXPIRATION_MS = 15 * 60 * 1000;
+
+/** Maximum allowed expiration (1 hour) */
+export const MAX_URL_EXPIRATION_MS = 60 * 60 * 1000;
+
+/** Minimum allowed expiration (5 minutes) */
+export const MIN_URL_EXPIRATION_MS = 5 * 60 * 1000;
+
+/** Cleanup delay before orphaned uploads are deleted (15 minutes) */
+export const UPLOAD_CLEANUP_DELAY_MS = 15 * 60 * 1000;

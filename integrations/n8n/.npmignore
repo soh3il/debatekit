@@ -1,0 +1,8 @@
+src/
+nodes/
+credentials/
+shared/
+resources/
+eslint.config.mjs
+tsconfig.json
+dist/tsconfig.tsbuildinfo

@@ -1,0 +1,73 @@
+/**
+ * Billing Context Schemas
+ *
+ * Centralized Zod schemas for billing service contracts.
+ * Single source of truth for billing context, credit balance, and token usage.
+ */
+
+import { CreditActionSchema, PlanTypeSchema } from '@debatekit/shared/enums';
+import type { ExecutionContext } from 'hono';
+import * as z from 'zod';
+
+// ============================================================================
+// Billing Context Schemas
+// ============================================================================
+
+/**
+ * Billing context for AI operations that deduct credits
+ */
+export const BillingContextSchema = z.object({
+  threadId: z.string(),
+  userId: z.string(),
+});
+
+export type BillingContext = z.infer<typeof BillingContextSchema>;
+
+/**
+ * Extended billing context for image analysis operations
+ */
+export const ImageAnalysisBillingContextSchema = BillingContextSchema.extend({
+  executionCtx: z.custom<ExecutionContext>(),
+});
+
+export type ImageAnalysisBillingContext = z.infer<typeof ImageAnalysisBillingContextSchema>;
+
+// ============================================================================
+// Credit Balance Schemas
+// ============================================================================
+
+export const CreditBalanceInfoSchema = z.object({
+  available: z.number(),
+  balance: z.number(),
+  monthlyCredits: z.number(),
+  nextRefillAt: z.date().nullable(),
+  planType: PlanTypeSchema,
+  reserved: z.number(),
+});
+
+export type CreditBalanceInfo = z.infer<typeof CreditBalanceInfoSchema>;
+
+// ============================================================================
+// Token Usage Schemas
+// ============================================================================
+
+export const TokenUsageSchema = z.object({
+  action: CreditActionSchema,
+  inputTokens: z.number(),
+  messageId: z.string().optional(),
+  modelId: z.string(),
+  outputTokens: z.number(),
+  threadId: z.string().optional(),
+});
+
+export type TokenUsage = z.infer<typeof TokenUsageSchema>;
+
+// ============================================================================
+// Enforce Credits Options
+// ============================================================================
+
+export const EnforceCreditsOptionsSchema = z.object({
+  skipRoundCheck: z.boolean().optional(),
+});
+
+export type EnforceCreditsOptions = z.infer<typeof EnforceCreditsOptionsSchema>;

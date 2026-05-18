@@ -1,0 +1,6 @@
+TELEGRAM_BOT_TOKEN=your-bot-token-from-botfather
+TELEGRAM_BOT_USERNAME=debatekitnowbot
+TELEGRAM_WEBHOOK_SECRET=your-webhook-secret
+DEBATEKIT_API_KEY=your-debatekit-api-key
+DEBATEKIT_API_URL=https://mcp.debatekit.ai
+DEBATEKIT_APP_URL=https://debatekit.ai

@@ -1,0 +1,25 @@
+{
+  "name": "@debatekit/telegram-bot",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bunx wrangler dev --local --log-level=log",
+    "build": "bunx wrangler deploy --dry-run --outdir=dist",
+    "deploy": "bunx wrangler deploy",
+    "deploy:preview": "bunx wrangler deploy --env=preview --keep-vars",
+    "deploy:production": "bunx wrangler deploy --env=production --keep-vars",
+    "check-types": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@debatekit/integration-shared": "workspace:*",
+    "grammy": "^1.41.1",
+    "hono": "^4.11.3",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260122.0",
+    "typescript": "5.9.3",
+    "wrangler": "^4.60.0"
+  }
+}

@@ -1,0 +1,2217 @@
+{
+  "accessibility": {
+    "chatInput": "Chat input",
+    "copied": "Copied",
+    "copyCode": "Copy code",
+    "mobileSidebar": {
+      "description": "Main navigation menu",
+      "title": "Navigation"
+    },
+    "moreOptions": "More options",
+    "nextSlide": "Next slide",
+    "openPublicThread": "Open public thread",
+    "openSidebar": "Open sidebar",
+    "previousSlide": "Previous slide",
+    "retry": "Retry",
+    "skipToMainContent": "Skip to main content",
+    "toggleSidebar": "Toggle Sidebar"
+  },
+  "admin": {
+    "banner": {
+      "impersonating": "Impersonating {email}",
+      "stopButton": "Stop Impersonating"
+    },
+    "impersonate": {
+      "description": "Search for a user by name or email to impersonate their session",
+      "errorTitle": "Impersonation Failed",
+      "impersonateButton": "Impersonate User",
+      "minCharsHint": "Type at least 3 characters to search",
+      "noUsersFound": "No users found",
+      "searchLabel": "Search User",
+      "searchPlaceholder": "Search by name or email...",
+      "success": "Impersonation Started",
+      "switching": "Switching user...",
+      "title": "Impersonate User"
+    },
+    "jobs": {
+      "aiReasoning": "AI Reasoning",
+      "aiModelsCount": "{count} AI models",
+      "autoPostToX": "Auto-post to X",
+      "autoPublish": "Auto-publish",
+      "autoPublished": "auto-published",
+      "autoRunEnabled": "Auto-run enabled · every 12h",
+      "autoRunOff": "Auto-run is off",
+      "autoRunPipeline": "Auto-run pipeline",
+      "automationStopError": "Failed to stop automation",
+      "automationStopped": "Automation stopped",
+      "cancelConfirmDescription": "This will stop the job and mark it as cancelled. This cannot be undone.",
+      "cancelConfirmTitle": "Cancel Job?",
+      "completedAt": "Completed",
+      "copyLink": "Copy link",
+      "create": "New Debate",
+      "createFirst": "Create your first job",
+      "created": "Job created and queued for processing",
+      "createdAt": "Created {date}",
+      "createdLabel": "Created",
+      "deleteConfirmDescription": "This will permanently delete this job.",
+      "deleteConfirmTitle": "Delete Job",
+      "deleteError": "Failed to delete job",
+      "deleteThreadOption": "Also delete the associated thread",
+      "deleted": "Job deleted successfully",
+      "description": "Multi-round AI conversations on trending topics",
+      "details": "Job Details",
+      "discoverTopics": "Discover Topics",
+      "discoverTopicsDescription": "AI scans trending news and finds engaging debate topics",
+      "empty": "No debates yet",
+      "emptyDescription": "Create a debate manually or let automation discover trending topics and start debates for you",
+      "endOfList": "No more debates",
+      "error": "Error",
+      "filter": {
+        "all": "All",
+        "completed": "Completed",
+        "failed": "Failed",
+        "pending": "Pending",
+        "running": "Running"
+      },
+      "generatingRound": "Generating round {number} responses...",
+      "generateDescription": "Multiple AI models discuss topics from different perspectives",
+      "linkCopied": "Link copied",
+      "loadError": "Failed to load jobs",
+      "models": "Selected Models",
+      "modelsCount": "{count} models",
+      "new": {
+        "autoPublishHint": "Make the thread public automatically when all rounds finish",
+        "autoPublishLabel": "Auto-publish when complete",
+        "description": "Set up an automated multi-round AI discussion with auto-selected models",
+        "promptHint": "This prompt will start the discussion. AI will select models and generate follow-up questions.",
+        "promptLabel": "Initial Prompt",
+        "promptPlaceholder": "Enter the discussion topic or question...",
+        "roundsHint": "How many rounds of discussion (1-5)",
+        "roundsLabel": "Number of Rounds",
+        "submit": "Create Job",
+        "title": "Create Automated Job"
+      },
+      "nextRun": "next run ~{time}",
+      "noDebatesEmpty": "No debates yet",
+      "noDebatesEmptyDescription": "Run the pipeline to auto-create debates from trending topics, or create one manually.",
+      "noFilterResults": "No debates match this filter",
+      "prompt": "Initial Prompt",
+      "publish": "Publish",
+      "publishDescription": "Best debates are automatically posted to X and other platforms",
+      "publishToSocial": "Publish to Social",
+      "retry": "Retry",
+      "round": "Round {current} / {total}",
+      "roundDetails": "Round Details",
+      "roundLabel": "Round {number}",
+      "roundProgress": "Round {current}/{total}",
+      "roundsCompleted": "{count} rounds completed",
+      "rounds": "Rounds",
+      "run": "Run",
+      "runNow": "Run Now",
+      "runningNow": "Running now",
+      "saveSettings": "Save Settings",
+      "saving": "Saving...",
+      "settingsLockedWhileRunning": "Settings locked while pipeline is running",
+      "stageDetail": {
+        "activeRunning": "{count} running",
+        "completedCount": "{count} completed",
+        "doneAndFailed": "{done} done · {failed} failed",
+        "failedCount": "{count} failed",
+        "lastRun": "Last: {time}",
+        "noDebates": "No debates",
+        "noPosts": "No posts",
+        "noRunsYet": "No runs yet",
+        "postedCount": "{count} posted",
+        "running": "Running...",
+        "scheduledCount": "{count} scheduled"
+      },
+      "stages": {
+        "discover": "Discover",
+        "generate": "Generate",
+        "publish": "Publish"
+      },
+      "roundFallback": "Round {current}/{total}",
+      "startedAgo": "started {time}",
+      "startedAt": "Started",
+      "status": {
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "failed": "Failed",
+        "pending": "Pending",
+        "running": "Running"
+      },
+      "stopAll": "Stop All",
+      "stopping": "Stopping...",
+      "title": "AI Debates",
+      "trends": {
+        "batchCreated": "{count} jobs created successfully",
+        "batchErrors": "{count} jobs failed to create",
+        "createJob": "Create Job",
+        "createSelected": "Create {count} jobs",
+        "creating": "Creating {current}/{total}...",
+        "description": "Find trending topics on social media to generate discussion prompts",
+        "deselectAll": "Deselect all",
+        "discover": "Discover",
+        "discovering": "Searching...",
+        "discoveryError": "Failed to discover trends",
+        "editPrompt": "Edit prompt before creating",
+        "keywordLabel": "Keyword",
+        "keywordPlaceholder": "Enter a topic to explore...",
+        "noResults": "No trends found for this keyword",
+        "platformLabels": {
+          "instagram": "Instagram",
+          "reddit": "Reddit",
+          "twitter": "X"
+        },
+        "platforms": "Platforms",
+        "reasoning": "Why trending",
+        "relevance": "Relevance",
+        "selectAll": "Select all",
+        "selectedCount": "{count} selected",
+        "suggestedRounds": "Rounds",
+        "title": "Find Topics"
+      },
+      "validation": {
+        "keywordMinLength": "Enter at least 2 characters",
+        "platformRequired": "Select at least one platform",
+        "promptMinLength": "Prompt must be at least 10 characters"
+      },
+      "viewThread": "View Thread",
+      "webSearch": "web search"
+    },
+    "layout": {
+      "adminBadge": "Admin",
+      "backToChat": "Back to Chat",
+      "contentAutomation": "Content Automation"
+    },
+    "nav": {
+      "impersonate": "Impersonate",
+      "label": "Admin Pages",
+      "pipeline": "Content Pipeline"
+    },
+    "pipeline": {
+      "belowThreshold": "below threshold",
+      "createdJobs": "{count} jobs created",
+      "debatesCreated": "{count} debates created",
+      "description": "Topic discovery and debate creation history",
+      "discovered": "{count} discovered",
+      "discoveredTopicsLabel": "Discovered Topics ({count})",
+      "discoveryDuration": "Discovery Duration",
+      "discoverySummary": "Discovery Summary",
+      "duration": "Duration: {duration}",
+      "durationLabel": "Duration",
+      "empty": "No discovery runs yet",
+      "emptyDescription": "When you run automation, each run appears here showing what topics were found and which debates were created",
+      "endOfList": "All runs loaded",
+      "filter": {
+        "active": "Active",
+        "all": "All",
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "failed": "Failed"
+      },
+      "improvementSuggestions": "Improvement Suggestions",
+      "jobsCount": "{count} jobs",
+      "keywords": "Keywords",
+      "loadError": "Couldn't load discovery runs",
+      "noDetailData": "No detail data available for this run.",
+      "noFilterResults": "No runs match this filter",
+      "noRunsEmpty": "No discovery runs yet",
+      "noRunsEmptyDescription": "Click 'Run Now' above to scan for trending topics.",
+      "noTopicsFound": "No new topics found",
+      "noneMetThreshold": "none met quality threshold",
+      "passedQualityThreshold": "{count} passed quality threshold",
+      "pendingDiscovery": "Pipeline run",
+      "platforms": "Platforms",
+      "rejectedTopicsLabel": "Rejected Topics ({count})",
+      "relevance": "relevance",
+      "resultsAnalyzed": "Results Analyzed",
+      "runDetails": "Pipeline Run Details",
+      "scoredBelowThreshold": "{count} topics scored below threshold ({threshold})",
+      "selected": "{count} selected",
+      "selectedTopicsLabel": "Selected Topics ({count})",
+      "stages": {
+        "debatesCreatedGenerating": "{count} debates created — AI models generating responses...",
+        "debatesQueuedWaiting": "Debates queued — waiting for AI models...",
+        "foundTopicsScoring": "Found {count} topics — scoring viral potential...",
+        "preparing": "Preparing pipeline...",
+        "publishing": "Publishing results...",
+        "queued": "Queued",
+        "running": "Running",
+        "scanning": "Scanning",
+        "scanningTopics": "Scanning trending topics across news & social...",
+        "scoring": "Scoring",
+        "scoringTopics": "Scoring topic viral potential..."
+      },
+      "title": "Discovery Runs",
+      "topics": "{count} topics",
+      "topicsFound": "{count} topics found",
+      "triggerType": {
+        "auto": "Auto",
+        "manual": "Manual"
+      },
+      "automationStarted": "Automation started",
+      "customTopics": "Custom Topics (optional)",
+      "customTopicsHint": "Leave empty to auto-discover from X trends.",
+      "customTopicsPlaceholder": "Enter specific topics to research, one per line.",
+      "enableAutomationError": "Failed to enable automation",
+      "maxTopics": "Max Topics",
+      "maxTopicsHint": "How many topics to discover (1-20).",
+      "runPipeline": "Run Pipeline",
+      "runPipelineDescription": "Configure pipeline run settings before starting.",
+      "startAutomation": "Start Automation",
+      "startAutomationDescription": "Configure and start continuous pipeline automation.",
+      "triggerError": "Failed to trigger pipeline",
+      "viralDimensions": {
+        "curiosityGap": "Curiosity Gap",
+        "emotionalTrigger": "Emotional Trigger",
+        "engagementPotential": "Engagement",
+        "hookStrength": "Hook Strength",
+        "relevanceTimeliness": "Relevance"
+      },
+      "status": {
+        "awaiting_review": "Awaiting review",
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "creating_jobs": "Creating jobs",
+        "discovering": "Discovering",
+        "failed": "Failed",
+        "pending": "Pending",
+        "publishing": "Publishing",
+        "running": "Running",
+        "tweeting": "Tweeting"
+      },
+      "stepBadge": "Step {step}",
+      "viralScore": "Viral Score",
+      "viralScores": "Viral Scores",
+      "awaitingReview": "Awaiting review",
+      "awaitingReviewHint": "Review discovered topics before creating debates",
+      "reviewTopics": "Review Topics",
+      "reviewDescription": "Review and customize discovered topics before creating debates",
+      "reviewTopic": "Topic",
+      "reviewPrompt": "Initial prompt",
+      "reviewRounds": "Rounds",
+      "reviewSelected": "{count} selected",
+      "reviewSubmit": "Create {count} Debates",
+      "reviewSubmitting": "Creating debates...",
+      "reviewSuccess": "{count} debates created successfully",
+      "reviewError": "Failed to create debates from reviewed topics"
+    },
+    "settings": {
+      "autoTweetEnabled": "Auto-publish to X",
+      "autoTweetEnabledHint": "Post to X automatically when a debate finishes",
+      "dailyJobLimit": "Debates per day",
+      "dailyJobLimitHint": "Max debates created automatically each day",
+      "dailyTweetLimit": "Posts per day",
+      "dailyTweetLimitHint": "Max posts to X each day",
+      "defaultRoundCount": "Default round count",
+      "defaultRoundCountHint": "Number of debate rounds for each automated job (1-10)",
+      "description": "Control how content is automatically discovered, debated, and published",
+      "keywordGenerationPrompt": "Keyword generation prompt",
+      "keywordGenerationPromptHint": "System prompt for AI-generated search keywords in trend discovery. Use {skill_id} to reference skills.",
+      "keywordGenerationPromptPlaceholder": "e.g. Focus on AI/ML breakthroughs and controversial tech debates...",
+      "loadError": "Failed to load settings",
+      "modelSelectionPrompt": "Model selection prompt",
+      "modelSelectionPromptHint": "System prompt for AI model selection per discussion topic. Use {skill_id} to reference skills.",
+      "modelSelectionPromptPlaceholder": "e.g. Select 2-3 diverse AI models based on topic complexity...",
+      "participantBehaviorPrompt": "Participant behavior prompt",
+      "participantBehaviorPromptHint": "Global rules for debatekit participant behavior (CEBR protocol, length limits). Use {skill_id} to reference skills.",
+      "participantBehaviorPromptPlaceholder": "e.g. Engage naturally, challenge assumptions, 180-350 word responses...",
+      "pipelineActive": "Auto-running",
+      "pipelineEnabled": "Auto-run",
+      "pipelineEnabledHint": "When enabled, the system automatically finds topics and creates debates on a schedule",
+      "pipelineRunning": "Pipeline running...",
+      "pipelineTriggered": "Full pipeline triggered successfully",
+      "promptSectionDiscovery": "Discovery Prompts",
+      "promptSectionGeneration": "Generation Prompts",
+      "promptSectionTweet": "Tweet Prompts",
+      "roundPromptGeneration": "Round generation prompt",
+      "roundPromptGenerationHint": "System prompt for generating follow-up questions between debate rounds. Use {skill_id} to reference skills.",
+      "roundPromptGenerationPlaceholder": "e.g. Generate concise follow-up prompts that explore disagreements...",
+      "runFullPipeline": "Run Full Pipeline",
+      "runFullPipelineDescription": "Discover trends, create jobs, run AI rounds, publish, and tweet",
+      "settingsError": "Failed to update settings",
+      "settingsUpdated": "Settings updated",
+      "stopPipeline": "Stop Pipeline",
+      "stoppingPipeline": "Stopping...",
+      "systemPrompt": "System prompt",
+      "systemPromptHint": "Meta-prompt that guides how debate topics and initial prompts are generated. Give context about purpose for more interesting, nuanced topics.",
+      "systemPromptPlaceholder": "e.g. You are a tech industry analyst focused on AI/ML. Prioritize topics with real-world business impact. Favor nuanced, contrarian takes over surface-level consensus.",
+      "title": "Automation Settings",
+      "topicGuidance": "Topic guidance",
+      "topicGuidanceHint": "Guide what kind of topics to discover beyond the viral score threshold. Describe themes, domains, or qualities you want.",
+      "topicGuidancePlaceholder": "e.g. Focus on AI regulation, open-source LLMs, and startup funding. Avoid crypto/Web3. Prefer topics with clear pro/con debate potential.",
+      "trendExtractionPrompt": "Trend extraction prompt",
+      "trendExtractionPromptHint": "Template for extracting trends from search results. Use {{keyword}} and {{results}} as placeholders. Use {skill_id} to reference skills.",
+      "trendExtractionPromptPlaceholder": "e.g. Analyze search results about \"{{keyword}}\" and extract trending topics...",
+      "tweetSkillsPrompt": "Tweet skills prompt",
+      "tweetSkillsPromptHint": "Full copywriting, psychology, and humanizer skills for tweet generation. Use {skill_id} to reference skill blocks.",
+      "tweetSkillsPromptPlaceholder": "e.g. {brand_voice}\n{copywriting_frameworks}\n{psychology_techniques}...",
+      "tweetSystemPrompt": "Tweet system prompt",
+      "tweetSystemPromptHint": "Customize the AI instructions for tweet generation. Type / for skill templates.",
+      "tweetSystemPromptPlaceholder": "e.g., Use the curiosity gap framework. Lead with debate data. Sound like a real person, not a brand.",
+      "viralScoringPrompt": "Viral scoring prompt",
+      "viralScoringPromptHint": "System prompt for viral potential scoring (hook, emotion, curiosity, relevance, engagement). Use {skill_id} to reference skills.",
+      "viralScoringPromptPlaceholder": "e.g. Score content across 5 dimensions (0-20 each)...",
+      "viralScoreThreshold": "Topic quality bar",
+      "viralScoreThresholdHint": "Only pick topics scoring above this (higher = pickier, 0-100)"
+    },
+    "tweets": {
+      "allPostsLoaded": "All posts loaded",
+      "cancelConfirm": "Cancel this tweet?",
+      "cancelled": "Tweet cancelled",
+      "charCount": "{count}/280",
+      "contentLabel": "Tweet Content",
+      "contentPlaceholder": "What's happening?",
+      "createDescription": "Write a new tweet to post manually or schedule",
+      "createError": "Failed to create tweet",
+      "createTweet": "Create Tweet",
+      "created": "Tweet created",
+      "deleteConfirm": "Delete this tweet? This cannot be undone.",
+      "deleteConfirmDescription": "This will permanently delete this tweet. This cannot be undone.",
+      "deleteConfirmMessage": "Are you sure you want to delete this tweet?",
+      "deleteConfirmTitle": "Delete Tweet",
+      "deleteError": "Failed to delete tweet",
+      "deleted": "Tweet deleted",
+      "description": "Auto-generated and scheduled tweets",
+      "edit": {
+        "description": "Edit the tweet content and schedule",
+        "noChanges": "No changes to save",
+        "title": "Edit Tweet"
+      },
+      "empty": "No tweets yet",
+      "emptyDescription": "Tweets are auto-generated when jobs complete",
+      "failedToLoadPosts": "Failed to load posts",
+      "filter": {
+        "all": "All",
+        "draft": "Draft",
+        "failed": "Failed",
+        "scheduled": "Scheduled",
+        "sent": "Sent"
+      },
+      "linkedinComingSoon": "LinkedIn Coming Soon",
+      "linkedinDescription": "Cross-post your best debates to LinkedIn automatically",
+      "linkedinTab": "LinkedIn",
+      "loadError": "Failed to load tweets",
+      "localModeWarning": "You're in local mode — posts won't send automatically. Use 'Send Now' to post manually.",
+      "new": {
+        "contentHint": "Write your post content. Supports up to 25,000 characters.",
+        "contentLabel": "Content",
+        "contentMax": "Maximum 4000 characters",
+        "contentPlaceholder": "What's happening?",
+        "contentRequired": "Tweet content is required",
+        "description": "Write a new tweet to post manually or schedule for later.",
+        "quickEvening": "Evening (6 PM)",
+        "quickLunch": "Lunch (12 PM)",
+        "quickMorning": "Morning (8 AM)",
+        "saveAsDraft": "Save as Draft",
+        "schedule": "Schedule",
+        "scheduledAtHint": "Leave empty to save as draft.",
+        "scheduledAtLabel": "Schedule (optional)",
+        "submit": "Create Tweet",
+        "threadIdHint": "Link this post to a specific debate thread (optional).",
+        "threadIdLabel": "Thread ID (optional)",
+        "threadIdPlaceholder": "Enter thread ID...",
+        "title": "Create Tweet"
+      },
+      "newPost": "New Post",
+      "noFilterResults": "No tweets match this filter",
+      "noPostsDescription": "Posts are auto-generated when debates complete. Run the pipeline to get started, or write one manually.",
+      "noPostsMatchFilter": "No posts match this filter",
+      "noPostsYet": "No posts yet",
+      "noTweetsDescription": "Create a manual tweet or wait for auto-generation",
+      "retryText": "Retry",
+      "rushHour": {
+        "evening": "Evening window",
+        "lunch": "Lunch window",
+        "morning": "Morning window"
+      },
+      "scheduledAt": "Scheduled for {date}",
+      "scheduledAtHint": "Leave empty to save as draft",
+      "scheduledLabel": "Scheduled:",
+      "scheduleLabel": "Schedule (optional)",
+      "send": {
+        "confirm": "Send Now",
+        "confirming": "Sending...",
+        "description": "This will immediately post this tweet to X. Make sure the content is ready.",
+        "title": "Send Tweet Now?",
+        "warning": "This will be posted immediately and cannot be undone."
+      },
+      "sendError": "Failed to send tweet",
+      "sendNow": "Send Now",
+      "sendQueued": "Tweet queued for sending",
+      "sentSuccess": "Tweet sent successfully",
+      "sentAt": "Sent {date}",
+      "sentLabel": "Sent:",
+      "soonBadge": "Soon",
+      "socialChannelsDescription": "Publish debates to your connected platforms",
+      "socialChannelsTitle": "Social Channels",
+      "source": {
+        "automated_job": "Auto",
+        "manual": "Manual"
+      },
+      "status": {
+        "cancelled": "Cancelled",
+        "draft": "Draft",
+        "failed": "Failed",
+        "scheduled": "Scheduled",
+        "sent": "Sent"
+      },
+      "title": "Scheduled Tweets",
+      "twitterTab": "X (Twitter)",
+      "tweetDeleted": "Tweet deleted",
+      "tweetQueued": "Tweet queued for posting",
+      "unschedule": "Unschedule",
+      "unscheduleError": "Failed to unschedule tweet",
+      "unscheduled": "Tweet moved to drafts",
+      "updated": "Tweet updated",
+      "viewOnX": "View on X",
+      "viewThread": "View Thread",
+      "viralLabel": "Viral:"
+    }
+  },
+  "actions": {
+    "add": "Add",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "deleting": "Deleting",
+    "download": "Download",
+    "edit": "Edit",
+    "goHome": "Go Home",
+    "loadMore": "Load more",
+    "loading": "Loading...",
+    "more": "More",
+    "reload": "Reload Page",
+    "remove": "Remove",
+    "save": "Save",
+    "select": "Select",
+    "tryAgain": "Try Again"
+  },
+  "apiKeys": {
+    "docs": {
+      "accordion": {
+        "description": "Access comprehensive documentation to integrate with our API. Choose the format that works best for you.",
+        "subtitle": "Explore our API reference and guides",
+        "title": "API Documentation"
+      },
+      "links": {
+        "interactive": {
+          "description": "Browse and test API endpoints with Scalar UI",
+          "title": "Interactive Documentation"
+        },
+        "llmText": {
+          "description": "Markdown format optimized for AI tools and agents",
+          "title": "LLM-Friendly Documentation"
+        },
+        "openapi": {
+          "description": "Download the complete API spec in JSON format",
+          "title": "OpenAPI Specification"
+        }
+      }
+    },
+    "form": {
+      "cancelButton": "Cancel",
+      "copied": "Copied!",
+      "copyButton": "Copy",
+      "copyError": "Failed to copy API key",
+      "copySuccess": "API key copied",
+      "copyWarning": "Copy this key now. After closing this dialog, it will never be shown again.",
+      "createButton": "Create Key",
+      "creating": "Creating...",
+      "description": "Create an API key for MCP server access",
+      "doneButton": "Done",
+      "expiresIn": {
+        "1year": "1 year",
+        "30days": "30 days",
+        "90days": "90 days",
+        "never": "Never"
+      },
+      "expiresInLabel": "Expiration",
+      "expiresInPlaceholder": "Select expiration",
+      "limitReached": {
+        "description": "You have reached the maximum limit of {max} API keys. Please delete an existing key before creating a new one.",
+        "title": "API Key Limit Reached"
+      },
+      "nameLabel": "Name",
+      "nameMinLength": "Name must be at least 3 characters",
+      "namePlaceholder": "e.g. \"Claude Desktop\", \"Cursor MCP\"",
+      "successTitle": "API Key Created",
+      "title": "Create API Key"
+    },
+    "list": {
+      "active": "Active",
+      "createNew": "Create API Key",
+      "createdAt": "Created",
+      "day": "day",
+      "delete": "Delete API key",
+      "deleteButton": "Delete Key",
+      "deleteConfirmDescription": "This action cannot be undone. This API key will immediately stop working.",
+      "deleteConfirmTitle": "Delete API Key?",
+      "deleteFailed": "Failed to delete API key",
+      "disabled": "Disabled",
+      "enabled": "Enabled",
+      "errorTitle": "Error",
+      "expired": "Expired",
+      "expiresAt": "Expires",
+      "neverExpires": "Never",
+      "noKeys": "No API keys yet",
+      "noKeysDescription": "Create your first API key to start using our programmatic API access",
+      "rateLimit": "Rate Limit",
+      "remainingRequests": "Remaining",
+      "title": "API Keys",
+      "unnamedKey": "Unnamed Key"
+    },
+    "modal": {
+      "description": "Manage your API keys for programmatic access",
+      "title": "API Keys"
+    },
+    "tabs": {
+      "create": "Create New",
+      "list": "My Keys"
+    }
+  },
+  "auth": {
+    "continueWithEmail": "Continue with Email",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "validation": {
+      "email": "Please enter a valid email address"
+    },
+    "errors": {
+      "accessDenied": "Access Denied",
+      "accessDeniedDesc": "You do not have permission to sign in. Please check your credentials or contact support.",
+      "backToSignIn": "Back to Sign In",
+      "callback": "Callback Error",
+      "callbackDesc": "There was a problem during the authentication callback. Please try again.",
+      "configuration": "Configuration Error",
+      "configurationDesc": "There is a problem with the server configuration. Please contact support if this persists.",
+      "default": "Authentication Error",
+      "defaultDesc": "An unexpected error occurred during authentication. Please try again.",
+      "domainRestricted": "Email Domain Not Allowed",
+      "domainRestrictedDesc": "Access is restricted to @deadpixel.ai email addresses in this environment. Please sign in with an authorized email.",
+      "emailCreateAccount": "Account Creation Error",
+      "emailCreateAccountDesc": "Could not create your account. Please try a different email address.",
+      "errorCode": "Error code:",
+      "notice": "Notice",
+      "oauthCallback": "Authentication Error",
+      "oauthCallbackDesc": "There was a problem with the authentication process. Please try signing in again.",
+      "oauthCreateAccount": "Account Creation Error",
+      "oauthCreateAccountDesc": "Could not create your account. You may already have an account with this email.",
+      "oauthSignin": "Sign In Error",
+      "oauthSigninDesc": "There was a problem signing in with your social account. Please try again.",
+      "restartProcess": "Authentication Process Reset Required",
+      "restartProcessDesc": "The authentication process needs to be restarted. Please try signing in again from the beginning.",
+      "threadNotFound": "Thread Not Found",
+      "threadUnavailable": "Thread Unavailable",
+      "tryAgain": "Try Again",
+      "verification": "Verification Required",
+      "verificationDesc": "Please check your email to verify your account before signing in."
+    },
+    "layout": {
+      "headline": "Your AI Board of Directors",
+      "subtitle": "Get perspectives from multiple AI models working together to solve your toughest problems"
+    },
+    "magicLink": {
+      "emailSentTo": "We've sent a magic link to {email}.",
+      "clickToSignIn": "Click the link to sign in.",
+      "error": "Error",
+      "sendButton": "Send Magic Link",
+      "title": "Check your email",
+      "useDifferentEmail": "Use a different email"
+    },
+    "signIn": {
+      "title": "Welcome back"
+    },
+    "signInWithGoogle": "Continue with Google",
+    "signUp": {
+      "features": {
+        "multipleModels": "Multiple AI models collaborate together",
+        "publicSharing": "Share conversations publicly",
+        "realtimeBrainstorming": "Real-time brainstorming and problem solving"
+      },
+      "getStartedFree": "Get Started Free",
+      "join": "Join"
+    }
+  },
+  "back": "Back",
+  "billing": {
+    "cancelSubscription": {
+      "activeUntil": "Active until",
+      "confirmButton": "Yes, Cancel Subscription",
+      "description": "Canceling your subscription will limit your access to premium features. Your subscription will remain active until the end of your current billing period.",
+      "loss": {
+        "advancedFeatures": "Advanced features and customization options",
+        "premiumModels": "Access to premium AI models and advanced capabilities",
+        "prioritySupport": "Priority customer support and assistance",
+        "unlimitedConversations": "Unlimited conversations and messages"
+      },
+      "termsNotice": "By confirming, you agree to the cancellation terms. You can reactivate your subscription at any time before it expires.",
+      "timeline": {
+        "accessUntil": "You'll retain full access to all premium features until {date}",
+        "downgrade": "After your subscription ends, your account will return to the Free plan",
+        "immediate": "No further charges will be made to your account",
+        "title": "Cancellation Timeline:"
+      },
+      "title": "Cancel Your Subscription?",
+      "warning": "Are you absolutely sure you want to cancel?",
+      "whatYouWillLose": "What you'll lose access to:"
+    },
+    "cancelSuccess": "Subscription cancelled successfully",
+    "currentPlan": "Current Plan",
+    "errors": {
+      "cancelFailed": "Cancellation Failed",
+      "manageBillingFailed": "Failed to Open Billing Portal",
+      "subscribeFailed": "Subscription Failed"
+    },
+    "failure": {
+      "authFailed": "Session Expired",
+      "authFailedDescription": "Your session expired during payment processing. Please sign in and try again.",
+      "commonReasons": {
+        "bankRejection": "Transaction rejected by your bank for security reasons",
+        "cardDeclined": "Card declined by your bank",
+        "incorrectDetails": "Incorrect card details or billing information",
+        "insufficientFunds": "Insufficient funds in your account",
+        "title": "Common Reasons for Payment Failure:"
+      },
+      "description": "We couldn't process your payment. Don't worry, you haven't been charged.",
+      "errorCode": "Error code",
+      "noPurchaseFound": "No Purchase Found",
+      "noPurchaseFoundDescription": "We couldn't find a recent credit purchase for your account. If you believe this is an error, please contact support.",
+      "paymentFailed": "Payment Processing Failed",
+      "paymentFailedDescription": "Your payment could not be processed. This usually happens due to insufficient funds, card decline, or incorrect payment details.",
+      "returnHome": "Return to Chat",
+      "support": {
+        "description": "If you believe this is an error or if you were charged but still see this message, please contact our support team immediately. We're here to help resolve any billing issues.",
+        "includeInfo": "Please include any error codes shown above when contacting support.",
+        "title": "Need Help?"
+      },
+      "syncFailed": "Subscription Sync Failed",
+      "syncFailedDescription": "Your payment was successful, but we encountered an issue activating your subscription. Our team has been notified and will resolve this shortly.",
+      "technicalDetails": "Technical details",
+      "title": "Payment Failed",
+      "tryAgain": "Try Again",
+      "unknownError": "Unexpected Error",
+      "unknownErrorDescription": "An unexpected error occurred while processing your payment. Please try again or contact support if the issue persists."
+    },
+    "manageBilling": "Manage Billing",
+    "renewsOn": "Renews On",
+    "subscriptionChanged": {
+      "afterDate": "After {date}",
+      "billingPeriodEnds": "End of billing period",
+      "change": "Change",
+      "changeDescription": "Your subscription has been updated successfully.",
+      "currentPlan": "Current Plan",
+      "currentPlanNow": "Current Plan (Active Now)",
+      "downgrade": "Downgrade",
+      "downgradeDescription": "Your subscription change has been scheduled. You'll keep your current plan features until the end of your billing period.",
+      "gracePeriodNotice": "Your current plan will remain active until {date}. After that, your new plan takes effect.",
+      "newPlanDetails": "Your New Plan Details",
+      "noSubscriptionFound": "No Subscription Found",
+      "noSubscriptionFoundDescription": "We couldn't find an active subscription. Please try subscribing to a plan.",
+      "previousPlan": "Previous Plan",
+      "title": "Subscription Updated!",
+      "upgrade": "Upgrade",
+      "upgradeDescription": "Your subscription has been upgraded successfully. You now have access to enhanced features and higher limits.",
+      "viewPricing": "View Pricing Plans"
+    },
+    "success": {
+      "autoRedirect": "Redirecting to chat in {seconds} seconds...",
+      "confirmingPayment": "Please wait while we confirm your payment",
+      "description": "Your subscription has been activated",
+      "planLimits": {
+        "activeUntilLabel": "Active until",
+        "concurrentModels": "Concurrent Models",
+        "creditsAvailable": "Credits Available",
+        "monthlyCredits": "Monthly Credits",
+        "status": "Status"
+      },
+      "processingSubscription": "Activating your subscription...",
+      "startChat": "Start Your DebateKit",
+      "title": "Payment Successful!",
+      "viewPricing": "View Pricing Plans"
+    }
+  },
+  "connect": {
+    "title": "Connect",
+    "description": "Use DebateKit across your favorite platforms and tools.",
+    "statusLive": "Live",
+    "statusComingSoon": "Coming Soon",
+    "chatgpt": {
+      "name": "ChatGPT",
+      "description": "Run DebateKit debates directly in ChatGPT.",
+      "action": "Open in ChatGPT"
+    },
+    "slack": {
+      "name": "Slack",
+      "description": "Add DebateKit to your Slack workspace.",
+      "action": "Add to Slack"
+    },
+    "telegram": {
+      "name": "Telegram",
+      "description": "Chat with DebateKit on Telegram.",
+      "action": "Open in Telegram"
+    },
+    "zapier": {
+      "name": "Zapier",
+      "description": "Automate DebateKit debates in your Zapier workflows.",
+      "action": "Connect on Zapier"
+    },
+    "n8n": {
+      "name": "n8n",
+      "description": "Use DebateKit nodes in your n8n automations.",
+      "action": "View on npm"
+    },
+    "apiKeys": {
+      "name": "MCP & API Keys",
+      "description": "Connect via MCP server or REST API.",
+      "action": "Manage Keys"
+    },
+    "raycast": {
+      "name": "Raycast",
+      "description": "Launch DebateKit debates from Raycast."
+    },
+    "pipedream": {
+      "name": "Pipedream",
+      "description": "Build DebateKit workflows on Pipedream."
+    },
+    "crewai": {
+      "name": "CrewAI",
+      "description": "Integrate DebateKit with CrewAI agents."
+    },
+    "dify": {
+      "name": "Dify",
+      "description": "Add DebateKit to your Dify applications."
+    },
+    "huggingface": {
+      "name": "HuggingFace",
+      "description": "Use DebateKit in HuggingFace Spaces."
+    },
+    "mcpRegistry": {
+      "name": "MCP Registry",
+      "description": "Find DebateKit on the official MCP server registry.",
+      "action": "View on Registry"
+    },
+    "smithery": {
+      "name": "Smithery",
+      "description": "Install DebateKit MCP server via Smithery.",
+      "action": "View on Smithery"
+    },
+    "cursorDirectory": {
+      "name": "Cursor Directory",
+      "description": "Add DebateKit MCP server to Cursor IDE.",
+      "action": "View on Cursor"
+    }
+  },
+  "chat": {
+    "aiSummary": "AI Summary",
+    "attachments": {
+      "defaultFileType": "File",
+      "defaultName": "File",
+      "dropDescription": "Upload files to include in your message",
+      "dropHere": "Drop files here",
+      "removeAttachment": "Remove attachment",
+      "errors": {
+        "emptyFile": "File is empty",
+        "filenameTooLong": "Filename must be 255 characters or less",
+        "fileTooLarge": "File is too large. Maximum size is {maxSize}",
+        "invalidType": "File type \"{fileType}\" is not allowed",
+        "visualFileTooLarge": "{fileType} files must be {maxSize} or smaller for AI processing"
+      },
+      "loadingPreview": "Loading preview...",
+      "loginToDownload": "Sign in to download",
+      "previewUnavailable": "Preview unavailable"
+    },
+    "autoMode": {
+      "analyzing": "Analyzing...",
+      "label": "Auto",
+      "manualLabel": "Manual",
+      "tooltip": "AI automatically selects the best models and settings for your prompt"
+    },
+    "citations": {
+      "download": "Download",
+      "pending": "loading...",
+      "searchPending": "Source details available after generation",
+      "sources": "Sources"
+    },
+    "configuration": {
+      "actionSummary": {
+        "added": "Added",
+        "modified": "Modified",
+        "removed": "Removed"
+      },
+      "added": "Added",
+      "modified": "Modified",
+      "modelUnavailable": "Model no longer available",
+      "removed": "Removed",
+      "configurationChanged": "Configuration changed",
+      "webSearchDisabled": "Web search disabled",
+      "webSearchEnabled": "Web search enabled"
+    },
+    "copyLink": "Copy Link",
+    "dashboard": {
+      "features": {
+        "multipleModels": "Multiple AI Models",
+        "publicSharing": "Public Sharing",
+        "realtimeCollaboration": "Real-time Collaboration"
+      },
+      "title": "AI Collaboration Hub"
+    },
+    "deleteThread": "Delete thread",
+    "deleteThreadConfirmDescription": "This action cannot be undone. All messages will be permanently deleted.",
+    "deleteThreadConfirmTitle": "Delete this thread?",
+    "emptyStateSubtext": "Your chats will appear here",
+    "emptyStateTitle": "Start your first conversation",
+    "errors": {
+      "addOwnApiKey": "Add your own API key for higher limits",
+      "apiError": "API Error",
+      "loadingThread": "Error loading thread",
+      "loadingThreadDescription": "An error occurred while loading the thread.",
+      "threadNotFound": "Thread not found",
+      "threadNotFoundDescription": "The conversation you are looking for does not exist.",
+      "authenticationError": "Authentication Error",
+      "checkConnection": "Check your internet connection",
+      "contentFilterHint": "Your message was filtered. Try rephrasing.",
+      "contentFiltered": "Content was filtered",
+      "contextTooLong": "Message too long. Please shorten your message.",
+      "emptyResponse": "Empty response received",
+      "errorType": "Error Type",
+      "fullMetadata": "Full metadata",
+      "generationCancelled": "Generation was cancelled",
+      "generationFailed": "Generation failed",
+      "hideDetails": "Hide details",
+      "model": "Model",
+      "modelNotFound": "Model not found",
+      "modelNotFoundHint": "The selected model may be unavailable. Try another model.",
+      "networkError": "Network Error",
+      "participant": "Participant",
+      "providerMessage": "Provider message",
+      "rateLimitReached": "Rate limit reached. Please wait and try again.",
+      "requestAborted": "Request was aborted",
+      "requestTimeout": "Request timed out",
+      "requestTookTooLong": "The request took too long to complete",
+      "responseFromProvider": "Response from provider",
+      "shortenMessage": "Try shortening your message",
+      "showDetails": "Show details",
+      "status": "Status",
+      "statusCode": "Status code",
+      "tryDifferentModel": "Try a different model",
+      "tryDifferentPrompt": "Try a different prompt",
+      "unexpectedError": "An unexpected error occurred",
+      "unknownModel": "Unknown model",
+      "useRegenerateButton": "Use the regenerate button to try again",
+      "validationError": "Validation Error",
+      "validationHint": "Check your input and try again",
+      "waitAndRegenerate": "Wait a moment and try regenerating",
+      "whatToDo": "What to do"
+    },
+    "retryRound": "Retry this round",
+    "roundError": "Something went wrong with this round",
+    "feedback": {
+      "dislike": "Dislike",
+      "like": "Like"
+    },
+    "memory": {
+      "memorySaved": "Memory saved",
+      "deleteFailed": "Failed to remove memory"
+    },
+    "input": {
+      "attachFiles": "Attach files",
+      "clickMicToStop": "Click microphone to stop",
+      "label": "Message input",
+      "listeningPlaceholder": "Listening... speak now",
+      "messageTooLong": "Message too long. Please shorten to send.",
+      "minModelsRequired": "Select at least {min} models to start a debatekit",
+      "maxModelsExceeded": "Maximum {max} models allowed. Please deselect some models.",
+      "insufficientCredits": "You'll need more credits for this conversation",
+      "lowCredits": "You're running low on credits",
+      "placeholder": "Message DebateKit...",
+      "recording": "Recording...",
+      "send": "Send message",
+      "stopRecording": "Stop recording",
+      "stopStreaming": "Stop streaming",
+      "streamingLabel": "Message input (disabled while AI responds)",
+      "streamingPlaceholder": "Waiting for AI response...",
+      "submitting": "Sending...",
+      "voiceInput": "Voice input"
+    },
+    "linkCopied": "Link Copied!",
+    "makePrivate": "Make Private",
+    "makePublic": "Make Public",
+    "makePublicConfirmDescription": "Anyone with the link will be able to view this conversation.",
+    "makingPrivate": "Making private...",
+    "makingPublic": "Making public...",
+    "message": {
+      "sources": "Sources"
+    },
+    "messageActions": {
+      "copy": "Copy",
+      "copyError": "Copy failed",
+      "copyErrorDescription": "Failed to copy content to clipboard",
+      "copySuccess": "Copied!",
+      "copySuccessDescription": "Content copied to clipboard"
+    },
+    "models": {
+      "addRole": "Add role",
+      "aiModels": "AI Models",
+      "buildCustom": {
+        "title": "Build Custom"
+      },
+      "cannotSelectModel": "Cannot Select Model",
+      "clearFilters": "Clear",
+      "clearRole": "Clear role",
+      "maxModelsReached": "Maximum of {max} models selected. Deselect a model to choose a different one.",
+      "minimumRequired": {
+        "description": "Select at least {count} models to continue"
+      },
+      "modal": {
+        "customRolePlaceholder": "e.g., Technical Writer, Data Analyst...",
+        "saveRole": "Save Role",
+        "selectAtLeastOneModel": "Select at least one model"
+      },
+      "modelIncompatibleWithFiles": "This model cannot process the uploaded images/PDFs. Remove visual files first.",
+      "models": "Models",
+      "modelsDeselected": "Models Deselected",
+      "modelsDeselectedDescription": "{models} cannot process images/PDFs and were deselected",
+      "noModelsFound": "No models found",
+      "noFileSupport": "No PDF support",
+      "noFileSupportTooltip": "This model cannot process PDF documents",
+      "noVision": "No vision",
+      "noVisionTooltip": "This model cannot process images",
+      "modelsDeselectedDueToImages": "{models} cannot process images and were deselected",
+      "modelsDeselectedDueToDocuments": "{models} cannot process PDF documents and were deselected",
+      "belowMinimum": "Not enough models",
+      "belowMinimumDescription": "You need at least {min} models selected. Currently have {current}.",
+      "presetIncompatible": "Preset incompatible",
+      "presetIncompatibleDescription": "None of the models in this preset are compatible with your current files",
+      "presetModelsExcluded": "Some models excluded",
+      "presetModelsExcludedDescription": "Some models in this preset are not available on your plan.",
+      "presets": {
+        "cancel": "Cancel",
+        "cannotSave": "Cannot save preset",
+        "customizePreset": "Customize preset",
+        "deletePreset": "Delete preset",
+        "done": "Done",
+        "failedToDelete": "Failed to delete preset",
+        "failedToSave": "Failed to save preset",
+        "failedToUpdate": "Failed to update preset",
+        "myPresets": "My Presets",
+        "namePlaceholder": "Enter preset name...",
+        "nameRequired": "Name is required",
+        "presetDeleted": "Preset deleted",
+        "presetDeletedMessage": "The preset has been deleted.",
+        "presetSaved": "Preset saved!",
+        "presetSavedMessage": "Your preset has been saved successfully.",
+        "presetUpdated": "Preset updated!",
+        "presetUpdatedMessage": "Your preset has been updated successfully.",
+        "save": "Save",
+        "saveAsNew": "Save as New",
+        "saveAsPreset": "Save as Preset",
+        "systemPresets": "System Presets",
+        "title": "Presets",
+        "update": "Update"
+      },
+      "unlockAllModels": "Unlock all models",
+      "upgradeToUnlock": "Upgrade to unlock"
+    },
+    "modes": {
+      "chatModes": "Chat Modes",
+      "currentMode": "Current Mode:",
+      "mode": "Mode",
+      "modal": {
+        "analyzing": {
+          "description": "Deep analysis from multiple expert viewpoints",
+          "title": "Analyzing"
+        },
+        "brainstorming": {
+          "description": "Generate creative ideas collaboratively",
+          "title": "Brainstorming"
+        },
+        "debating": {
+          "description": "Explore different perspectives through structured debate",
+          "title": "Debating"
+        },
+        "problemSolving": {
+          "description": "Work together to find practical solutions",
+          "title": "Problem Solving"
+        },
+        "subtitle": "Choose how AI models interact with your query",
+        "title": "Conversation Mode"
+      }
+    },
+    "moreOptions": "More options",
+    "noResults": "No chats found",
+    "noResultsDescription": "Try a different search term",
+    "participant": {
+      "emptyResponse": "No response from {model}",
+      "gatheringThoughts": "Thinking...",
+      "generating": "Generating response from {model}...",
+      "moderatorObserving": "Observing...",
+      "reasoningOnlyResponse": "Reasoning-only response from {model}",
+      "tierRequired": "{tier} required",
+      "waitingForWebResults": "Searching...",
+      "waitingNamed": "Thinking...",
+      "waitingToSynthesize": "Observing..."
+    },
+    "pin": "Pin",
+    "pinned": "Pinned",
+    "preSearch": {
+      "autoRetryingSearch": "Search in progress, auto-retrying...",
+      "error": "Error",
+      "pendingSearch": "Searching the web...",
+      "plan": {
+        "show": "Show search plan",
+        "title": "Search Plan"
+      },
+      "query": "query",
+      "queries": "queries",
+      "retry": "Retry",
+      "searchDepth": {
+        "advanced": "advanced",
+        "basic": "basic"
+      },
+      "searchedSources": "Searched {count} sources",
+      "searchFailed": "Search failed",
+      "searching": "Searching",
+      "source": "source",
+      "sources": "sources",
+      "steps": {
+        "answer": "Answer",
+        "executingSearch": "Searching web...",
+        "extractingContent": "Extracting content...",
+        "foundImages": "Found images",
+        "generatingAnswer": "Generating answer summary...",
+        "generatingPlan": "Generating search plan...",
+        "generatingQueries": "Creating search queries...",
+        "query": "Query",
+        "queryProgress": "Query {current} of {total}",
+        "results": "Analysis & Results",
+        "searchComplete": "Web sources found",
+        "searching": "Searching web sources",
+        "searchingDesc": "Finding relevant sources...",
+        "searchingTheWeb": "Searching the web",
+        "sources": "Sources",
+        "synthesizingAnswer": "Synthesizing answer",
+        "understanding": "Understanding query"
+      },
+      "title": "Web Research"
+    },
+    "public": {
+      "ctaDescription": "Create your own multi-AI conversations",
+      "ctaHeadline": "Start Your AI DebateKit",
+      "getStartedFree": "Start a Round",
+      "goHome": "Go Home",
+      "loadingPublicChat": "Loading public chat...",
+      "noMessagesDescription": "This conversation hasn't started yet. Create your own multi-AI chat!",
+      "noMessagesYet": "No messages yet",
+      "privateChat": "Private Chat",
+      "privateChatDescription": "This conversation is private and cannot be viewed.",
+      "sharedConversation": "Shared Conversation",
+      "threadNotFound": "Thread Not Found",
+      "threadNotFoundDescription": "This public chat thread doesn't exist or has been made private.",
+      "noLongerPublic": "No Longer Public",
+      "noLongerPublicDescription": "The owner has made this conversation private. It is no longer available for public viewing.",
+      "tryFree": "Start a Round"
+    },
+    "rename": "Rename",
+    "renameConversation": "Rename conversation",
+    "roles": {
+      "deleteCustomRole": "Delete custom role"
+    },
+    "roundActions": {
+      "copyError": "Copy failed",
+      "copyErrorDescription": "Failed to copy content to clipboard",
+      "copyRound": "Copy round",
+      "copySuccess": "Copied!",
+      "copySuccessDescription": "Content copied to clipboard",
+      "copySummary": "Copy summary",
+      "copyThread": "Copy thread",
+      "copyThreadSuccess": "Thread copied!",
+      "copyThreadSuccessDescription": "Thread content copied to clipboard"
+    },
+    "scrollToBottom": "Scroll to bottom",
+    "searchChats": "Search chats...",
+    "searchChatsDescription": "Search and navigate through your chat conversations",
+    "share": "Share",
+    "shareDialog": {
+      "copied": "Copied",
+      "copyLink": "Copy link",
+      "copyLinkLabel": "Copy link",
+      "generatingPreview": "Generating preview...",
+      "loadingPreview": "Loading preview...",
+      "openInNewTab": "Open in new tab",
+      "previewUnavailable": "Preview unavailable",
+      "publicStatus": "Public",
+      "threadPreviewAlt": "Thread preview"
+    },
+    "shareThread": "Share Thread",
+    "shareThreadDescription": "Share this conversation with others",
+    "sources": {
+      "title": "Sources"
+    },
+    "threadDeleteFailed": "Failed to delete thread",
+    "threadDeleteFailedDescription": "There was an error deleting the thread. Please try again.",
+    "threadDeleted": "Thread deleted",
+    "threadDeletedDescription": "The thread has been successfully deleted.",
+    "toolbar": {
+      "options": "Options",
+      "selected": "selected",
+      "tooltips": {
+        "attach": "Attach files",
+        "attachDisabled": "Attachments unavailable",
+        "microphone": "Voice input",
+        "mode": "Set conversation mode",
+        "models": "Select AI models",
+        "stopRecording": "Stop recording",
+        "webSearch": "Enable web search",
+        "webSearchEnabled": "Web search enabled"
+      }
+    },
+    "thread": {
+      "conversationTitle": "Conversation"
+    },
+    "tools": {
+      "arguments": "Arguments",
+      "calling": "Calling tool...",
+      "id": "Tool ID",
+      "memory": {
+        "approve": "Allow",
+        "badge": "Memory",
+        "contentPreview": "Content",
+        "delete": "Delete memory",
+        "denied": "Denied",
+        "deny": "Deny",
+        "saved": "Saved",
+        "update": "Save to memory"
+      },
+      "webSearch": {
+        "error": {
+          "failedToLoad": "Failed to load results"
+        },
+        "foundSources": "Found {count} sources",
+        "images": {
+          "count": "{count} images"
+        },
+        "searchedFor": "Searched for",
+        "searchingFor": "Searching for",
+        "title": "Sources"
+      }
+    },
+    "unpin": "Unpin",
+    "waitForStreamingToComplete": "Please wait for the AI to finish responding",
+    "dataSources": {
+      "title": "Data Sources",
+      "toggle": "Data Sources",
+      "comingSoon": "Coming Soon",
+      "secEdgar": "SEC EDGAR",
+      "secEdgarDescription": "Financial filings & corporate data",
+      "fred": "FRED",
+      "fredDescription": "Federal Reserve economic data",
+      "finnhub": "Finnhub",
+      "finnhubDescription": "Market data, insider trades & ESG",
+      "clinicalTrials": "ClinicalTrials.gov",
+      "clinicalTrialsDescription": "Active clinical trial registrations",
+      "crunchbase": "Crunchbase",
+      "crunchbaseDescription": "Private company funding & profiles",
+      "pitchbook": "PitchBook",
+      "pitchbookDescription": "M&A deal comps & exit multiples",
+      "spCapitalIq": "S&P Capital IQ",
+      "spCapitalIqDescription": "Institutional-grade financial data"
+    },
+    "webSearch": {
+      "description": {
+        "disabled": "Click to enable web browsing for participants",
+        "enabled": "Participants can browse the web for information"
+      },
+      "disabled": "Search Off",
+      "enabled": "Search On",
+      "title": "Web Search",
+      "toggle": "Web Search"
+    }
+  },
+  "common": {
+    "backToHome": "Back to Home",
+    "loading": "Loading...",
+    "logo": "Logo",
+    "maintenance": "We're currently undergoing maintenance. Please check back soon.",
+    "none": "None"
+  },
+  "customRolesPaidOnly": "Custom roles are available for Pro users",
+  "customRolesUpgradeMessage": "Upgrade to Pro to create custom roles",
+  "errors": {
+    "boundary": {
+      "chat": "An error occurred while loading the chat. Please try again.",
+      "componentStackLabel": "Component Stack",
+      "configuration": "An error occurred while loading the configuration.",
+      "devDetailsLabel": "Technical Details (Development)",
+      "errorLabel": "Error",
+      "general": "An unexpected error occurred. Please try again.",
+      "messageList": "An error occurred while displaying messages. Your conversation is safe.",
+      "preSearch": "An error occurred during web search.",
+      "refreshPage": "Refresh Page",
+      "stackLabel": "Stack Trace",
+      "title": "Something Went Wrong",
+      "tryAgain": "Try Again",
+      "urlLabel": "URL"
+    },
+    "streamFailed": "Stream failed",
+    "unknownError": "An unknown error occurred"
+  },
+  "emailPreferences": {
+    "cancel": "Cancel",
+    "description": "Choose which emails you'd like to receive from DebateKit.",
+    "globalUnsubscribe": "Unsubscribe from all emails",
+    "globalUnsubscribeDescription": "Opt out of all marketing and notification emails",
+    "globalUnsubscribeWarning": "You won't receive any marketing emails",
+    "save": "Save Preferences",
+    "saving": "Saving...",
+    "title": "Email Preferences",
+    "categories": {
+      "activity": {
+        "label": "Activity Notifications",
+        "description": "Updates about your threads and brainstorms"
+      },
+      "marketing": {
+        "label": "Marketing Emails",
+        "description": "Product announcements and promotions"
+      },
+      "newsletter": {
+        "label": "Weekly Newsletter",
+        "description": "Weekly digest of trending brainstorms and tips"
+      },
+      "product_updates": {
+        "label": "Product Updates",
+        "description": "New features and improvements"
+      },
+      "tips": {
+        "label": "Tips & Tutorials",
+        "description": "Get more out of DebateKit with expert tips"
+      }
+    }
+  },
+  "failedToCreateRole": "Failed to create role",
+  "failedToDeleteRole": "Failed to delete role",
+  "feedback": {
+    "description": "Share your thoughts, report bugs, or request features",
+    "survey": {
+      "messageQuestion": "Share your thoughts, report bugs, or request features",
+      "typeQuestion": "What type of feedback is this?"
+    },
+    "error": {
+      "message": "Failed to submit feedback. Please try again.",
+      "title": "Error"
+    },
+    "messageLabel": "Your Message",
+    "messagePlaceholder": "Tell us what's on your mind...",
+    "submit": "Submit Feedback",
+    "submitting": "Submitting...",
+    "success": {
+      "message": "Your feedback has been submitted successfully.",
+      "title": "Thank you!"
+    },
+    "title": "Send Feedback",
+    "typeLabel": "Feedback Type",
+    "types": {
+      "bug": "Bug Report",
+      "feature_request": "Feature Request",
+      "general": "General Feedback",
+      "other": "Other"
+    },
+    "validation": {
+      "messageMax": "Message must be less than {max} characters",
+      "messageMin": "Message must be at least 10 characters"
+    }
+  },
+  "forms": {
+    "loading": "Loading",
+    "noOptionsAvailable": "NoOptionsAvailable",
+    "noResultsFound": "NoResultsFound",
+    "pickDate": "PickDate",
+    "searchPlaceholder": "Search...",
+    "selectOption": "Select an option"
+  },
+  "markdown": {
+    "mermaidDiagram": "Mermaid Diagram"
+  },
+  "mcpAuthorize": {
+    "appName": "DebateKit MCP",
+    "approve": "Approve",
+    "deny": "Deny",
+    "description": "An application is requesting access to your DebateKit account.",
+    "error": {
+      "createKeyFailed": "Failed to create API key. Please try again.",
+      "invalidSession": "Invalid or expired authorization session. Please restart the authorization from your MCP client.",
+      "missingParams": "Missing required authorization parameters.",
+      "timeout": "The request took too long. Please check your connection and try again."
+    },
+    "permissions": {
+      "credits": "Consume credits from your account",
+      "title": "This will allow the application to:",
+      "tools": "Use AI debate tools via MCP"
+    },
+    "redirecting": "Redirecting...",
+    "title": "Authorize MCP Access"
+  },
+  "meta": {
+    "legal": {
+      "privacy": {
+        "description": "Learn how DebateKit protects your data and respects your privacy",
+        "keywords": "privacy policy, data protection, GDPR, user privacy",
+        "title": "Privacy Policy"
+      },
+      "terms": {
+        "description": "Read the terms and conditions for using DebateKit",
+        "keywords": "terms of service, user agreement, terms and conditions",
+        "title": "Terms of Service"
+      }
+    },
+    "signIn": {
+      "description": "Sign in to your DebateKit account to continue AI collaboration",
+      "keywords": "sign in, login, AI chat login",
+      "title": "Sign In"
+    },
+    "signUp": {
+      "description": "Create a free DebateKit account and start collaborating with multiple AI models",
+      "keywords": "sign up, create account, register, free AI chat",
+      "title": "Create Account"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "changes": {
+        "content": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the effective date.",
+        "title": "Changes to Privacy Policy"
+      },
+      "children": {
+        "content": "Our service is not intended for users under 13 years of age. We do not knowingly collect personal information from children under 13.",
+        "title": "Children's Privacy"
+      },
+      "collection": {
+        "content": "We collect information you provide directly, such as when you create an account, use our services, or contact us. This includes your email address, usage data, and conversation history.",
+        "title": "Information We Collect"
+      },
+      "contact": {
+        "content": "If you have questions about this Privacy Policy, please contact us at support@debatekit.ai.",
+        "title": "Contact Us"
+      },
+      "cookies": {
+        "content": "We use cookies and similar technologies to provide, protect, and improve our services. You can control cookies through your browser settings.",
+        "title": "Cookies and Tracking"
+      },
+      "email_tracking": {
+        "content": "When you receive marketing emails from DebateKit, we may use tracking technologies including tracking pixels and link tracking to measure email engagement (opens and clicks). This data helps us improve our communications. We process email delivery through Amazon Web Services Simple Email Service (AWS SES). Email send logs, including delivery status and engagement metrics, are retained for 90 days. You can manage your email preferences or unsubscribe from marketing emails at any time through your account settings. We comply with CAN-SPAM Act requirements and GDPR email marketing regulations.",
+        "title": "Email Communications & Tracking"
+      },
+      "lastUpdated": "Last updated: {date}",
+      "lastUpdatedYear": "Last updated: {year}",
+      "rights": {
+        "content": "You have the right to access, correct, or delete your personal information. You can also request a copy of your data or opt out of certain data processing activities.",
+        "title": "Your Rights"
+      },
+      "security": {
+        "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, or destruction.",
+        "title": "Data Security"
+      },
+      "sharing": {
+        "content": "We do not sell your personal information. We may share data with service providers who help us operate our platform, subject to confidentiality agreements.",
+        "title": "Information Sharing"
+      },
+      "tagline": "Your privacy and data protection matter to us",
+      "title": "Privacy Policy",
+      "usage": {
+        "content": "We use collected information to provide and improve our services, personalize your experience, communicate with you, and ensure platform security.",
+        "title": "How We Use Information"
+      }
+    },
+    "terms": {
+      "acceptance": {
+        "content": "By accessing or using DebateKit, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.",
+        "title": "Acceptance of Terms"
+      },
+      "billing": {
+        "content": "Paid subscriptions are billed in advance. You can cancel at any time, and your subscription will remain active until the end of the billing period.",
+        "title": "Billing and Payments"
+      },
+      "contact": {
+        "content": "For questions about these Terms, please contact us at support@debatekit.ai.",
+        "title": "Contact Us"
+      },
+      "effectiveYear": "Effective: {year}",
+      "governing": {
+        "content": "These Terms shall be governed by the laws of the jurisdiction in which DebateKit operates, without regard to conflict of law principles.",
+        "title": "Governing Law"
+      },
+      "lastUpdated": "Last updated: {date}",
+      "liability": {
+        "content": "To the maximum extent permitted by law, DebateKit shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the service.",
+        "title": "Limitation of Liability"
+      },
+      "marketing_communications": {
+        "content": "By creating an account on DebateKit, you agree to receive marketing emails including onboarding guides, product updates, tips, and newsletters. You can unsubscribe from any or all marketing communications at any time through your Email Preferences in account settings, or by clicking the unsubscribe link in any marketing email. Transactional emails (such as sign-in links and security notifications) are not affected by your marketing preferences.",
+        "title": "Marketing Communications"
+      },
+      "privacy": {
+        "content": "Your use of our services is also governed by our Privacy Policy. Please review it to understand how we collect and use your information.",
+        "title": "Privacy"
+      },
+      "services": {
+        "content": "DebateKit provides AI collaboration tools. We reserve the right to modify, suspend, or discontinue any part of the service at any time.",
+        "title": "Description of Services"
+      },
+      "tagline": "Guidelines for using our AI collaboration platform",
+      "termination": {
+        "content": "We may terminate or suspend your access immediately, without prior notice, for any breach of these Terms or for any other reason at our discretion.",
+        "title": "Termination"
+      },
+      "title": "Terms of Service"
+    },
+    "trustBadges": {
+      "fairUse": "Fair Use",
+      "legalCompliance": "Legal Compliance",
+      "protected": "Protected",
+      "secure": "Secure",
+      "transparent": "Transparent",
+      "userRights": "User Rights"
+    }
+  },
+  "moderator": {
+    "mode": {
+      "analyzing": "Analyzing",
+      "brainstorming": "Brainstorming",
+      "debating": "Debating",
+      "solving": "Problem Solving"
+    }
+  },
+  "moreOptions": "More options",
+  "navigation": {
+    "chat": "Chat",
+    "chats": "Chats",
+    "navigation": "Navigation",
+    "newChat": "New Chat",
+    "pricing": "Pricing",
+    "projects": "Projects",
+    "connect": "Connect",
+    "whyDebateKit": "Why DebateKit?",
+    "searchChats": "Search chats",
+    "signOut": "Sign Out"
+  },
+  "networkStatus": {
+    "connectionError": "Connection Error",
+    "offline": "Offline",
+    "timeout": "Timeout"
+  },
+  "pages": {
+    "notFound": {
+      "description": "This page doesn't exist or may have been moved.",
+      "goBack": "Go Back",
+      "goHome": "Go Home",
+      "title": "Page Not Found"
+    }
+  },
+  "pitch": {
+    "hook": {
+      "headline": "Your AI Board of Directors",
+      "p1": "Every important decision in business is made by a group of advisors — not one. A board of directors, a council of experts, a panel of specialists. Each brings a different lens, challenges the others' assumptions, and helps arrive at a stronger conclusion.",
+      "p2": "DebateKit brings this same principle to AI. Instead of asking one model and hoping for the best, you convene a council of AI models that debate, challenge, and build on each other's reasoning before delivering a synthesized answer.",
+      "roleArchitect": "Architect",
+      "roleAnalyst": "Analyst",
+      "roleChallenger": "Challenger",
+      "rolePragmatist": "Pragmatist"
+    },
+    "problem": {
+      "headline": "The Single-Model",
+      "headlineHighlight": "Problem",
+      "label": "The Problem",
+      "p1": "When you ask a question to ChatGPT, Claude, or Gemini, you get one perspective. That perspective might be brilliant — or it might have blind spots. There's no way to know, because there's no one challenging it.",
+      "p2": "Every language model has systematic biases shaped by its training data and alignment process. One model might over-index on caution while another misses regulatory nuance. One excels at quantitative analysis but underweights human factors. You'd never make a major business decision by asking a single advisor — why do it with AI?",
+      "p3": "The problem isn't that any one model is bad — it's that you're relying on a single point of failure for important decisions."
+    },
+    "insight": {
+      "headline": "What If They Could",
+      "headlineHighlight": "Debate?",
+      "label": "The Insight",
+      "p1": "DebateKit implements sequential multi-model deliberation. Here's what that means: when you ask a question, it doesn't go to one model — it goes to a council of models. You choose which ones, or let auto mode pick the best combination.",
+      "p2": "Each model takes a turn. But crucially, each one sees what the previous models said. They challenge, extend, and reframe each other's reasoning. This isn't parallel generation — it's a structured debate.",
+      "p3": "At the end, a moderator model reads the entire deliberation and produces a final synthesis — capturing the strongest arguments, resolving conflicts, and presenting a cohesive answer that no single model could have produced alone.",
+      "step1": "Your Question",
+      "step1Desc": "You type a question or paste a problem — anything from an investment memo to a clinical assessment to a strategic decision.",
+      "step2": "Models Debate",
+      "step2Desc": "Multiple AI models take turns responding. Each sees what came before — challenging, extending, and reframing the conversation.",
+      "step3": "Synthesized Answer",
+      "step3Desc": "A moderator reads the full deliberation and distills it into one cohesive answer with the strongest reasoning from all sides."
+    },
+    "evidence": {
+      "headline": "Backed by",
+      "headlineHighlight": "Research",
+      "label": "Evidence",
+      "p1": "This isn't a gimmick or a prompt engineering trick. Multi-model deliberation is a well-studied technique backed by peer-reviewed research from leading AI labs.",
+      "p2": "At ICML 2024, researchers demonstrated that multi-model debate produces answers that are 28% more accurate than single-model responses. A joint study by MIT and Google DeepMind showed 15% improvement in reasoning quality — models genuinely catch and correct each other's mistakes.",
+      "p3": "Four peer-reviewed papers across ICML, NeurIPS, and ICLR have validated this approach. The research comes from Anthropic, Google DeepMind, MIT, and Stanford.",
+      "stat1Label": "more accurate",
+      "stat1Source": "multi-model debate vs single model (ICML 2024)",
+      "stat2Label": "better reasoning",
+      "stat2Source": "models correct each other (MIT + DeepMind)",
+      "stat3Label": "peer-reviewed papers",
+      "stat3Source": "ICML, NeurIPS, ICLR"
+    },
+    "mcp": {
+      "label": "MCP Integration",
+      "headline": "Works Inside Your",
+      "headlineHighlight": "Agent",
+      "p1": "DebateKit runs as an MCP server inside Claude Code, Cursor, and any MCP-compatible client. Your agent invokes the council when the stakes are high — no tab-switching, no copy-paste.",
+      "mode1Title": "Plan Mode",
+      "mode1Desc": "Agent plans an approach. Council stress-tests it before code is written.",
+      "mode2Title": "Decision Mode",
+      "mode2Desc": "Agent hits a fork. Council debates the tradeoffs and picks a path.",
+      "mode3Title": "Council Mode",
+      "mode3Desc": "Full deliberation. Multiple models argue, then a moderator synthesizes the verdict.",
+      "cta": "Explore Integrations"
+    },
+    "platforms": {
+      "headline": "Works Where You",
+      "headlineHighlight": "Work",
+      "label": "Platforms",
+      "p1": "DebateKit isn't just a web app. It's available as an MCP server for Claude Code and Cursor, a ChatGPT plugin, a Slack and Telegram bot, a Zapier integration, and a direct API. Wherever you make decisions, DebateKit can be there.",
+      "webApp": "Web App",
+      "claudeCode": "Claude Code",
+      "cursor": "Cursor",
+      "vscode": "VS Code",
+      "chatgpt": "ChatGPT",
+      "slack": "Slack",
+      "telegram": "Telegram",
+      "api": "API",
+      "zapier": "Zapier",
+      "n8n": "n8n",
+      "smithery": "Smithery",
+      "more": "More..."
+    },
+    "demo": {
+      "headline": "See It",
+      "headlineHighlight": "In Action",
+      "label": "Demo",
+      "p1": "This is what a DebateKit debate actually looks like. Multiple models. One question. A structured deliberation that arrives at a better answer than any single model could produce."
+    },
+    "worthIt": {
+      "headline": "Why It's",
+      "headlineHighlight": "Worth It",
+      "label": "The ROI Argument",
+      "p1": "Multi-model costs more tokens. But that's pennies compared to the cost of a bad decision.",
+      "card1Title": "The Cost of a Query",
+      "card1Value": "~$0.15",
+      "card1Desc": "per debate. That's a board of advisors for the price of a coffee. One bad hire costs $50K. One wrong strategic call costs a quarter. This costs fifteen cents.",
+      "card2Title": "The Cost of a Mistake",
+      "card2Value": ">3% of profits",
+      "card2Desc": "lost to bad operational decisions (Gartner). Every executive knows the feeling — a decision that looked right until it wasn't. A second opinion would have caught it.",
+      "card3Title": "The Math",
+      "card3Value": "7–45% more accurate",
+      "card3Desc": "across tasks (MIT, ICML 2024 Best Paper). Not marginally better — fundamentally different. Models catch each other's blind spots the way good advisors do.",
+      "footer": "For $0.15, you get what a consulting firm charges $500/hour to approximate — multiple expert perspectives, structured deliberation, and a synthesized recommendation."
+    },
+    "useCases": {
+      "headline": "Built for People Who",
+      "headlineHighlight": "Make Decisions",
+      "label": "Use Cases",
+      "p1": "Whether you're evaluating a deal, reviewing a contract, or navigating a complex diagnosis — a second (and third, and fourth) opinion changes the outcome.",
+      "case1Title": "Finance & Investment",
+      "case1Desc": "Due diligence, investment memos, risk assessment — get competing perspectives on valuation, market fit, and downside scenarios.",
+      "case2Title": "Legal & Compliance",
+      "case2Desc": "Contract review, regulatory analysis, risk identification — adversarial AI review catches what a single model misses.",
+      "case3Title": "Healthcare & Research",
+      "case3Desc": "Differential diagnosis, literature review, clinical decision support — challenge your conclusions before they become decisions.",
+      "case4Title": "Strategy & Operations",
+      "case4Desc": "Market entry, M&A screening, competitive analysis — structured deliberation for the decisions that shape your business."
+    },
+    "cta": {
+      "headline": "Start Your First",
+      "headlineHighlight": "Debate",
+      "label": "Get Started",
+      "subtext": "Ask any question. Watch AI advisors deliberate in real time. Get a better answer.",
+      "ctaPrimary": "New Chat",
+      "ctaSecondary": "Explore Integrations",
+      "footer": "debatekit.ai"
+    }
+  },
+  "plans": {
+    "error": "Error",
+    "errorDescription": "There was an error loading subscription plans. Please try again.",
+    "noPlansAvailable": "No plans available"
+  },
+  "podcast": {
+    "autoPodcast": "Auto podcast",
+    "autoPodcastDescription": "Automatically generate a podcast after each round",
+    "buffering": "Buffering...",
+    "defaultRole": "moderator",
+    "defaultSpeaker": "Podcast",
+    "download": "Download",
+    "disableAutoPodcast": "Disable auto podcast",
+    "enableAutoPodcast": "Enable auto podcast",
+    "episodeRoundLabel": "Round {round}",
+    "episodeOf": "Episode {current} of {total}",
+    "episodes": "Episodes",
+    "episodesReady": "{completed}/{total}",
+    "generateFromDiscussion": "Generate podcast from discussion",
+    "generating": "Generating...",
+    "generatingAudio": "Generating audio...",
+    "generatingPodcast": "Generating podcast...",
+    "generatingScript": "Generating script...",
+    "generatingWithProgress": "Generating... {progress}%",
+    "listen": "Listen",
+    "listeningToPodcast": "Listen to podcast",
+    "next": "Next",
+    "nowPlaying": "Now playing",
+    "playable": "{progress}% • Playable",
+    "playPodcast": "Play podcast",
+    "podcast": "Podcast",
+    "podcastCompleted": "Podcast ready",
+    "podcastDisabled": "Auto podcast disabled",
+    "podcastEnabled": "Auto podcast enabled",
+    "podcastEnabledDescription": "Podcasts will generate after each round",
+    "podcastFailed": "Podcast generation failed",
+    "podcastToggleError": "Failed to update podcast setting",
+    "preparingPodcast": "Preparing podcast...",
+    "queued": "Queued",
+    "prev": "Prev",
+    "narrator": "Narrator",
+    "threadModerator": "Thread Moderator"
+  },
+  "pricing": {
+    "card": {
+      "cancelSubscription": "Cancel Subscription",
+      "currentPlan": "Current Plan",
+      "getStarted": "Get Started",
+      "manageBilling": "Manage Billing",
+      "processing": "Processing...",
+      "switchPlan": "Switch to This Plan",
+      "valueProps": {
+        "allModels": {
+          "description": "Access GPT, Claude, Gemini & more",
+          "title": "All AI Models"
+        },
+        "chatGpt": {
+          "description": "Run DebateKit debates in ChatGPT",
+          "title": "Use in ChatGPT"
+        },
+        "councilSummary": {
+          "description": "Get synthesized insights from all models",
+          "title": "Council Summary"
+        },
+        "mcp": {
+          "description": "Use DebateKit in Claude Code, Cursor & more",
+          "title": "MCP Server"
+        },
+        "presets": {
+          "description": "Save and reuse your favorite model configurations",
+          "title": "Presets & Custom"
+        },
+        "projects": {
+          "description": "Group conversations, add files, and set custom instructions",
+          "title": "Projects"
+        },
+        "unlimited": {
+          "description": "Generous monthly credits for heavy usage",
+          "title": "Chat Freely"
+        }
+      }
+    },
+    "error": {
+      "description": "We couldn't load the pricing information. Please try again later.",
+      "title": "Unable to Load Pricing"
+    },
+    "page": {
+      "description": "Choose the perfect plan for your needs",
+      "title": "Pricing & Plans"
+    },
+    "pageTitle": "Pricing"
+  },
+  "projects": {
+    "addFiles": "Add files",
+    "andMoreThreads": "...and {count} more",
+    "appearance": "Appearance",
+    "attachmentRemoveError": "Failed to remove file",
+    "attachmentRemoved": "File removed from project",
+    "cannotDeleteThreadFile": "Cannot delete file used in a conversation",
+    "collapse": "Collapse",
+    "collapseLess": "Show less",
+    "color": "Color",
+    "create": "Create Project",
+    "createDescription": "Create a new project to group conversations with shared context",
+    "createError": "Failed to create project",
+    "createProject": "Create project",
+    "customInstructions": "Custom Instructions",
+    "customInstructionsHint": "These instructions will be applied to all conversations in this project",
+    "customInstructionsPlaceholder": "Add instructions for AI models in this project...",
+    "delete": "Delete Project",
+    "deleteConfirmDescription": "This will permanently delete \"{name}\" and all chats within it.",
+    "deleteConfirmTitle": "Delete Project?",
+    "deleteConfirmWithThreads": "Are you sure you want to delete \"{name}\"? This will permanently delete {count} conversation(s) and all their messages.",
+    "deleteError": "Failed to delete project",
+    "deleteThreadsWarning": "All conversations in this project and their attachments will also be permanently deleted.",
+    "deleteWarning": "Once deleted, this project cannot be recovered",
+    "deleted": "Project deleted",
+    "description": "Description",
+    "descriptionPlaceholder": "Add a description...",
+    "edit": "Edit Project",
+    "editDescription": "Update project details and settings",
+    "empty": "No projects yet",
+    "emptyDescription": "Create a project to group conversations with shared context and files",
+    "expand": "Expand",
+    "expandMore": "Show more",
+    "files": "Files",
+    "filesDescription": "Files uploaded to this project are accessible in all conversations",
+    "filesEmpty": "No files uploaded",
+    "filesEmptyDescription": "Upload files to make them available in all project conversations",
+    "filesEmptyHint": "Add documents, code files, images, and more. {projectName} can access their contents when you chat inside the project.",
+    "fromThread": "From chat",
+    "fromThreadCannotRemove": "Referenced in chat - delete from conversation first",
+    "instructionsLabel": "Instructions",
+    "instructionsPlaceholder": "Set context and customize how AI responds in this project.",
+    "limitReached": "Project limit reached",
+    "limitReachedDescription": "You can have up to {max} projects. Delete an existing project to create a new one.",
+    "limitReachedShort": "Max {max} projects",
+    "threadLimitReached": "Thread limit reached",
+    "threadLimitReachedDescription": "This project has reached the maximum of {max} conversations. Delete an existing conversation to create a new one.",
+    "threadLimitReachedShort": "Max {max} threads per project",
+    "memories": "Memories",
+    "memoriesAutoGenerated": "Automatically generated from conversations",
+    "clearAllMemories": "Clear All",
+    "memoriesDescription": "Persistent context that carries across all project conversations",
+    "memoriesEmpty": "No memories yet",
+    "memoriesEmptyDescription": "Set custom instructions to create project-wide context",
+    "memoryRemoved": "Memory removed from project",
+    "memoryRemoveError": "Failed to remove memory",
+    "moveToProject": "Move to Project",
+    "name": "Project Name",
+    "namePlaceholder": "e.g., Trip to Japan",
+    "newChat": "New Chat",
+    "newChatIn": "New chat in {projectName}",
+    "newProject": "New project",
+    "newThread": "New thread",
+    "noProjects": "No projects",
+    "notFound": "Project not found",
+    "notFoundDescription": "The project you are looking for does not exist.",
+    "backToChat": "Back to Chat",
+    "onboardingText": "Use Projects to keep related chats, files, and instructions together—perfect for ongoing work or staying organized.",
+    "projectSettings": "Project settings",
+    "proOnly": "Upgrade to Pro to create projects",
+    "removeAttachment": "Remove File",
+    "removeAttachmentConfirm": "Remove \"{name}\" from this project? The file will remain in your uploads.",
+    "removeFromProject": "Remove from Project",
+    "removeMemory": "Remove Memory",
+    "removeMemoryConfirm": "Are you sure you want to remove this memory from the project?",
+    "removing": "Removing...",
+    "seeMore": "See more",
+    "settings": "Settings",
+    "startConversation": "Start a conversation in this project",
+    "templates": {
+      "investing": "Investing",
+      "research": "Research",
+      "travel": "Travel",
+      "writing": "Writing"
+    },
+    "threads": "Conversations",
+    "threadsEmpty": "No conversations",
+    "threadsEmptyDescription": "Start a new conversation in this project",
+    "threadsToDelete": "The following {count} conversation(s) will be deleted:",
+    "title": "Projects",
+    "upgradeTitle": "Unlock Projects",
+    "upgradeDescription": "Projects let you group conversations, add files, and set custom instructions. Upgrade to Pro to get started.",
+    "signUpTitle": "Create an account",
+    "signUpDescription": "Sign up to organize your conversations into projects with shared context and files.",
+    "uploadFiles": "Upload Files"
+  },
+  "roleDeleted": "Role deleted",
+  "roleDeletedMessage": "The custom role has been deleted.",
+  "scrollToBottom": "Scroll to bottom",
+  "searchPlaceholder": "Search...",
+  "selectAtLeastOneModel": "Select at least one model",
+  "selectAtLeastOneModelUpdate": "Select At Least One Model Update",
+  "selectOrEnterRole": "Select or enter a role",
+  "seo": {
+    "aeo": {
+      "contentType": "SoftwareApplication",
+      "primaryAnswer": "DebateKit orchestrates multiple AI models to debate, challenge assumptions, and synthesize perspectives. Unlike single-model chats, DebateKit's AIs are context-aware—they build on each other's responses to converge on higher-quality, more reliable outcomes.",
+      "primaryQuestion": "What is {brand}?",
+      "relatedQuestions": {
+        "aiConsensus": "How do AI models reach consensus on complex problems?",
+        "benefits": "Why are multiple AI models working together better than one?",
+        "betterAnswers": "Why do collaborating AI models produce better answers?",
+        "challengeIdeas": "Can AI models challenge my assumptions and play devil's advocate?",
+        "howItWorks": "How do AI models debate and build on each other in DebateKit?",
+        "howToUse": "How do I start an AI council session with {brand}?",
+        "multiAgent": "What is multi-agent AI collaboration?",
+        "vsChatGpt": "How is DebateKit different from ChatGPT?",
+        "vsLlmCouncil": "How is DebateKit different from Karpathy's LLM Council?",
+        "whatIsAgenticAi": "What is agentic AI and how does DebateKit use it?",
+        "whatProblemsCanSolve": "What problems can multiple AI models solve better than one?"
+      }
+    },
+    "features": {
+      "aiDebateDeliberation": "AI debate and deliberation",
+      "collaborativeReasoning": "Collaborative AI reasoning",
+      "contextAwareCollaboration": "Context-aware AI collaboration",
+      "multiModelSynthesis": "Multi-model synthesis",
+      "publicSharing": "Share AI council sessions",
+      "realtimeConvergence": "Real-time convergence"
+    },
+    "keywords": {
+      "agenticAi": "agentic AI",
+      "aiAgents": "AI agents",
+      "aiChallengeAssumptions": "AI challenge assumptions",
+      "aiCollaboration": "AI collaboration",
+      "aiConsensus": "AI consensus",
+      "aiConvergence": "AI convergence",
+      "aiCouncil": "AI council",
+      "aiDebate": "AI debate",
+      "aiDeliberation": "AI deliberation",
+      "aiModelsDebate": "AI models that debate",
+      "aiOrchestration": "AI orchestration",
+      "aiPeerReview": "AI peer review",
+      "aiProblemSolving": "AI problem solving",
+      "aiDebateKitDiscussion": "AI debatekit discussion",
+      "aiSwarm": "AI swarm",
+      "betterAiAnswers": "better AI answers",
+      "chatgpt": "ChatGPT",
+      "claude": "Claude",
+      "collaborativeAiReasoning": "collaborative AI reasoning",
+      "collectiveAiIntelligence": "collective AI intelligence",
+      "createAccount": "create account",
+      "dataProtection": "data protection",
+      "gdpr": "GDPR",
+      "gemini": "Gemini",
+      "gpt4": "GPT-4",
+      "llmCouncil": "LLM council",
+      "multiAgentAi": "multi-agent AI",
+      "multiAgentSystem": "multi-agent system",
+      "multiModelSynthesis": "multi-model synthesis",
+      "multipleAiPerspectives": "multiple AI perspectives",
+      "privacyPolicy": "privacy policy",
+      "termsAndConditions": "terms and conditions",
+      "termsOfService": "terms of service",
+      "userAgreement": "user agreement"
+    }
+  },
+  "settings": {
+    "apiKeys": {
+      "breadcrumb": {
+        "chat": "Chat",
+        "current": "MCP & API Keys",
+        "settings": "Settings"
+      },
+      "description": "Run structured multi-model debates from Claude Code, Cursor, VS Code, and more — via MCP.",
+      "list": {
+        "created": "Created",
+        "createButton": "Create Key",
+        "deleteTitle": "Delete",
+        "description": "Each key authenticates your editor with DebateKit's MCP server",
+        "disabled": "Disabled",
+        "empty": "No API keys yet. Create one to connect your editor.",
+        "enabled": "Enabled",
+        "expires": "Expires",
+        "never": "Never",
+        "title": "Your API Keys",
+        "maxKeysTooltip": "Maximum of {max} keys reached. Delete one to create another.",
+        "unnamedKey": "Unnamed Key"
+      },
+      "mcp": {
+        "copied": "Copied!",
+        "copyConfig": "Copy",
+        "copyError": "Failed to copy config",
+        "copySuccess": "Config copied",
+        "createKeyButton": "Create API Key",
+        "createKeyHint": "Click to create an API key",
+        "credits": {
+          "emptyState": "Credit balance is unavailable. Try refreshing the page.",
+          "errorDescription": "Unable to retrieve your credit balance. Please try again.",
+          "errorTitle": "Failed to load credit balance",
+          "lowCredits": "Running low on credits",
+          "nextRefill": "Refills {date}",
+          "percentage": "{percentage}% used",
+          "plan": "{plan} Plan",
+          "remaining": "{count} credits remaining",
+          "retry": "Retry",
+          "title": "Credit Balance",
+          "upgrade": "Upgrade for more credits"
+        },
+        "description": "Add DebateKit as an MCP server in your editor. Debates, code reviews, and architecture decisions — right in your workflow.",
+        "connectorHint": "Copy the URL above, then paste it into the \"Add custom connector\" dialog. OAuth will handle authentication.",
+        "hint": "Click the highlighted API key placeholder to generate one, then paste this config.",
+        "keyLoaded": "Key ready",
+        "title": "Setup Guide",
+        "usage": {
+          "title": "Usage Limits",
+          "description": "Free plan has a hard cap on MCP tool calls. Once you hit the limit, all tool calls are blocked until the window resets.",
+          "fiveHour": "5-Hour Window",
+          "daily": "Daily",
+          "weekly": "Weekly",
+          "remaining": "{remaining} remaining",
+          "resetIn": "Resets in {time}",
+          "cooldown": "Cooldown Active",
+          "cooldownDescription": "You have triggered a 60-minute cooldown. Free-plan tool calls are paused until the cooldown expires.",
+          "cooldownTimer": "Available in {time}",
+          "exceeded": "Limit Reached",
+          "exceededDescription": "You have used all available tool calls for this window. No further MCP requests will be processed until the limit resets.",
+          "exceededFree": "Free plan limit reached. Upgrade to Pro for significantly higher limits.",
+          "exceededPaid": "You have hit your rate limit for this period. Limits will reset automatically.",
+          "upgrade": "Upgrade for higher limits",
+          "freeLimits": "Free: {fiveHour}/5h, {daily}/day, {weekly}/week (hard limit)",
+          "freeHardLimit": "This is a hard limit. Once your free allowance is exhausted, tool calls are blocked until the window resets. No exceptions.",
+          "freeRoundUsed": "Your one free debate round has been used. Additional MCP tool calls require a Pro subscription.",
+          "noMoreToolCalls": "No more tool calls available. Upgrade to Pro or wait for your limit to reset.",
+          "proLimits": "Pro: {fiveHour}/5h, {daily}/day, {weekly}/week",
+          "usedOf": "{used} / {limit}",
+          "status": {
+            "ok": "Within Limits",
+            "warning": "Approaching Limit",
+            "cooldown": "Cooldown",
+            "exceeded": "Exceeded"
+          },
+          "errorTitle": "Failed to load usage",
+          "errorDescription": "Could not fetch your usage limits. Please try again.",
+          "retry": "Retry"
+        },
+        "history": {
+          "title": "Recent Activity",
+          "empty": "No activity yet. Run a debate from your editor to see it here.",
+          "total": "{total} sessions",
+          "credits": "{credits} credits",
+          "viewThread": "View thread",
+          "errorTitle": "Failed to load history",
+          "errorDescription": "Could not fetch your activity history. Please try again.",
+          "retry": "Retry",
+          "tools": {
+            "architect": "Architect",
+            "assess_tradeoffs": "Tradeoffs",
+            "consult": "Consult",
+            "debug": "Debug",
+            "plan_implementation": "Plan",
+            "review_code": "Review"
+          },
+          "modes": {
+            "analyzing": "Analyzing",
+            "brainstorming": "Brainstorming",
+            "debating": "Debating",
+            "solving": "Solving"
+          },
+          "thinking": {
+            "high": "High",
+            "low": "Low",
+            "medium": "Med"
+          },
+          "endOfList": "You've reached the end."
+        },
+        "panel": {
+          "capacityRemaining": "{remaining} of {limit} requests remaining",
+          "creditsRemaining": "{count} credits available",
+          "dailyLimit": "Daily Rate Limit",
+          "errorDescription": "Could not fetch your MCP usage. Please try again.",
+          "errorTitle": "Failed to load usage data",
+          "exceededBanner": "All tool-call allowances have been used. Requests are blocked until the next reset window.",
+          "exceededBannerFree": "Free plan tool calls exhausted. Upgrade to Pro to resume immediately with 500 daily requests.",
+          "freePlanNotice": "Free plan: {fiveHour} requests per 5 hours, {daily} per day, {weekly} per week. This is a hard limit.",
+          "freePlanBannerTitle": "Free plan — no automatic recharges",
+          "freePlanBannerBody": "Your {credits} signup credits are a one-time allowance. Free plans do not receive automatic credit refills — once they're gone, MCP tool calls are blocked.",
+          "freePlanBannerRateLimits": "Rate limits: {fiveHour} per 5 hours, {daily} per day, {weekly} per week. Exceeding the 5-hour limit triggers a 60-minute cooldown.",
+          "freePlanBannerUpgrade": "Pro subscribers get 2M credits refilled every month, 10x higher rate limits, and zero cooldowns.",
+          "freePlanBannerCta": "Upgrade to Pro",
+          "hardLimitNotice": "Once your free allowance is used, tool calls are blocked until the window resets.",
+          "proPlanBannerTitle": "Pro plan — automatic monthly recharges",
+          "proPlanBannerBody": "Your credits are refilled automatically every billing cycle. Rate limits reset on their natural windows with no cooldowns.",
+          "resetsAt": "Resets at {time} (in {countdown})",
+          "retry": "Retry",
+          "sessionWindow": "5-Hour Rate Limit",
+          "summaryRemaining": "{percentage}% rate limit remaining",
+          "summaryResetIn": "Resets in {time}",
+          "title": "Usage",
+          "weeklyLimit": "Weekly Rate Limit"
+        },
+        "reAuthenticate": "Re-authenticate",
+        "reAuthenticateHint": "Re-authorize MCP access in a new tab",
+        "testConnection": "Test Connection",
+        "testSuccess": "Connected successfully",
+        "testFailed": "Connection failed",
+        "testCredits": "{credits} credits available",
+        "testing": "Testing...",
+        "testErrorHint": "Check that your API key is valid and the MCP server is reachable."
+      },
+      "title": "MCP & API Keys"
+    }
+  },
+  "setRoleFor": "Set role for",
+  "skeletons": {
+    "loadingBreadcrumb": "Loading breadcrumb"
+  },
+  "states": {
+    "empty": {
+      "default": "No data found",
+      "description": "There is no data to display at the moment."
+    },
+    "error": {
+      "boundary": "Something went wrong",
+      "boundaryDescription": "An unexpected error occurred. Please try again or return home.",
+      "default": "Something went wrong",
+      "description": "There was an error processing your request.",
+      "detailsTitle": "Error Details (dev/preview only)",
+      "digest": "Digest:",
+      "errorLabel": "Error:",
+      "network": "Connection Issue",
+      "networkDescription": "Unable to connect to the server. Please try again.",
+      "offline": "No Internet Connection",
+      "offlineDescription": "Please check your internet connection and try again.",
+      "stackTrace": "Stack Trace:",
+      "timeout": "Request Timed Out",
+      "timeoutDescription": "The request took too long to complete. Please try again.",
+      "tryAgain": "Try again",
+      "unexpectedError": "An unexpected error occurred. Please try again."
+    },
+    "loading": {
+      "default": "Loading...",
+      "please_wait": "Please wait while we fetch your data..."
+    }
+  },
+  "status": {
+    "info": "Information",
+    "warning": "Warning"
+  },
+  "subscription": {
+    "planLabel": "Plan",
+    "tiers": {
+      "free": {
+        "description": "Basic access with limited features",
+        "name": "Free"
+      },
+      "pro": {
+        "description": "Full access to all features and models",
+        "name": "Pro"
+      }
+    }
+  },
+  "subtitle": "Choose up to {max} AI models to participate in your conversation",
+  "title": "Select Models",
+  "upgrade": "Upgrade",
+  "upgradeRequired": "Upgrade required",
+  "usage": {
+    "credits": "Credits",
+    "creditsAvailable": "credits available",
+    "freePlan": "Free",
+    "freeRound": "1 Free",
+    "freeTrial": {
+      "availableDescription": "Your first debatekit is on us — try it and see the magic. Upgrade to unlock all models and more rounds.",
+      "upgradeToPro": "Upgrade to Pro",
+      "upgradeToProShort": "Upgrade",
+      "usedDescription": "You've used your free round. Upgrade to unlock all models and more rounds."
+    },
+    "gracePeriod": "You're on {currentPlan} until {date}. After that, you'll switch to {newPlan}.",
+    "plan": "Plan",
+    "quotaAlert": {
+      "paidUserMessage": "You have reached your usage quota for this period."
+    },
+    "upgradeNow": "Upgrade Now"
+  },
+  "user": {
+    "defaultName": "User"
+  },
+  "userMenu": {
+    "admin": "Admin",
+    "adminDescription": "Administration tools",
+    "apiKeys": "MCP & API Keys",
+    "apiKeysDescription": "MCP server config & API keys",
+    "chatGpt": "Use in ChatGPT",
+    "chatGptDescription": "Run DebateKit debates in ChatGPT",
+    "automatedJobs": "Automated Jobs",
+    "automatedJobsDescription": "Manage automated AI conversations",
+    "deleteAccount": "Delete Account",
+    "deleteAccountDescription": "Permanently delete your account",
+    "emailPreferences": "Email Preferences",
+    "emailPreferencesDescription": "Manage your email subscriptions",
+    "feedbackDescription": "Help us improve DebateKit",
+    "impersonateDescription": "Impersonate another user",
+    "impersonateUser": "Impersonate User",
+    "manageBilling": "Manage billing",
+    "profile": "Profile",
+    "profileDescription": "Manage your account settings",
+    "proPlan": "Pro Plan",
+    "sendFeedback": "Send Feedback",
+    "upgradeDescription": "Unlock all AI models & unlimited messages",
+    "upgradeToPro": "Upgrade to Pro"
+  },
+  "profileDialog": {
+    "title": "Settings",
+    "description": "Manage your profile, email preferences, and account settings.",
+    "tabs": {
+      "profile": "Profile",
+      "notifications": "Notifications",
+      "account": "Account"
+    },
+    "profile": {
+      "nameLabel": "Display Name",
+      "nameDescription": "This is how you appear to others in discussions.",
+      "emailLabel": "Email Address",
+      "emailDescription": "Managed by your sign-in provider and cannot be changed here.",
+      "memberSince": "Member since {date}",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "saved": "Profile updated",
+      "updateFailed": "Update Failed"
+    },
+    "account": {
+      "dangerZone": "Danger Zone",
+      "dangerZoneDescription": "Actions here are permanent and cannot be undone. Please proceed with caution.",
+      "deleteAccount": "Delete Account",
+      "deleteAccountDescription": "Permanently delete your account, all threads, projects, and associated data. This action is irreversible.",
+      "deleteAccountFailed": "Delete Account Failed"
+    }
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "description": "This will permanently delete your account and all associated data including:",
+    "dataList": {
+      "threads": "All chat threads and messages",
+      "projects": "All projects and attachments",
+      "billing": "Billing history (Stripe customer record)",
+      "settings": "Custom roles and presets"
+    },
+    "warning": "This action cannot be undone.",
+    "confirmButton": "Delete My Account",
+    "cancelButton": "Cancel"
+  },
+  "version": {
+    "newVersionAvailable": "New version available",
+    "updateDescription": "A new version is available. Update to get the latest features.",
+    "updateNow": "Update Now",
+    "versionLabel": "Version"
+  },
+  "anonymous": {
+    "guest": "Guest",
+    "trialAvailable": "Try one free AI debatekit. Go Pro for all models and unlimited rounds.",
+    "signUpToContinue": "Great first round! Go Pro for all models and unlimited rounds.",
+    "signUpFree": "Sign up",
+    "inputDisabled": "Go Pro to start more rounds",
+    "logIn": "Log in",
+    "sidebarSignUp": "Go Pro",
+    "fileUploadBlocked": "Go Pro to upload files and unlock more."
+  },
+  "webSearch": {
+    "result": {
+      "collapseLess": "Show less",
+      "expandMore": "Show more",
+      "keyPoints": "Key Points",
+      "minRead": "{min} min read",
+      "morePoints": "{count} more points",
+      "relevance": "Relevance",
+      "viewAllImagesOnDomain": "View all images on {domain}",
+      "viewOnDomain": "View on {domain}",
+      "words": "words"
+    }
+  },
+  "workingMemories": {
+    "confirmDelete": "Are you sure you want to delete this memory? This action cannot be undone.",
+    "deleteError": "Failed to delete memory",
+    "deleteSuccess": "Memory deleted",
+    "deleteTitle": "Delete Memory",
+    "description": "Persistent context that the AI learns from your project conversations",
+    "empty": "No memories yet",
+    "emptyDescription": "Memories are automatically created as you chat with the AI in this project.",
+    "title": "Project Memory"
+  }
+}

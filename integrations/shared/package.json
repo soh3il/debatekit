@@ -1,0 +1,45 @@
+{
+  "name": "@debatekit/integration-shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./api-client": {
+      "types": "./src/api-client.ts",
+      "import": "./dist/api-client.js",
+      "default": "./dist/api-client.js"
+    },
+    "./constants": {
+      "types": "./src/constants.ts",
+      "import": "./dist/constants.js",
+      "default": "./dist/constants.js"
+    },
+    "./enums": {
+      "types": "./src/enums.ts",
+      "import": "./dist/enums.js",
+      "default": "./dist/enums.js"
+    },
+    "./formatters": {
+      "types": "./src/formatters.ts",
+      "import": "./dist/formatters.js",
+      "default": "./dist/formatters.js"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "import": "./dist/types.js",
+      "default": "./dist/types.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^4.3.5"
+  }
+}

@@ -1,0 +1,87 @@
+/**
+ * AI Provider Pricing Constants
+ *
+ * Actual provider costs (what you pay) for PostHog analytics.
+ * Separate from user credit pricing (with markup).
+ *
+ * Prices are in USD per million tokens.
+ */
+
+/**
+ * Cloudflare Workers AI pricing
+ * @see https://developers.cloudflare.com/workers-ai/platform/pricing/
+ */
+export const CLOUDFLARE_AI_PRICING = {
+  'bge-base-en-v1.5': {
+    input: 0.067, // $ per million tokens (embedding)
+    output: 0, // embeddings don't have output cost
+  },
+  'llama-3.1-8b-instruct': {
+    input: 0.282, // $ per million input tokens
+    output: 0.827, // $ per million output tokens
+  },
+} as const;
+
+/**
+ * Cloudflare AI Search pricing (AutoRAG)
+ * Currently free during beta
+ * @see https://developers.cloudflare.com/ai-search/platform/limits-pricing/
+ */
+export const CLOUDFLARE_AI_SEARCH_COST_PER_QUERY = 0;
+
+/**
+ * Tavily web search pricing (approximate)
+ * ~$0.01 per search for basic tier
+ */
+export const TAVILY_COST_PER_SEARCH = 0.01;
+
+/**
+ * Serper API pricing
+ * $1 per 1,000 searches = $0.001 per search
+ * @see https://serper.dev/pricing
+ */
+export const SERPER_COST_PER_SEARCH = 0.001;
+
+/**
+ * Jina Reader API pricing
+ * Free tier: No cost per request
+ * @see https://jina.ai/reader/
+ */
+export const JINA_READER_COST_PER_EXTRACTION = 0;
+
+/**
+ * Firecrawl pricing (approximate)
+ * ~$0.001 per page for scraping
+ * @see https://firecrawl.dev/pricing
+ */
+export const FIRECRAWL_COST_PER_PAGE = 0.001;
+
+/**
+ * Bing Web Search API pricing (approximate)
+ * ~$0.003 per search for S1 tier
+ * @see https://azure.microsoft.com/pricing/details/cognitive-services/search-api/
+ */
+export const BING_COST_PER_SEARCH = 0.003;
+
+/**
+ * Cloudflare Vectorize pricing
+ * $0.01 per million queried dimensions
+ * @see https://developers.cloudflare.com/vectorize/platform/pricing/
+ */
+export const CLOUDFLARE_VECTORIZE_COST_PER_MILLION_DIMENSIONS = 0.01;
+
+/**
+ * Cloudflare Workers AI pricing
+ * $0.011 per 1,000 neurons
+ * @see https://developers.cloudflare.com/workers-ai/platform/pricing/
+ */
+export const CLOUDFLARE_WORKERS_AI_COST_PER_1K_NEURONS = 0.011;
+
+/**
+ * Helper to get Cloudflare AI pricing by model name
+ */
+export function getCloudflareAiPricing(
+  modelName: keyof typeof CLOUDFLARE_AI_PRICING,
+): { input: number; output: number } | undefined {
+  return CLOUDFLARE_AI_PRICING[modelName];
+}

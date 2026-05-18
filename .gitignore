@@ -1,0 +1,127 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules/
+.bun/
+
+# Workspace package node_modules
+apps/*/node_modules/
+packages/*/node_modules/
+
+# testing
+coverage/
+playwright-report/
+test-results/
+.playwright/
+.playwright-mcp/
+
+# TanStack Start / Vite build outputs
+apps/web/.output/
+apps/web/dist/
+apps/api/dist/
+apps/api/dist-test/
+packages/shared/dist/
+packages/db/dist/
+.output/
+
+# Remotion video outputs
+apps/web/out/
+
+# TanStack Start cache
+apps/web/.tanstack/
+
+# Generated files (rebuilt on each build)
+# og-assets.generated.ts is committed - 460KB base64 assets needed for OG images
+apps/web/src/routeTree.gen.ts
+
+# Turbo
+.turbo/
+
+# Service worker build artifacts (if using Serwist/Workbox)
+apps/web/public/sw.js.map
+apps/web/public/swe-worker*.js
+apps/web/public/swe-worker*.js.map
+# Note: sw.js is manually maintained, not generated
+
+# Legacy root public folder (should use apps/web/public instead)
+/public/
+
+# misc
+.DS_Store
+*.pem
+
+# Screenshots (temp artifacts)
+/*.png
+
+# Vite temp files
+**/vite.config.timestamp_*
+
+# local uploads storage for development
+.uploads/
+.local-uploads/
+
+# claude code artifacts
+.claude/.cache/
+.claude/cache/
+.claude/**/*.log
+.claude/**/*.tmp
+.claude/**/.tsbuildinfo
+.claude/hooks/.debounce
+.claude/logs/
+.claude/settings.local.json
+
+# debug logs
+npm-debug.log*
+
+# local env files
+.dev.vars
+/.env
+.env.local
+.env*.local
+packages/google-ads-mcp/.env
+
+# typescript
+*.tsbuildinfo
+
+# Cloudflare Wrangler
+.wrangler/
+apps/*/.wrangler/
+packages/*/.wrangler/
+
+# Wrangler generated types (regenerated via cf-typegen)
+apps/web/worker-configuration.d.ts
+# Note: apps/api/cloudflare-env.d.ts is committed - wrangler types reads .dev.vars for secret types
+# CI doesn't have .dev.vars, so we commit the generated file
+
+# Context/reference docs (cached, not source)
+.context/
+
+# SQLite databases (local development)
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+
+# MCP config (user-specific)
+.mcp.json
+
+# Serena MCP
+.serena/
+
+# Backups with sensitive data
+apps/api/backups/
+ 
+# ESLint cache
+.eslintcache
+
+# Integration build artifacts and dependencies
+integrations/*/node_modules/
+integrations/*/dist/
+integrations/zapier/package-lock.json
+integrations/n8n/package-lock.json
+integrations/slack/.wrangler/
+# MCP registry tokens
+apps/mcp/.mcpregistry_*
+.mcpregistry_*_token

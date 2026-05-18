@@ -1,0 +1,22 @@
+{
+	"node": "n8n-nodes-debatekit",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["AI", "Developer Tools"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://debatekit.ai"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://debatekit.ai"
+			}
+		]
+	},
+	"alias": ["ai", "brainstorm", "debate", "multi-model", "consult", "architect", "code review", "debug", "plan", "tradeoffs", "debatekit"],
+	"subcategories": {
+		"AI": ["Agents", "Root Nodes"]
+	}
+}

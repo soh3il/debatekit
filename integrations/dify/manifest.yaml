@@ -1,0 +1,28 @@
+version: 1.0.0
+type: plugin
+author: deadpixel
+name: debatekit
+label:
+  en_US: DebateKit
+  zh_Hans: DebateKit
+description:
+  en_US: Multi-model AI debates — GPT-4o, Claude, Gemini & 200+ models discuss your question, then a moderator synthesizes all perspectives into actionable insight.
+  zh_Hans: 多模型AI辩论 — GPT-4o、Claude、Gemini等200多个模型讨论您的问题，然后主持人将所有观点综合为可操作的见解。
+icon: _assets/icon.svg
+category: tool
+created_at: 2026-03-10T00:00:00.000Z
+resource:
+  memory: 1048576
+  permission:
+    tool:
+      enabled: true
+    endpoint:
+      enabled: false
+privacy_policy: https://debatekit.ai/legal/privacy
+meta:
+  runner:
+    language: python
+    version: "3.12"
+plugins:
+  tools:
+    - provider/debatekit.yaml

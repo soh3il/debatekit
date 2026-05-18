@@ -1,0 +1,36 @@
+# API Secrets - Loaded by wrangler during local dev
+# Copy to .dev.vars and fill in values.
+# For production: wrangler secret put <NAME> --env <preview|production>
+
+# Authentication
+BETTER_AUTH_SECRET=your-secret-min-32-chars
+AUTH_GOOGLE_SECRET=your-google-oauth-secret
+TURNSTILE_SECRET_KEY=your-turnstile-secret
+
+# AWS SES
+AWS_SES_ACCESS_KEY_ID=your-aws-key-id
+AWS_SES_SECRET_ACCESS_KEY=your-aws-secret
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_your-key
+STRIPE_WEBHOOK_SECRET=whsec_your-secret
+
+# AI & Analytics
+OPENROUTER_API_KEY=sk-or-your-key
+POSTHOG_API_KEY=phc_your-key
+
+# Web Search (Serper.dev)
+SERP_API_KEY=your-serper-api-key-from-serper-dev
+
+# Upstash Redis
+UPSTASH_REDIS_REST_URL=https://your-instance.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your-token
+
+# Podcast (ElevenLabs)
+ELEVENLABS_API_KEY=your-elevenlabs-api-key
+
+# Twitter/X API (OAuth 1.0a - for tweet posting)
+TWITTER_API_KEY=your-twitter-api-key
+TWITTER_API_SECRET=your-twitter-api-secret
+TWITTER_ACCESS_TOKEN=your-twitter-access-token
+TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret

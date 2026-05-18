@@ -1,0 +1,366 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Smithery Logo" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Smithery Logo" [ref=e7]
+        - generic [ref=e10]:
+          - img [ref=e12]
+          - combobox "Search MCPs..." [ref=e15]
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - link "MCPs" [ref=e18] [cursor=pointer]:
+              - /url: /servers
+            - link "Skills" [ref=e19] [cursor=pointer]:
+              - /url: /skills
+            - link "Docs" [ref=e20] [cursor=pointer]:
+              - /url: /docs
+            - link "Pricing" [ref=e21] [cursor=pointer]:
+              - /url: /pricing
+            - button "Publish" [ref=e22] [cursor=pointer]:
+              - text: Publish
+              - img
+          - button "Ava Bagherzadeh" [ref=e602] [cursor=pointer]:
+            - img "Ava Bagherzadeh" [ref=e604]
+    - main [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e30]:
+            - generic [ref=e32]:
+              - button "Click to edit server icon" [ref=e605] [cursor=pointer]:
+                - img "DebateKit" [ref=e606]
+                - generic [ref=e608]: Edit
+              - generic [ref=e34]:
+                - heading "DebateKit" [level=1] [ref=e35]:
+                  - generic [ref=e36]: DebateKit
+                - generic [ref=e37]:
+                  - generic [ref=e38] [cursor=pointer]: debatekit/debatekit
+                  - generic [ref=e39]: •
+                  - generic [ref=e40]: last deployed 48 seconds ago
+            - generic [ref=e41]:
+              - generic [ref=e42]:
+                - img [ref=e43]
+                - generic [ref=e46]: 75/100
+              - generic [ref=e47]:
+                - img [ref=e48]
+                - generic [ref=e51]: Remote
+          - generic [ref=e52]:
+            - tablist [ref=e54]:
+              - link "Overview" [ref=e55] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit
+                - tab "Overview" [selected] [ref=e56]:
+                  - generic [ref=e57]:
+                    - img [ref=e58]
+                    - generic [ref=e60]: Overview
+              - link "Performance" [ref=e61] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit#performance
+                - tab "Performance" [ref=e62]:
+                  - generic [ref=e63]:
+                    - img [ref=e64]
+                    - generic [ref=e67]: Performance
+              - link "Usage" [ref=e68] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit#usage
+                - tab "Usage" [ref=e69]:
+                  - generic [ref=e70]:
+                    - img [ref=e71]
+                    - generic [ref=e73]: Usage
+              - link "API" [ref=e74] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit#api
+                - tab "API" [ref=e75]:
+                  - generic [ref=e76]:
+                    - img [ref=e77]
+                    - generic [ref=e80]: API
+              - link "Observability" [ref=e609] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit/observability
+                - tab "Observability" [ref=e610]:
+                  - generic [ref=e611]:
+                    - img [ref=e612]
+                    - generic [ref=e613]: Observability
+              - link "Logs" [ref=e614] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit/logs
+                - tab "Logs" [ref=e615]:
+                  - generic [ref=e616]:
+                    - img [ref=e617]
+                    - generic [ref=e618]: Logs
+              - link "Releases" [ref=e619] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit/releases
+                - tab "Releases" [ref=e620]:
+                  - generic [ref=e621]:
+                    - img [ref=e622]
+                    - generic [ref=e625]: Releases
+              - link "Settings" [ref=e626] [cursor=pointer]:
+                - /url: /servers/debatekit/debatekit/settings
+                - tab "Settings" [ref=e627]:
+                  - generic [ref=e628]:
+                    - img [ref=e629]
+                    - generic [ref=e632]: Settings
+            - generic [ref=e81]:
+              - main [ref=e83]:
+                - generic [ref=e84]:
+                  - generic [ref=e85]:
+                    - generic [ref=e86]:
+                      - heading "About" [level=2] [ref=e87]:
+                        - img [ref=e88]
+                        - text: About
+                      - paragraph [ref=e93]: Your AI Board of Directors. Run multi-model debates where GPT-4o, Claude, Gemini, and more discuss your question, then a moderator synthesizes their perspectives into actionable insight.
+                    - generic [ref=e94]:
+                      - heading "Capabilities" [level=2] [ref=e95]:
+                        - img [ref=e96]
+                        - text: Capabilities
+                      - generic [ref=e98]:
+                        - tablist [ref=e100]:
+                          - link "Tools 13" [ref=e101] [cursor=pointer]:
+                            - /url: /servers/debatekit/debatekit?capability=tools
+                            - tab "Tools 13" [selected] [ref=e102]:
+                              - img [ref=e103]
+                              - generic [ref=e107]: Tools
+                              - generic [ref=e108]: "13"
+                          - link "Resources 3" [ref=e109] [cursor=pointer]:
+                            - /url: /servers/debatekit/debatekit?capability=resources
+                            - tab "Resources 3" [ref=e110]:
+                              - img [ref=e111]
+                              - generic [ref=e115]: Resources
+                              - generic [ref=e116]: "3"
+                          - link "Prompts 3" [ref=e117] [cursor=pointer]:
+                            - /url: /servers/debatekit/debatekit?capability=prompts
+                            - tab "Prompts 3" [ref=e118]:
+                              - img [ref=e119]
+                              - generic [ref=e121]: Prompts
+                              - generic [ref=e122]: "3"
+                        - tabpanel "Tools 13" [ref=e123]:
+                          - generic [ref=e124]:
+                            - group [ref=e126]:
+                              - generic "List Models List available AI models grouped by thinking level (low/medium/high). Shows default models, credit costs, capabilities for each tier. Use this before consult to understand model options." [ref=e127] [cursor=pointer]:
+                                - generic [ref=e128]:
+                                  - generic [ref=e129]: List Models
+                                  - generic [ref=e130]: List available AI models grouped by thinking level (low/medium/high). Shows default models, credit costs, capabilities for each tier. Use this before consult to understand model options.
+                            - group [ref=e132]:
+                              - generic "List Sessions List your previous MCP tool sessions. Returns session metadata including prompt, tool used, quality score, and credits consumed. Useful for reviewing past council discussions." [ref=e133] [cursor=pointer]:
+                                - generic [ref=e134]:
+                                  - generic [ref=e135]: List Sessions
+                                  - generic [ref=e136]: List your previous MCP tool sessions. Returns session metadata including prompt, tool used, quality score, and credits consumed. Useful for reviewing past council discussions.
+                            - group [ref=e138]:
+                              - generic "Get Session Get full details of a previous MCP session by ID. Returns the complete result including participant responses and moderator synthesis. Use list_sessions first to find session IDs." [ref=e139] [cursor=pointer]:
+                                - generic [ref=e140]:
+                                  - generic [ref=e141]: Get Session
+                                  - generic [ref=e142]: Get full details of a previous MCP session by ID. Returns the complete result including participant responses and moderator synthesis. Use list_sessions first to find session IDs.
+                            - group [ref=e144]:
+                              - generic "Get Logs Query structured logs from your MCP tool executions. Filter by session, severity level, event type, and time range. Useful for debugging and monitoring tool usage." [ref=e145] [cursor=pointer]:
+                                - generic [ref=e146]:
+                                  - generic [ref=e147]: Get Logs
+                                  - generic [ref=e148]: Query structured logs from your MCP tool executions. Filter by session, severity level, event type, and time range. Useful for debugging and monitoring tool usage.
+                            - group [ref=e150]:
+                              - generic "Check Usage Check your remaining credits, usage limits, and plan info" [ref=e151] [cursor=pointer]:
+                                - generic [ref=e152]:
+                                  - generic [ref=e153]: Check Usage
+                                  - generic [ref=e154]: Check your remaining credits, usage limits, and plan info
+                            - group [ref=e156]:
+                              - generic "Get Thread Link Get the dashboard URL for a previous debate session. Returns the thread link and public URL if the thread is public." [ref=e157] [cursor=pointer]:
+                                - generic [ref=e158]:
+                                  - generic [ref=e159]: Get Thread Link
+                                  - generic [ref=e160]: Get the dashboard URL for a previous debate session. Returns the thread link and public URL if the thread is public.
+                            - group [ref=e162]:
+                              - generic "Set Thread Visibility Set a thread as public or private. Public threads can be shared via URL. Use session_id from a previous debate session." [ref=e163] [cursor=pointer]:
+                                - generic [ref=e164]:
+                                  - generic [ref=e165]: Set Thread Visibility
+                                  - generic [ref=e166]: Set a thread as public or private. Public threads can be shared via URL. Use session_id from a previous debate session.
+                            - group [ref=e168]:
+                              - 'generic "Consult Council Consult the AI coding council — multiple models discuss your engineering question sequentially (each sees prior responses), then a moderator synthesizes. Auto-mode by default — AI picks optimal models, roles, and conversation mode from your prompt. Provide explicit models to override (manual mode). Fully configurable: mode, format, roles, models, thinking level." [ref=e169] [cursor=pointer]':
+                                - generic [ref=e170]:
+                                  - generic [ref=e171]: Consult Council
+                                  - generic [ref=e172]: "Consult the AI coding council — multiple models discuss your engineering question sequentially (each sees prior responses), then a moderator synthesizes. Auto-mode by default — AI picks optimal models, roles, and conversation mode from your prompt. Provide explicit models to override (manual mode). Fully configurable: mode, format, roles, models, thinking level."
+                            - group [ref=e174]:
+                              - generic "Architecture Council Architecture design council. Systems Architect, Infrastructure Engineer, and DX Advocate evaluate your system design. Always uses high thinking for maximum depth. Output as ADR." [ref=e175] [cursor=pointer]:
+                                - generic [ref=e176]:
+                                  - generic [ref=e177]: Architecture Council
+                                  - generic [ref=e178]: Architecture design council. Systems Architect, Infrastructure Engineer, and DX Advocate evaluate your system design. Always uses high thinking for maximum depth. Output as ADR.
+                            - group [ref=e180]:
+                              - generic "Code Review Council Code review council. Senior Engineer, Security Reviewer, and Performance Analyst analyze your code and a moderator synthesizes their findings." [ref=e181] [cursor=pointer]:
+                                - generic [ref=e182]:
+                                  - generic [ref=e183]: Code Review Council
+                                  - generic [ref=e184]: Code review council. Senior Engineer, Security Reviewer, and Performance Analyst analyze your code and a moderator synthesizes their findings.
+                            - button "Show 3 more..." [ref=e185] [cursor=pointer]
+                  - complementary [ref=e186]:
+                    - heading "Connect" [level=2] [ref=e188]:
+                      - img [ref=e189]
+                      - text: Connect
+                    - generic [ref=e194]:
+                      - generic [ref=e195]:
+                        - generic [ref=e198]:
+                          - heading "Get connection URL" [level=4] [ref=e199]
+                          - img [ref=e200]
+                        - button "https://debatekit--debatekit.run.tools" [ref=e203] [cursor=pointer]:
+                          - generic [ref=e205]:
+                            - img [ref=e206]
+                            - text: https://debatekit--debatekit.run.tools
+                          - img [ref=e210]
+                      - generic [ref=e213]:
+                        - heading "Or connect your agent" [level=4] [ref=e216]
+                        - generic [ref=e219]:
+                          - tablist [ref=e220]:
+                            - tab "Agents" [selected] [ref=e221] [cursor=pointer]
+                            - tab "Humans" [ref=e222] [cursor=pointer]
+                          - tabpanel "Agents" [ref=e223]:
+                            - generic [ref=e224]:
+                              - generic [ref=e225]:
+                                - generic [ref=e226]:
+                                  - heading "Connection Prompt" [level=3] [ref=e227]:
+                                    - img [ref=e228]
+                                    - text: Connection Prompt
+                                  - paragraph [ref=e232]: Send this prompt to your agent
+                                - button "Copy" [ref=e233] [cursor=pointer]:
+                                  - img [ref=e234]
+                                  - generic [ref=e237]: Copy
+                              - paragraph [ref=e238]:
+                                - text: “curl https://smithery.ai/skill.md and connect to debatekit/debatekit using
+                                - code [ref=e239]: smithery mcp add debatekit/debatekit
+                                - text: ”
+                        - paragraph [ref=e240]:
+                          - text: Building a client or agent?
+                          - link "View developer docs" [ref=e241] [cursor=pointer]:
+                            - /url: /docs/use/connect
+                        - generic [ref=e242]:
+                          - generic [ref=e244]:
+                            - generic [ref=e245]: Published
+                            - generic [ref=e247]:
+                              - img [ref=e248]
+                              - text: Mar 10, 2026
+                          - generic [ref=e252]:
+                            - generic [ref=e253]: Homepage
+                            - link "debatekit.ai" [ref=e255] [cursor=pointer]:
+                              - /url: https://debatekit.ai
+                              - img [ref=e256]
+                              - generic [ref=e260]: debatekit.ai
+              - generic [ref=e264]:
+                - heading "Performance" [level=2] [ref=e265]:
+                  - img [ref=e266]
+                  - text: Performance
+                - img [ref=e365]
+              - heading "Usage" [level=2] [ref=e370]:
+                - img [ref=e371]
+                - text: Usage
+              - generic [ref=e461]:
+                - heading "API" [level=2] [ref=e462]:
+                  - img [ref=e463]
+                  - text: API
+                - generic [ref=e467]:
+                  - generic [ref=e468]:
+                    - generic [ref=e469]:
+                      - paragraph [ref=e470]:
+                        - text: Use
+                        - link "Smithery Connect" [ref=e471] [cursor=pointer]:
+                          - /url: /docs/use/connect
+                        - text: to integrate this server into your application. Create a connection, then use the MCP SDK or AI SDK to call tools — OAuth, token refresh, and session management are handled for you.
+                      - generic [ref=e472]:
+                        - link "Create API key" [ref=e473] [cursor=pointer]:
+                          - /url: /account/api-keys
+                          - img [ref=e474]
+                          - text: Create API key
+                        - link "Manage Connections" [ref=e478] [cursor=pointer]:
+                          - /url: /account/connections
+                          - img [ref=e479]
+                          - text: Manage Connections
+                    - generic [ref=e485]:
+                      - heading "Configuration for debatekit/debatekit" [level=3] [ref=e486]
+                      - generic [ref=e487]:
+                        - paragraph [ref=e488]: Required parameters
+                        - generic [ref=e490]:
+                          - generic [ref=e491]:
+                            - button "apiKey" [ref=e492] [cursor=pointer]
+                            - generic [ref=e493]: header
+                          - paragraph [ref=e494]:
+                            - text: Your DebateKit API key. Get one at
+                            - link "https://debatekit.ai/chat/settings/api-keys" [ref=e495] [cursor=pointer]:
+                              - /url: https://debatekit.ai/chat/settings/api-keys
+                  - generic [ref=e496]:
+                    - generic [ref=e497]:
+                      - button "CLI" [ref=e498] [cursor=pointer]:
+                        - img [ref=e499]
+                        - text: CLI
+                      - button "AI SDK" [ref=e501] [cursor=pointer]:
+                        - img [ref=e502]
+                        - text: AI SDK
+                      - button "TypeScript" [ref=e504] [cursor=pointer]:
+                        - img [ref=e505]
+                        - text: TypeScript
+                    - generic [ref=e507]:
+                      - generic [ref=e508]:
+                        - paragraph [ref=e509]: 1. Install Smithery CLI
+                        - button "npm install -g @smithery/cli@latest" [ref=e510] [cursor=pointer]:
+                          - code [ref=e514]:
+                            - generic [ref=e515]: npm install -g @smithery/cli@latest
+                          - img [ref=e517]
+                      - generic [ref=e520]:
+                        - paragraph [ref=e521]: 2. Create a namespace
+                        - 'button "smithery namespace create {your-namespace}" [ref=e522] [cursor=pointer]':
+                          - code [ref=e526]:
+                            - generic [ref=e527]: "smithery namespace create {your-namespace}"
+                          - img [ref=e529]
+                      - generic [ref=e532]:
+                        - paragraph [ref=e533]: 3. Use this server
+                        - generic [ref=e534]:
+                          - button "Copy" [ref=e536] [cursor=pointer]:
+                            - img [ref=e537]
+                          - code [ref=e543]:
+                            - generic [ref=e544]: "# Add this server"
+                            - generic [ref=e545]: "smithery mcp add debatekit/debatekit --headers '{\"apiKey\":\"your-apiKey\"}'"
+                            - generic [ref=e546]: "# List available tools"
+                            - generic [ref=e547]: "smithery tool list {connection}"
+                            - generic [ref=e548]: "# Call a tool"
+                            - generic [ref=e549]: "smithery tool call {connection} {tool_name} '{\"key\": \"value\"}'"
+        - button "Support" [ref=e633] [cursor=pointer]:
+          - generic [ref=e634]: Support
+          - img [ref=e635]
+    - contentinfo [ref=e550]:
+      - generic [ref=e551]:
+        - generic [ref=e552]:
+          - generic [ref=e553]:
+            - link "Smithery Logo" [ref=e554] [cursor=pointer]:
+              - /url: /
+              - img "Smithery Logo" [ref=e555]
+            - paragraph [ref=e556]: Accelerating the Agent Economy
+          - generic [ref=e557]:
+            - heading "Resources" [level=3] [ref=e558]
+            - generic [ref=e559]:
+              - link "Chat" [ref=e560] [cursor=pointer]:
+                - /url: /chat
+              - link "Documentation" [ref=e561] [cursor=pointer]:
+                - /url: /docs
+              - link "Privacy Policy" [ref=e562] [cursor=pointer]:
+                - /url: /privacy
+              - link "System Status" [ref=e563] [cursor=pointer]:
+                - /url: https://status.smithery.ai
+          - generic [ref=e564]:
+            - heading "Company" [level=3] [ref=e565]
+            - generic [ref=e566]:
+              - link "Pricing" [ref=e567] [cursor=pointer]:
+                - /url: /pricing
+              - link "About" [ref=e568] [cursor=pointer]:
+                - /url: /about
+              - link "Blog" [ref=e569] [cursor=pointer]:
+                - /url: /blog
+          - generic [ref=e570]:
+            - heading "Connect" [level=3] [ref=e571]
+            - generic [ref=e572]:
+              - link "X" [ref=e573] [cursor=pointer]:
+                - /url: https://x.com/SmitheryDotAi
+                - img [ref=e574]
+              - link "GitHub Organization" [ref=e576] [cursor=pointer]:
+                - /url: https://github.com/smithery-ai
+                - img [ref=e577]
+              - link "Discord server" [ref=e579] [cursor=pointer]:
+                - /url: https://discord.gg/sKd9uycgH9
+                - img [ref=e580]
+        - generic [ref=e583]:
+          - paragraph [ref=e584]: © 2026 Smithery. All rights reserved.
+          - group "Theme selector" [ref=e586]:
+            - radio "Light theme" [ref=e587] [cursor=pointer]:
+              - img [ref=e588]
+            - radio "System theme" [checked] [ref=e594] [cursor=pointer]:
+              - img [ref=e595]
+            - radio "Dark theme" [ref=e597] [cursor=pointer]:
+              - img [ref=e598]
+    - region "Notifications (F8)":
+      - list
+  - alert [ref=e600]

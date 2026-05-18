@@ -1,0 +1,1 @@
+ALTER TABLE chat_thread ADD COLUMN enable_podcast integer NOT NULL DEFAULT 0;

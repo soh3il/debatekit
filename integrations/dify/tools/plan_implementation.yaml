@@ -1,0 +1,64 @@
+identity:
+  name: plan_implementation
+  author: deadpixel
+  label:
+    en_US: Plan Implementation
+description:
+  human:
+    en_US: Get an implementation plan from a council of AI models.
+  llm: Create a step-by-step implementation plan with multi-model input. Describe the feature, provide codebase context, and list constraints to receive a collaborative implementation roadmap.
+parameters:
+  - name: feature
+    type: string
+    required: true
+    label:
+      en_US: Feature
+    human_description:
+      en_US: The feature or change to plan
+    llm_description: The feature or change to plan
+    form: llm
+  - name: codebase_context
+    type: string
+    required: false
+    label:
+      en_US: Codebase Context
+    human_description:
+      en_US: Relevant existing code, file structure, or architecture notes
+    llm_description: Relevant existing code, file structure, or architecture notes
+    form: llm
+  - name: constraints
+    type: string
+    required: false
+    label:
+      en_US: Constraints
+    human_description:
+      en_US: Comma-separated constraints (e.g., no breaking changes, must support offline)
+    llm_description: Comma-separated constraints
+    form: form
+  - name: tech_stack
+    type: string
+    required: false
+    label:
+      en_US: Tech Stack
+    human_description:
+      en_US: Comma-separated current tech stack
+    llm_description: Comma-separated current tech stack
+    form: form
+  - name: thinking_level
+    type: select
+    required: false
+    label:
+      en_US: Thinking Level
+    human_description:
+      en_US: Planning depth
+    options:
+      - value: low
+        label:
+          en_US: Low
+      - value: medium
+        label:
+          en_US: Medium
+      - value: high
+        label:
+          en_US: High
+    form: form

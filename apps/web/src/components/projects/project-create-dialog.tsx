@@ -1,0 +1,204 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { ProjectColor, ProjectIcon } from '@debatekit/shared';
+import { useNavigate } from '@tanstack/react-router';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/forms';
+import { Icons } from '@/components/icons';
+import { ProjectIconBadge, ProjectIconColorPicker } from '@/components/projects/project-icon-color-picker';
+import { ProjectTemplateChips } from '@/components/projects/project-template-chips';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useCreateProjectMutation } from '@/hooks/mutations';
+import { useFunnelTracking } from '@/hooks/utils/use-funnel-tracking';
+import { useTranslations } from '@/lib/i18n';
+
+import type { ProjectFormValues } from './project-form-constants';
+import { PROJECT_FORM_DEFAULTS, ProjectFormSchema } from './project-form-constants';
+
+type ProjectCreateDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export function ProjectCreateDialog({ onOpenChange, open }: ProjectCreateDialogProps) {
+  const t = useTranslations();
+  const navigate = useNavigate();
+  const { trackFeature } = useFunnelTracking();
+  const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+
+  const createMutation = useCreateProjectMutation();
+
+  const form = useForm<ProjectFormValues>({
+    defaultValues: PROJECT_FORM_DEFAULTS,
+    mode: 'onChange',
+    resolver: zodResolver(ProjectFormSchema),
+  });
+
+  const {
+    formState: { isSubmitting, isValid },
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+  } = form;
+
+  const currentIcon = watch('icon');
+  const currentColor = watch('color');
+
+  useEffect(() => {
+    if (open) {
+      reset(PROJECT_FORM_DEFAULTS);
+    }
+  }, [open, reset]);
+
+  const onSubmit = useCallback(
+    async (values: ProjectFormValues) => {
+      const trimmedValues = {
+        color: values.color,
+        icon: values.icon,
+        name: values.name.trim(),
+      };
+
+      try {
+        const result = await createMutation.mutateAsync({
+          json: trimmedValues,
+        });
+        if (result.success && result.data?.id) {
+          trackFeature.projectCreated({ context: 'project_create_dialog' });
+          onOpenChange(false);
+          navigate({ params: { projectId: result.data.id }, to: '/chat/projects/$projectId' });
+        }
+      } catch {
+        // Error handled by mutation
+      }
+    },
+    [createMutation, navigate, onOpenChange, trackFeature],
+  );
+
+  const handleTemplateSelect = useCallback(
+    (template: { name: string; icon: ProjectIcon; color: ProjectColor }) => {
+      setValue('name', template.name, { shouldValidate: true });
+      setValue('icon', template.icon);
+      setValue('color', template.color);
+    },
+    [setValue],
+  );
+
+  const handleClose = useCallback(() => {
+    if (createMutation.isPending) {
+      return;
+    }
+    onOpenChange(false);
+  }, [createMutation.isPending, onOpenChange]);
+
+  const isPending = createMutation.isPending || isSubmitting;
+  const canSubmit = isValid && !isPending;
+
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[520px]">
+        <DialogHeader>
+          <DialogTitle>
+            {t('projects.createProject')}
+          </DialogTitle>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0">
+            <DialogBody>
+              <div className="space-y-6 pt-1 pb-2">
+                {/* Name input + template chips group */}
+                <div className="space-y-3">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="relative">
+                            <Popover open={isIconPickerOpen} onOpenChange={setIsIconPickerOpen}>
+                              <PopoverTrigger asChild>
+                                <button
+                                  type="button"
+                                  className="absolute left-1.5 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-accent/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+                                >
+                                  <ProjectIconBadge
+                                    icon={currentIcon}
+                                    color={currentColor}
+                                    size="md"
+                                  />
+                                </button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                side="bottom"
+                                align="start"
+                                className="w-[280px] p-4"
+                                sideOffset={8}
+                              >
+                                <ProjectIconColorPicker
+                                  icon={currentIcon}
+                                  color={currentColor}
+                                  onIconChange={(icon) => {
+                                    setValue('icon', icon);
+                                  }}
+                                  onColorChange={(color) => {
+                                    setValue('color', color);
+                                  }}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                            <Input
+                              {...field}
+                              placeholder={t('projects.namePlaceholder')}
+                              className="pl-11"
+                              disabled={isPending}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <ProjectTemplateChips onSelect={handleTemplateSelect} />
+                </div>
+
+                {/* Onboarding text */}
+                <div className="flex items-start gap-3 rounded-xl bg-muted/40 p-4">
+                  <Icons.lightbulb className="size-5 text-muted-foreground shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
+                    {t('projects.onboardingText')}
+                  </p>
+                </div>
+              </div>
+            </DialogBody>
+
+            <DialogFooter>
+              <Button
+                type="submit"
+                loading={isPending}
+                disabled={!canSubmit}
+              >
+                {t('projects.createProject')}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export type { ProjectCreateDialogProps };

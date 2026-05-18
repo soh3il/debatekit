@@ -1,0 +1,64 @@
+identity:
+  name: debug_issue
+  author: deadpixel
+  label:
+    en_US: Debug Issue
+description:
+  human:
+    en_US: Debug an issue using multiple AI models analyzing the problem from different angles.
+  llm: Send a bug report to the AI council for collaborative debugging. Provide the problem description, error output, and relevant code to get root-cause analysis and fix suggestions.
+parameters:
+  - name: problem
+    type: string
+    required: true
+    label:
+      en_US: Problem
+    human_description:
+      en_US: Describe the bug, failure, or unexpected behavior
+    llm_description: Describe the bug, failure, or unexpected behavior
+    form: llm
+  - name: error
+    type: string
+    required: false
+    label:
+      en_US: Error Message
+    human_description:
+      en_US: Error message, stack trace, or unexpected output
+    llm_description: Error message, stack trace, or unexpected output
+    form: llm
+  - name: code
+    type: string
+    required: false
+    label:
+      en_US: Code
+    human_description:
+      en_US: The relevant code where the bug occurs
+    llm_description: The relevant code where the bug occurs
+    form: llm
+  - name: expected_behavior
+    type: string
+    required: false
+    label:
+      en_US: Expected Behavior
+    human_description:
+      en_US: What should happen vs what actually happens
+    llm_description: What should happen vs what actually happens
+    form: llm
+  - name: thinking_level
+    type: select
+    required: false
+    label:
+      en_US: Thinking Level
+    human_description:
+      en_US: Analysis depth
+    options:
+      - value: low
+        label:
+          en_US: Low
+      - value: medium
+        label:
+          en_US: Medium
+      - value: high
+        label:
+          en_US: High
+    form: form

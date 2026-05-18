@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "*.config.*", "*.json", "*.d.ts", "wrangler.jsonc"],
+      "outputs": [".output/**", "dist/**"]
+    },
+    "build:types": {
+      "dependsOn": ["^build:types"],
+      "inputs": ["src/**", "tsconfig.json"],
+      "outputs": ["dist/**/*.d.ts", "dist/**/*.d.ts.map"]
+    },
+    "cf-typegen": {
+      "inputs": ["wrangler.jsonc"],
+      "outputs": ["cloudflare-env.d.ts", "worker-configuration.d.ts"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "deploy": {
+      "dependsOn": ["build"]
+    },
+    "deploy:preview": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**", "wrangler.jsonc"]
+    },
+    "deploy:production": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**", "wrangler.jsonc"]
+    },
+    "check-types": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "*.config.*", "*.json", "*.d.ts"]
+    },
+    "lint": {
+      "inputs": ["src/**", "*.config.*", "eslint.config.ts"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "inputs": ["src/**", "*.config.*", "eslint.config.ts"],
+      "outputs": []
+    },
+    "test": {
+      "inputs": ["src/**", "*.config.*"],
+      "outputs": ["coverage/**"]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:generate": {},
+    "db:migrate:local": {},
+    "db:migrate:preview": {},
+    "db:migrate:prod": {}
+  }
+}

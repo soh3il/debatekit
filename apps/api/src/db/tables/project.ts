@@ -1,0 +1,153 @@
+/**
+ * Project Tables - ChatGPT Projects-style Knowledge Bases
+ *
+ * Enables project-based knowledge management with AutoRAG integration.
+ * Projects group threads and provide shared context from user-uploaded documents.
+ *
+ * Architecture:
+ * - Projects contain multiple threads (one-to-many)
+ * - Projects reference centralized uploads via projectAttachment junction table
+ * - AutoRAG indexes project attachments for semantic search
+ * - Metadata filtering isolates project contexts
+ *
+ * Upload Pattern (S3/R2 Best Practices):
+ * - All files uploaded via centralized /uploads endpoint -> upload table
+ * - Projects reference uploads via projectAttachment (junction table)
+ * - Same upload can be referenced by multiple projects/threads/messages
+ */
+
+import { user } from '@debatekit/db/tables';
+import {
+  DEFAULT_PROJECT_COLOR,
+  DEFAULT_PROJECT_ICON,
+  DEFAULT_PROJECT_INDEX_STATUS,
+  PROJECT_COLORS,
+  PROJECT_ICONS,
+  PROJECT_INDEX_STATUSES,
+} from '@debatekit/shared/enums';
+// Relations imported from centralized relations.ts
+import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
+
+import type {
+  ProjectAttachmentRagMetadata,
+  ProjectMetadata,
+  ProjectSettings,
+} from '@/db/validation/project';
+
+import { upload } from './upload';
+
+// NOTE: chatThread import removed to break circular dependency.
+// FK constraint on sourceThreadId is enforced at DB level via migration.
+
+// Types: ProjectColor/ProjectIndexStatus/ProjectMemorySource from @/api/core/enums
+// Types: ProjectMetadata/ProjectSettings from @/db/validation/project
+
+/**
+ * Chat Projects
+ * Container for knowledge bases with AutoRAG integration
+ *
+ * Similar to ChatGPT Projects - groups threads with shared context
+ */
+export const chatProject = sqliteTable('chat_project', {
+  // AutoRAG configuration
+  autoragInstanceId: text('autorag_instance_id'), // e.g., "debatekit-rag-local"
+
+  color: text('color', { enum: PROJECT_COLORS }).default(DEFAULT_PROJECT_COLOR), // Visual identification color
+
+  // Timestamps
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .defaultNow()
+    .notNull(),
+  // Custom instructions (OpenAI Projects pattern)
+  customInstructions: text('custom_instructions'), // Project-level instructions for all threads
+  description: text('description'), // Optional project description
+  icon: text('icon', { enum: PROJECT_ICONS }).default(DEFAULT_PROJECT_ICON), // Visual identification icon
+
+  id: text('id').primaryKey(),
+
+  // Metadata (type from validation/project.ts)
+  metadata: text('metadata', { mode: 'json' }).$type<ProjectMetadata>(),
+  // Project details
+  name: text('name').notNull(), // "Q1 Marketing Strategy"
+
+  r2FolderPrefix: text('r2_folder_prefix').notNull(), // "projects/{projectId}/"
+
+  // Project settings (type from validation/project.ts)
+  settings: text('settings', { mode: 'json' }).$type<ProjectSettings>(),
+
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  // Owner
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+}, table => [
+  // Indexes for efficient queries
+  index('chat_project_user_idx').on(table.userId),
+  index('chat_project_created_idx').on(table.createdAt),
+  index('chat_project_name_idx').on(table.name),
+]);
+
+/**
+ * Project Attachments (Junction Table)
+ *
+ * Links centralized uploads to projects for knowledge base use.
+ * Follows S3/R2 best practices: centralized uploads with feature-specific references.
+ *
+ * Architecture:
+ * - upload: Source of truth for all file uploads (R2 storage)
+ * - project_attachment: References uploads for project knowledge base
+ * - Same upload can be referenced by multiple projects if needed
+ *
+ * AutoRAG Integration:
+ * - indexStatus tracks indexing progress for RAG retrieval
+ * - ragMetadata provides project-specific context hints for LLM
+ */
+export const projectAttachment = sqliteTable('project_attachment', {
+  // User who added this attachment to the project
+  addedBy: text('added_by')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  // Timestamps
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .defaultNow()
+    .notNull(),
+
+  id: text('id').primaryKey(),
+
+  // AutoRAG indexing status (separate from upload status)
+  indexStatus: text('index_status', { enum: PROJECT_INDEX_STATUSES })
+    .notNull()
+    .default(DEFAULT_PROJECT_INDEX_STATUS),
+
+  // Parent project
+  projectId: text('project_id')
+    .notNull()
+    .references(() => chatProject.id, { onDelete: 'cascade' }),
+
+  // Project-specific metadata for RAG context
+  ragMetadata: text('rag_metadata', { mode: 'json' }).$type<ProjectAttachmentRagMetadata>(),
+
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  // Reference to centralized upload
+  uploadId: text('upload_id')
+    .notNull()
+    .references(() => upload.id, { onDelete: 'cascade' }),
+}, table => [
+  // Indexes for efficient queries
+  index('project_attachment_project_idx').on(table.projectId),
+  index('project_attachment_upload_idx').on(table.uploadId),
+  index('project_attachment_status_idx').on(table.indexStatus),
+  index('project_attachment_added_by_idx').on(table.addedBy),
+  index('project_attachment_created_idx').on(table.createdAt),
+  // Prevent duplicate upload references in same project
+  uniqueIndex('project_attachment_unique_idx').on(table.projectId, table.uploadId),
+]);
+
+// Relations moved to relations.ts to break circular dependencies

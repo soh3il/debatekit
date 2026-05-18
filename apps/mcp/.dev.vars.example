@@ -1,0 +1,5 @@
+# OpenRouter API key for model generation
+OPENROUTER_API_KEY=sk-or-v1-xxxx
+
+# Better Auth secret (must match apps/api BETTER_AUTH_SECRET)
+BETTER_AUTH_SECRET=your-better-auth-secret

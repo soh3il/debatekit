@@ -1,0 +1,4 @@
+src/
+tsconfig.json
+*.mcpb
+node_modules/typescript/

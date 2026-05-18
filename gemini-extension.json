@@ -1,0 +1,23 @@
+{
+  "name": "debatekit",
+  "version": "1.0.0",
+  "description": "Collaborative AI brainstorming with multi-model debates. Run structured discussions across GPT-4o, Claude, Gemini, and more — directly from your terminal.",
+  "settings": [
+    {
+      "name": "API Key",
+      "description": "Your DebateKit API key. Get one at https://debatekit.ai/chat/settings/api-keys.",
+      "envVar": "DEBATEKIT_API_KEY",
+      "sensitive": true
+    }
+  ],
+  "mcpServers": {
+    "debatekit": {
+      "httpUrl": "https://mcp.debatekit.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer $DEBATEKIT_API_KEY"
+      },
+      "timeout": 120000
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

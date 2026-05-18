@@ -1,0 +1,174 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1768140834446,
+      "tag": "0000_nice_triton",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1737676800000,
+      "tag": "0001_add_project_icon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1737763200000,
+      "tag": "0002_add_automated_job",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1737849600000,
+      "tag": "0003_add_deleted_account_audit",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1737936000000,
+      "tag": "0004_chat_thread_project_cascade",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1769475326222,
+      "tag": "0005_swift_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1769561700000,
+      "tag": "0006_drop_chat_round_feedback",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1769648100000,
+      "tag": "0007_deactivate_chat_memories",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1769734500000,
+      "tag": "0008_add_active_stream",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1769820900000,
+      "tag": "0009_add_unified_entity_type",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1770940800000,
+      "tag": "0010_add_anonymous_user_support",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1771027200000,
+      "tag": "0011_drop_anonymous_identity_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1771113600000,
+      "tag": "0012_remove_reserved_credits",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1771200000000,
+      "tag": "0013_add_chat_podcast",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1771286400000,
+      "tag": "0014_add_podcast_episode_number",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "6",
+      "when": 1771372800000,
+      "tag": "0015_add_enable_podcast",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "6",
+      "when": 1771459200000,
+      "tag": "0016_add_podcast_progress_and_title",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1771545600000,
+      "tag": "0017_add_scheduled_tweet",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1771632000000,
+      "tag": "0018_add_content_pipeline",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1771718400000,
+      "tag": "0019_add_admin_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1771804800000,
+      "tag": "0020_add_working_memory",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1771891200000,
+      "tag": "0021_add_mcp_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1771977600000,
+      "tag": "0022_add_conversation_messages",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1772064000000,
+      "tag": "0023_consolidate_memory",
+      "breakpoints": true
+    }
+  ]
+}

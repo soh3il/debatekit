@@ -1,0 +1,13 @@
+{
+  "extends": "@debatekit/typescript-config/cloudflare-worker.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": ["src/**/*.ts", "*.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

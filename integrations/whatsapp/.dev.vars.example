@@ -1,0 +1,7 @@
+WHATSAPP_ACCESS_TOKEN=your-system-user-access-token
+WHATSAPP_APP_SECRET=your-app-secret
+WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
+WHATSAPP_VERIFY_TOKEN=your-webhook-verify-token
+DEBATEKIT_API_KEY=your-debatekit-api-key
+DEBATEKIT_API_URL=https://mcp.debatekit.ai
+DEBATEKIT_APP_URL=https://debatekit.ai

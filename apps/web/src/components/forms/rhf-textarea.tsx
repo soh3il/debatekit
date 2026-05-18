@@ -1,0 +1,67 @@
+import type { FieldPath, FieldValues } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+
+type RHFTextareaProps<TFieldValues extends FieldValues = FieldValues> = {
+  name: FieldPath<TFieldValues>;
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  className?: string;
+  rows?: number;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  hideLabel?: boolean;
+};
+
+export function RHFTextarea<TFieldValues extends FieldValues = FieldValues>({
+  className,
+  description,
+  disabled,
+  hideLabel = false,
+  name,
+  onKeyDown,
+  placeholder,
+  required,
+  rows,
+  title,
+}: RHFTextareaProps<TFieldValues>) {
+  const { control } = useFormContext<TFieldValues>();
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className={className || 'w-full'}>
+          {!hideLabel && title && <FormLabel>{title}</FormLabel>}
+          <FormControl>
+            <Textarea
+              {...field}
+              rows={rows}
+              required={required}
+              disabled={disabled}
+              data-testid={field.name}
+              placeholder={placeholder}
+              className="resize-none"
+              onKeyDown={onKeyDown}
+              value={field.value ?? ''}
+            />
+          </FormControl>
+          {description && <FormDescription>{description}</FormDescription>}
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}

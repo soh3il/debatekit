@@ -1,0 +1,77 @@
+{
+  "name": "@debatekit/shared",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./enums": {
+      "types": "./dist/enums/index.d.ts",
+      "import": "./src/enums/index.ts",
+      "default": "./src/enums/index.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./src/types/index.ts",
+      "default": "./src/types/index.ts"
+    },
+    "./validation": {
+      "types": "./dist/validation/index.d.ts",
+      "import": "./src/validation/index.ts",
+      "default": "./src/validation/index.ts"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./src/constants/index.ts",
+      "default": "./src/constants/index.ts"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "import": "./src/config/index.ts",
+      "default": "./src/config/index.ts"
+    },
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./src/lib/index.ts",
+      "default": "./src/lib/index.ts"
+    },
+    "./prompts": {
+      "types": "./dist/prompts/index.d.ts",
+      "import": "./src/prompts/index.ts",
+      "default": "./src/prompts/index.ts"
+    },
+    "./artifacts": {
+      "types": "./dist/artifacts/index.d.ts",
+      "import": "./src/artifacts/index.ts",
+      "default": "./src/artifacts/index.ts"
+    },
+    "./lib/logger": {
+      "types": "./dist/lib/logger/index.d.ts",
+      "import": "./src/lib/logger/index.ts",
+      "default": "./src/lib/logger/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "bunx tsc",
+    "check-types": "bunx tsc --noEmit",
+    "lint": "bunx eslint .",
+    "lint:fix": "bunx eslint . --fix"
+  },
+  "dependencies": {
+    "@ai-sdk-tools/artifacts": "^1.2.0",
+    "randomcolor": "^0.6.2",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@debatekit/eslint-config": "workspace:*",
+    "@debatekit/typescript-config": "workspace:*",
+    "eslint": "^9.39.2",
+    "typescript": "5.9.3"
+  }
+}

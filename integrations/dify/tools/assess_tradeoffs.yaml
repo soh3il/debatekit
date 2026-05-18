@@ -1,0 +1,64 @@
+identity:
+  name: assess_tradeoffs
+  author: deadpixel
+  label:
+    en_US: Assess Tradeoffs
+description:
+  human:
+    en_US: Evaluate options and trade-offs with structured multi-model analysis.
+  llm: Evaluate decisions by having multiple AI models analyze options, trade-offs, and constraints from different perspectives.
+parameters:
+  - name: decision
+    type: string
+    required: true
+    label:
+      en_US: Decision
+    human_description:
+      en_US: The decision or question to evaluate
+    llm_description: The decision or question to evaluate
+    form: llm
+  - name: options
+    type: string
+    required: false
+    label:
+      en_US: Options
+    human_description:
+      en_US: Comma-separated options to compare
+    llm_description: Comma-separated specific options to compare
+    form: llm
+  - name: priorities
+    type: string
+    required: false
+    label:
+      en_US: Priorities
+    human_description:
+      en_US: Comma-separated priorities — what matters most (e.g., performance, dx, cost)
+    llm_description: Comma-separated priorities — what matters most (e.g., performance, dx, cost)
+    form: form
+  - name: context
+    type: string
+    required: false
+    label:
+      en_US: Context
+    human_description:
+      en_US: Background context — codebase, team, timeline, constraints
+    llm_description: Background context — codebase, team, timeline, constraints
+    form: llm
+  - name: thinking_level
+    type: select
+    required: false
+    label:
+      en_US: Thinking Level
+    human_description:
+      en_US: Analysis depth
+    options:
+      - value: low
+        label:
+          en_US: Low
+      - value: medium
+        label:
+          en_US: Medium
+      - value: high
+        label:
+          en_US: High
+    form: form

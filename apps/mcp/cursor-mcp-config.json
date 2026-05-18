@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "debatekit": {
+      "url": "https://mcp.debatekit.ai/mcp",
+      "transport": "streamable-http",
+      "headers": {
+        "x-api-key": "YOUR_API_KEY"
+      }
+    }
+  }
+}

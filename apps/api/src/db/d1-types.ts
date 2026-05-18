@@ -1,0 +1,103 @@
+/**
+ * Cloudflare D1 Type Definitions - Batch-First Architecture
+ *
+ * These type definitions enforce batch-based patterns by making transaction
+ * methods unavailable at the type level, preventing accidental usage.
+ *
+ * Type Safety Notes:
+ * - EmptySchema uses Record<string, never> (correct idiom for empty object)
+ * - TSchema constraint uses Record<string, unknown> because Drizzle schemas
+ *   are inherently index-accessible. Actual types are inferred at usage sites.
+ */
+
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
+
+/**
+ * Empty schema type for default generic parameter.
+ * Record<string, never> is the correct TypeScript idiom for an empty object type.
+ */
+type EmptySchema = Record<string, never>;
+
+/**
+ * D1 database type with transaction method removed.
+ *
+ * The TSchema constraint uses Record<string, unknown> because Drizzle ORM
+ * schemas require index-accessible types. The actual schema type is always
+ * inferred from the concrete schema object passed to drizzle().
+ */
+export type D1BatchDatabase<TSchema extends Record<string, unknown> = EmptySchema>
+  = Omit<DrizzleD1Database<TSchema>, 'transaction'> & {
+    transaction: never;
+  };
+
+export type BatchableOperation<TSchema extends Record<string, unknown> = EmptySchema>
+  = | ReturnType<DrizzleD1Database<TSchema>['insert']>
+    | ReturnType<DrizzleD1Database<TSchema>['update']>
+    | ReturnType<DrizzleD1Database<TSchema>['delete']>
+    | ReturnType<DrizzleD1Database<TSchema>['select']>;
+
+export const D1BatchPatterns = {
+  conditionalBatch: `
+const handler = createHandlerWithBatch({ auth: 'session' }, async (c, batch) => {
+  await batch.db.insert(users).values(newUser);
+
+  if (needsCustomer) {
+    await batch.db.insert(customers).values(customer);
+  }
+
+  await batch.db.update(metadata).set({ synced: true });
+});`,
+
+  insertAndUpdate: `
+await db.batch([
+  db.insert(customers).values(newCustomer).returning(),
+  db.update(users).set({ hasCustomer: true }).where(eq(users.id, userId))
+]);`,
+
+  insertWithUpsert: `
+await db.batch([
+  db.insert(customers).values(customer).onConflictDoUpdate({
+    target: customers.id,
+    set: { email: customer.email, updatedAt: new Date() }
+  }),
+  db.insert(subscriptions).values(subscription)
+]);`,
+
+  multipleInserts: `
+await db.batch([
+  db.insert(subscriptions).values(newSub),
+  db.insert(invoices).values(newInvoice),
+  db.insert(webhookEvents).values(eventLog)
+]);`,
+} as const;
+
+export const TransactionMigrationGuide = {
+  batchPattern: `
+await db.batch([
+  db.insert(users).values(newUser),
+  db.update(users).set({ verified: true }).where(eq(users.id, userId)),
+  db.delete(users).where(eq(users.inactive, true))
+]);`,
+
+  handlerPattern: `
+export const handler = createHandlerWithBatch({ auth: 'session' }, async (c, batch) => {
+  await batch.db.insert(users).values(newUser);
+  await batch.db.update(users).set({ verified: true }).where(eq(users.id, userId));
+  await batch.db.delete(users).where(eq(users.inactive, true));
+});`,
+
+  transactionPattern: `
+await db.transaction(async (tx) => {
+  await tx.insert(users).values(newUser);
+  await tx.update(users).set({ verified: true }).where(eq(users.id, userId));
+  await tx.delete(users).where(eq(users.inactive, true));
+});`,
+} as const;
+
+export type InferD1Schema<T> = T extends D1BatchDatabase<infer S> ? S : never;
+
+export type BatchResults<T extends readonly unknown[]> = {
+  [K in keyof T]: T[K] extends { execute: (...args: never[]) => infer R }
+    ? Awaited<R>
+    : never;
+};

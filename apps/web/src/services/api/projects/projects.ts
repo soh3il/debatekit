@@ -1,0 +1,230 @@
+/**
+ * Projects Service - Project Management API
+ *
+ * 100% type-safe RPC service for project operations
+ * All types automatically inferred from backend Hono routes via InferResponseType
+ */
+
+import type { InferRequestType, InferResponseType } from 'hono/client';
+import { parseResponse } from 'hono/client';
+
+import type { ApiClientType } from '@/lib/api/client';
+import { createApiClient } from '@/lib/api/client';
+import type { ServiceOptions } from '@/services/api/types';
+
+// ============================================================================
+// Type Inference - Project Operations
+// ============================================================================
+
+type ListProjectsEndpoint = ApiClientType['project']['projects']['$get'];
+export type ListProjectsResponse = InferResponseType<ListProjectsEndpoint, 200>;
+export type ListProjectsRequest = InferRequestType<ListProjectsEndpoint>;
+
+type CreateProjectEndpoint = ApiClientType['project']['projects']['$post'];
+export type CreateProjectResponse = InferResponseType<CreateProjectEndpoint, 200>;
+export type CreateProjectRequest = InferRequestType<CreateProjectEndpoint>;
+
+type GetProjectEndpoint = ApiClientType['project']['projects'][':id']['$get'];
+export type GetProjectResponse = InferResponseType<GetProjectEndpoint, 200>;
+export type GetProjectRequest = InferRequestType<GetProjectEndpoint>;
+
+type UpdateProjectEndpoint = ApiClientType['project']['projects'][':id']['$patch'];
+export type UpdateProjectResponse = InferResponseType<UpdateProjectEndpoint, 200>;
+export type UpdateProjectRequest = InferRequestType<UpdateProjectEndpoint>;
+
+type DeleteProjectEndpoint = ApiClientType['project']['projects'][':id']['$delete'];
+export type DeleteProjectResponse = InferResponseType<DeleteProjectEndpoint, 200>;
+export type DeleteProjectRequest = InferRequestType<DeleteProjectEndpoint>;
+
+// ============================================================================
+// Type Inference - Project Attachments
+// ============================================================================
+
+type ListProjectAttachmentsEndpoint = ApiClientType['project']['projects'][':id']['attachments']['$get'];
+export type ListProjectAttachmentsResponse = InferResponseType<ListProjectAttachmentsEndpoint, 200>;
+export type ListProjectAttachmentsRequest = InferRequestType<ListProjectAttachmentsEndpoint>;
+
+type AddUploadToProjectEndpoint = ApiClientType['project']['projects'][':id']['attachments']['$post'];
+export type AddUploadToProjectResponse = InferResponseType<AddUploadToProjectEndpoint, 200>;
+export type AddUploadToProjectRequest = InferRequestType<AddUploadToProjectEndpoint>;
+
+type GetProjectAttachmentEndpoint = ApiClientType['project']['projects'][':id']['attachments'][':attachmentId']['$get'];
+export type GetProjectAttachmentResponse = InferResponseType<GetProjectAttachmentEndpoint, 200>;
+export type GetProjectAttachmentRequest = InferRequestType<GetProjectAttachmentEndpoint>;
+
+type UpdateProjectAttachmentEndpoint = ApiClientType['project']['projects'][':id']['attachments'][':attachmentId']['$patch'];
+export type UpdateProjectAttachmentResponse = InferResponseType<UpdateProjectAttachmentEndpoint, 200>;
+export type UpdateProjectAttachmentRequest = InferRequestType<UpdateProjectAttachmentEndpoint>;
+
+type RemoveAttachmentFromProjectEndpoint = ApiClientType['project']['projects'][':id']['attachments'][':attachmentId']['$delete'];
+export type RemoveAttachmentFromProjectResponse = InferResponseType<RemoveAttachmentFromProjectEndpoint, 200>;
+export type RemoveAttachmentFromProjectRequest = InferRequestType<RemoveAttachmentFromProjectEndpoint>;
+
+// ============================================================================
+// Type Inference - Project Context
+// ============================================================================
+
+type GetProjectContextEndpoint = ApiClientType['project']['projects'][':id']['context']['$get'];
+export type GetProjectContextResponse = InferResponseType<GetProjectContextEndpoint, 200>;
+export type GetProjectContextRequest = InferRequestType<GetProjectContextEndpoint>;
+
+// ============================================================================
+// Type Inference - Project Limits
+// ============================================================================
+
+type GetProjectLimitsEndpoint = ApiClientType['project']['projects']['limits']['$get'];
+export type GetProjectLimitsResponse = InferResponseType<GetProjectLimitsEndpoint, 200>;
+export type ProjectLimits = GetProjectLimitsResponse extends { success: true; data: infer D } ? D : never;
+
+// ============================================================================
+// Service Functions - Project CRUD
+// ============================================================================
+
+/**
+ * List projects with cursor pagination
+ * Protected endpoint - requires authentication
+ */
+export async function listProjectsService(data?: ListProjectsRequest, options?: ServiceOptions) {
+  const client = createApiClient({ cookieHeader: options?.cookieHeader });
+  return parseResponse(client.project.projects.$get(data ?? { query: {} }));
+}
+
+/**
+ * Create a new project
+ * Protected endpoint - requires authentication
+ */
+export async function createProjectService(data: CreateProjectRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects.$post(data));
+}
+
+/**
+ * Get a specific project by ID
+ * Protected endpoint - requires authentication (ownership check)
+ */
+export async function getProjectService(data: GetProjectRequest, options?: ServiceOptions) {
+  const client = createApiClient({ cookieHeader: options?.cookieHeader });
+  return parseResponse(client.project.projects[':id'].$get(data));
+}
+
+/**
+ * Update project details
+ * Protected endpoint - requires authentication
+ */
+export async function updateProjectService(data: UpdateProjectRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].$patch(data));
+}
+
+/**
+ * Delete a project (cascades to attachments and memories)
+ * Protected endpoint - requires authentication
+ */
+export async function deleteProjectService(data: DeleteProjectRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].$delete(data));
+}
+
+// ============================================================================
+// Service Functions - Project Attachments
+// ============================================================================
+
+/**
+ * List attachments for a project
+ * Protected endpoint - requires authentication
+ */
+export async function listProjectAttachmentsService(data: ListProjectAttachmentsRequest, options?: ServiceOptions) {
+  const client = createApiClient({ cookieHeader: options?.cookieHeader });
+  return parseResponse(client.project.projects[':id'].attachments.$get(data));
+}
+
+/**
+ * Add an existing upload to a project (reference-based)
+ * Protected endpoint - requires authentication
+ */
+export async function addUploadToProjectService(data: AddUploadToProjectRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].attachments.$post(data));
+}
+
+/**
+ * Get a specific project attachment
+ * Protected endpoint - requires authentication
+ */
+export async function getProjectAttachmentService(data: GetProjectAttachmentRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].attachments[':attachmentId'].$get(data));
+}
+
+/**
+ * Update project attachment metadata
+ * Protected endpoint - requires authentication
+ */
+export async function updateProjectAttachmentService(data: UpdateProjectAttachmentRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].attachments[':attachmentId'].$patch(data));
+}
+
+/**
+ * Remove an attachment from a project (reference removal)
+ * Protected endpoint - requires authentication
+ */
+export async function removeAttachmentFromProjectService(data: RemoveAttachmentFromProjectRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].attachments[':attachmentId'].$delete(data));
+}
+
+// ============================================================================
+// Service Functions - Project Context
+// ============================================================================
+
+/**
+ * Get aggregated project context for RAG
+ * Protected endpoint - requires authentication
+ */
+export async function getProjectContextService(data: GetProjectContextRequest) {
+  const client = createApiClient();
+  return parseResponse(client.project.projects[':id'].context.$get(data));
+}
+
+// ============================================================================
+// Service Functions - Project Limits
+// ============================================================================
+
+/**
+ * Get project limits based on user subscription tier
+ * Protected endpoint - requires authentication
+ */
+export async function getProjectLimitsService(options?: ServiceOptions) {
+  const client = createApiClient({ cookieHeader: options?.cookieHeader });
+  return parseResponse(client.project.projects.limits.$get());
+}
+
+// ============================================================================
+// Derived Query Types
+// ============================================================================
+
+/**
+ * Query parameters for listing project attachments
+ * Derived from ListProjectAttachmentsRequest
+ */
+export type ListProjectAttachmentsQuery = ListProjectAttachmentsRequest extends { query: infer Q } ? Q : never;
+
+// ============================================================================
+// Derived Entity Types (SINGLE SOURCE OF TRUTH)
+// ============================================================================
+
+/**
+ * Project item from list endpoint - the complete project shape
+ */
+export type ProjectListItem = NonNullable<ListProjectsResponse['data']>['items'][number];
+
+/**
+ * Project detail from get/update endpoint
+ */
+export type ProjectDetail = NonNullable<GetProjectResponse['data']>;
+
+/**
+ * Project attachment item from list attachments endpoint
+ */
+export type ProjectAttachmentItem = NonNullable<ListProjectAttachmentsResponse['data']>['items'][number];

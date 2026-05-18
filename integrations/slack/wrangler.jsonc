@@ -1,0 +1,77 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "src/index.ts",
+  "name": "debatekit-slack-bot",
+  "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
+  "compatibility_date": "2026-01-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "minify": true,
+  "upload_source_maps": false,
+  "dev": {
+    "port": 8790
+  },
+  "workers_dev": false,
+  "placement": {
+    "mode": "smart"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  // KV for storing session state and ephemeral data
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "98af9bc3e37c4e04ae7420c7d9ecd963",
+      "preview_id": "98af9bc3e37c4e04ae7420c7d9ecd963"
+    }
+  ],
+  "vars": {
+    "DEBATEKIT_API_URL": "http://localhost:8788",
+    "DEBATEKIT_APP_URL": "http://localhost:3000"
+  },
+  "env": {
+    "preview": {
+      "name": "debatekit-slack-bot-preview",
+      "workers_dev": true,
+      "placement": { "mode": "smart" },
+      "upload_source_maps": false,
+      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "fcaa64e7bb194266a80801299904c05c",
+          "preview_id": "fcaa64e7bb194266a80801299904c05c"
+        }
+      ],
+      "vars": {
+        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.ai",
+        "DEBATEKIT_APP_URL": "https://preview.debatekit.ai"
+      }
+    },
+    "production": {
+      "name": "debatekit-slack-bot-prod",
+      "workers_dev": false,
+      "placement": { "mode": "smart" },
+      "upload_source_maps": false,
+      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "routes": [
+        {
+          "pattern": "slack.debatekit.ai",
+          "custom_domain": true
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "349cd174ca3a4b97b352657dc2026b29",
+          "preview_id": "349cd174ca3a4b97b352657dc2026b29"
+        }
+      ],
+      "vars": {
+        "DEBATEKIT_API_URL": "https://mcp.debatekit.ai",
+        "DEBATEKIT_APP_URL": "https://debatekit.ai"
+      }
+    }
+  }
+}
