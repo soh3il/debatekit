@@ -20,11 +20,12 @@ name: Deploy (preview)
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - preview
+  workflow_dispatch:
 
 concurrency:
-  group: deploy-preview-${{ github.ref }}
+  group: deploy-preview
   cancel-in-progress: true
 
 permissions:
