@@ -29,9 +29,9 @@
     {
       "binding": "DB",
       "database_name": "debatekit-dashboard-db-local",
-      "database_id": "12ce87b8-9d6d-4c54-a9d4-7c59ceb3ef8e",
+      "database_id": "03f58c3c-85f0-4e7a-9fce-3afacab850d6",
       "migrations_dir": "./src/db/migrations",
-      "preview_database_id": "12ce87b8-9d6d-4c54-a9d4-7c59ceb3ef8e"
+      "preview_database_id": "03f58c3c-85f0-4e7a-9fce-3afacab850d6"
     }
   ],
   "kv_namespaces": [
@@ -183,13 +183,13 @@
         {
           "binding": "DB",
           "database_name": "debatekit-dashboard-db-preview",
-          "database_id": "ce0a7c86-7ac5-46c8-bf25-3df0a2345f9c",
+          "database_id": "685368cd-77f2-424f-b426-490966610e8f",
           "migrations_dir": "./src/db/migrations",
-          "preview_database_id": "ce0a7c86-7ac5-46c8-bf25-3df0a2345f9c"
+          "preview_database_id": "685368cd-77f2-424f-b426-490966610e8f"
         }
       ],
       "kv_namespaces": [
-        { "binding": "KV", "id": "146b84bc30474873a73161b779c19b81", "preview_id": "146b84bc30474873a73161b779c19b81" }
+        { "binding": "KV", "id": "0968d7f25e954847a159a00fffc6f677", "preview_id": "0968d7f25e954847a159a00fffc6f677" }
       ],
       "r2_buckets": [
         { "binding": "UPLOADS_R2_BUCKET", "bucket_name": "debatekit-dashboard-r2-uploads-preview-weur", "preview_bucket_name": "debatekit-dashboard-r2-uploads-preview-weur", "location_hint": "weur" }
@@ -251,9 +251,9 @@
         {
           "binding": "DB",
           "database_name": "debatekit-dashboard-db-prod",
-          "database_id": "74073b18-b9ef-4801-8176-4159905047d1",
+          "database_id": "280cb89f-c096-417c-a704-ad9b3bdd6d12",
           "migrations_dir": "./src/db/migrations",
-          "preview_database_id": "74073b18-b9ef-4801-8176-4159905047d1"
+          "preview_database_id": "280cb89f-c096-417c-a704-ad9b3bdd6d12"
         }
       ],
       "kv_namespaces": [

@@ -65,7 +65,7 @@
         }
       ],
       "kv_namespaces": [
-        { "binding": "KV", "id": "146b84bc30474873a73161b779c19b81", "preview_id": "146b84bc30474873a73161b779c19b81" }
+        { "binding": "KV", "id": "3a6aefbc5b6141e6b38831796c4d31fe", "preview_id": "3a6aefbc5b6141e6b38831796c4d31fe" }
       ],
       "vars": {
         "WEBAPP_ENV": "preview",
