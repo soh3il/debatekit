@@ -3,15 +3,15 @@
 -- URL: https://debatekit.com
 --
 -- LIVE mode IDs - must match actual Stripe LIVE catalog
--- Product: Pro (prod_Tm6uQ8p2TyzcaA) - $59/month
--- Price: price_1SoYgp52vWNZ3v8wGzxrv0NC
+-- Product: Pro (prod_UYFCSIwtSMEqMx) - $59/month
+-- Price: price_1TZ8iT2R16aMJLB0XbDt5CcP
 
 -- Stripe Product Catalog - Pro Plan Only
 INSERT OR IGNORE INTO stripe_product (id, name, description, active, default_price_id, metadata, images, features, created_at, updated_at) VALUES
-('prod_Tm6uQ8p2TyzcaA', 'Pro', '2,000,000 credits per month with automatic renewal. Full access to all AI models.', 1, 'price_1SoYgp52vWNZ3v8wGzxrv0NC', '{"planType":"paid","displayOrder":"1","badge":"most_popular"}', '[]', '["2,000,000 credits per month","Automatic monthly renewal","Unlimited AI models","Priority support"]', 1768176531, 1768176531);
+('prod_UYFCSIwtSMEqMx', 'Pro', '2,000,000 credits per month with automatic renewal. Full access to all AI models.', 1, 'price_1TZ8iT2R16aMJLB0XbDt5CcP', '{"planType":"paid","displayOrder":"1","badge":"most_popular"}', '[]', '["2,000,000 credits per month","Automatic monthly renewal","Unlimited AI models","Priority support"]', 1768176531, 1768176531);
 
 INSERT OR IGNORE INTO stripe_price (id, product_id, active, currency, unit_amount, type, `interval`, interval_count, trial_period_days, metadata, created_at, updated_at) VALUES
-('price_1SoYgp52vWNZ3v8wGzxrv0NC', 'prod_Tm6uQ8p2TyzcaA', 1, 'usd', 5900, 'recurring', 'month', 1, NULL, '{"planType":"paid"}', 1768176539, 1768176539);
+('price_1TZ8iT2R16aMJLB0XbDt5CcP', 'prod_UYFCSIwtSMEqMx', 1, 'usd', 5900, 'recurring', 'month', 1, NULL, '{"planType":"paid"}', 1768176539, 1768176539);
 
 -- ============================================================================
 -- LEGACY PAID USERS - OG users from legacy platform
@@ -74,19 +74,19 @@ INSERT OR IGNORE INTO stripe_customer (id, user_id, email, name, default_payment
 -- current_period_end: Feb 12, 2026 (1739318400)
 -- (id, customer_id, user_id, status, price_id, quantity, cancel_at_period_end, cancel_at, canceled_at, current_period_start, current_period_end, trial_start, trial_end, ended_at, metadata, version, created_at, updated_at)
 INSERT OR IGNORE INTO stripe_subscription (id, customer_id, user_id, status, price_id, quantity, cancel_at_period_end, cancel_at, canceled_at, current_period_start, current_period_end, trial_start, trial_end, ended_at, metadata, version, created_at, updated_at) VALUES
-('sub_legacy_001', 'cus_legacy_001', 'legacy-user-001-anita-solati', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_002', 'cus_legacy_002', 'legacy-user-002-steven-mocarski', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_003', 'cus_legacy_003', 'legacy-user-003-behnia', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_004', 'cus_legacy_004', 'legacy-user-004-mohammad-nouri', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_005', 'cus_legacy_005', 'legacy-user-005-bazizi', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_006', 'cus_legacy_006', 'legacy-user-006-davej', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_007', 'cus_legacy_007', 'legacy-user-007-etajer', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_008', 'cus_legacy_008', 'legacy-user-008-golazad', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_009', 'cus_legacy_009', 'legacy-user-009-maryam-fahimnejad', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_010', 'cus_legacy_010', 'legacy-user-010-farid-mohamadi', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_011', 'cus_legacy_011', 'legacy-user-011-nahal-ghorbi', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_012', 'cus_legacy_012', 'legacy-user-012-omrani-sadeq', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
-('sub_legacy_013', 'cus_legacy_013', 'legacy-user-013-mehrabadgroup', 'active', 'price_1SoYgp52vWNZ3v8wGzxrv0NC', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000);
+('sub_legacy_001', 'cus_legacy_001', 'legacy-user-001-anita-solati', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_002', 'cus_legacy_002', 'legacy-user-002-steven-mocarski', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_003', 'cus_legacy_003', 'legacy-user-003-behnia', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_004', 'cus_legacy_004', 'legacy-user-004-mohammad-nouri', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_005', 'cus_legacy_005', 'legacy-user-005-bazizi', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_006', 'cus_legacy_006', 'legacy-user-006-davej', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_007', 'cus_legacy_007', 'legacy-user-007-etajer', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_008', 'cus_legacy_008', 'legacy-user-008-golazad', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_009', 'cus_legacy_009', 'legacy-user-009-maryam-fahimnejad', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_010', 'cus_legacy_010', 'legacy-user-010-farid-mohamadi', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_011', 'cus_legacy_011', 'legacy-user-011-nahal-ghorbi', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_012', 'cus_legacy_012', 'legacy-user-012-omrani-sadeq', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000),
+('sub_legacy_013', 'cus_legacy_013', 'legacy-user-013-mehrabadgroup', 'active', 'price_1TZ8iT2R16aMJLB0XbDt5CcP', 1, 1, 1739318400, NULL, 1736640000, 1739318400, NULL, NULL, NULL, '{"legacyGift":"1month"}', 1, 1736640000, 1736640000);
 
 -- User Credit Balance records (paid plan with 2M credits)
 -- next_refill_at: Feb 12, 2026 (1739318400)
