@@ -56,9 +56,26 @@
         "DEBATEKIT_APP_URL": "https://debatekit.com",
         "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
       }
+    },
+    "preview": {
+      "name": "debatekit-telegram-bot-preview",
+      "workers_dev": true,
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "f0df6c73c1c74c9f999cf195adafc8d1",
+          "preview_id": "f0df6c73c1c74c9f999cf195adafc8d1"
+        }
+      ],
+      "vars": {
+        "DEBATEKIT_API_URL": "https://debatekit-mcp-preview.<account>.workers.dev",
+        "DEBATEKIT_APP_URL": "https://debatekit-web-preview.<account>.workers.dev",
+        "TELEGRAM_BOT_USERNAME": "debatekitnowbot",
+        "NODE_ENV": "production"
+      }
     }
   },
   "build": {
-    "command": "cd ../.. && bun install --frozen-lockfile && cd integrations/telegram && bunx wrangler deploy --env=production --keep-vars"
+    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && cd integrations/telegram && bunx wrangler deploy --env=$ENV --keep-vars"
   }
 }

@@ -122,9 +122,54 @@
         "POSTHOG_HOST": "https://us.i.posthog.com",
         "NODE_ENV": "production"
       }
+    },
+    "preview": {
+      "name": "debatekit-api-preview",
+      "workers_dev": true,
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.1
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "debatekit-dashboard-db-preview",
+          "database_id": "685368cd-77f2-424f-b426-490966610e8f",
+          "migrations_dir": "./src/db/migrations",
+          "preview_database_id": "685368cd-77f2-424f-b426-490966610e8f"
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "a9ef1386681c41a58d7136fb676b6b62",
+          "preview_id": "a9ef1386681c41a58d7136fb676b6b62"
+        }
+      ],
+      "ai": {
+        "binding": "AI",
+        "remote": true
+      },
+      "vars": {
+        "WEBAPP_ENV": "preview",
+        "APP_NAME": "DebateKit API (preview)",
+        "TURNSTILE_SITE_KEY": "0x4AAAAAACN3_OeMcDjErTqV",
+        "R2_PUBLIC_URL": "https://api-preview.debatekit.com/uploads",
+        "AWS_SES_REGION": "eu-north-1",
+        "FROM_EMAIL": "noreply@debatekit.com",
+        "SES_REPLY_TO_EMAIL": "support@debatekit.com",
+        "SES_VERIFIED_EMAIL": "noreply@debatekit.com",
+        "STRIPE_CUSTOMER_PORTAL_CONFIG_ID": "bpc_1STOnK52vWNZ3v8wteUMwNCy",
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51SPXN852vWNZ3v8wCfrjOoFGG1RFsCq8LC7vJcVJGOEpjJOjmNU4eofpw7ulsSh6LET81iBtYomVYaoHrf8RyPqE00mdMsc6Oy",
+        "AUTH_GOOGLE_ID": "815574816934-2chacenekb6gnis24lksiit84eddt3af.apps.googleusercontent.com",
+        "BETTER_AUTH_URL": "https://debatekit.com",
+        "POSTHOG_HOST": "https://us.i.posthog.com",
+        "MARKETING_FROM_EMAIL": "hello@mail.debatekit.com",
+        "NODE_ENV": "production"
+      }
     }
   },
   "build": {
-    "command": "cd ../.. && bun install --frozen-lockfile && cd apps/api && bunx wrangler deploy --env=production --keep-vars"
+    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && cd apps/api && bunx wrangler deploy --env=$ENV --keep-vars"
   }
 }

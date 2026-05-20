@@ -44,9 +44,22 @@
         "VITE_MAINTENANCE": "false",
         "VITE_POSTHOG_API_KEY": "phc_j7kkGT8YavyO3VHZMqubY5LXkTk5Y6LqocZn09B9f5O"
       }
+    },
+    "preview": {
+      "name": "debatekit-web-preview",
+      "workers_dev": true,
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.1
+      },
+      "vars": {
+        "VITE_WEBAPP_ENV": "preview",
+        "VITE_MAINTENANCE": "false",
+        "VITE_POSTHOG_API_KEY": "phc_j7kkGT8YavyO3VHZMqubY5LXkTk5Y6LqocZn09B9f5O"
+      }
     }
   },
   "build": {
-    "command": "cd ../.. && bun install --frozen-lockfile && bun run --filter @debatekit/web build:production && cd apps/web && bun run scripts/patch-wrangler-env.ts production && bunx wrangler deploy --config dist/server/wrangler.json --keep-vars"
+    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && bun run --filter @debatekit/web build:$ENV && cd apps/web && bun run scripts/patch-wrangler-env.ts $ENV && bunx wrangler deploy --config dist/server/wrangler.json --keep-vars"
   }
 }

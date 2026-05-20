@@ -54,9 +54,25 @@
         "DEBATEKIT_API_URL": "https://mcp.debatekit.com",
         "DEBATEKIT_APP_URL": "https://debatekit.com"
       }
+    },
+    "preview": {
+      "name": "debatekit-slack-bot-preview",
+      "workers_dev": true,
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "02533a5a55af4e169b72491ea2d11948",
+          "preview_id": "02533a5a55af4e169b72491ea2d11948"
+        }
+      ],
+      "vars": {
+        "DEBATEKIT_API_URL": "https://debatekit-mcp-preview.<account>.workers.dev",
+        "DEBATEKIT_APP_URL": "https://debatekit-web-preview.<account>.workers.dev",
+        "NODE_ENV": "production"
+      }
     }
   },
   "build": {
-    "command": "cd ../.. && bun install --frozen-lockfile && cd integrations/slack && bunx wrangler deploy --env=production --keep-vars"
+    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && cd integrations/slack && bunx wrangler deploy --env=$ENV --keep-vars"
   }
 }
