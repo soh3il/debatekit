@@ -123,5 +123,8 @@
         "NODE_ENV": "production"
       }
     }
+  },
+  "build": {
+    "command": "cd ../.. && bun install --frozen-lockfile && cd apps/api && bunx wrangler deploy --env=production --keep-vars"
   }
 }

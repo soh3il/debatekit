@@ -45,5 +45,8 @@
         "VITE_POSTHOG_API_KEY": "phc_j7kkGT8YavyO3VHZMqubY5LXkTk5Y6LqocZn09B9f5O"
       }
     }
+  },
+  "build": {
+    "command": "cd ../.. && bun install --frozen-lockfile && bun run --filter @debatekit/web build:production && cd apps/web && bun run scripts/patch-wrangler-env.ts production && bunx wrangler deploy --config dist/server/wrangler.json --keep-vars"
   }
 }

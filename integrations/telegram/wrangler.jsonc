@@ -57,5 +57,8 @@
         "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
       }
     }
+  },
+  "build": {
+    "command": "cd ../.. && bun install --frozen-lockfile && cd integrations/telegram && bunx wrangler deploy --env=production --keep-vars"
   }
 }
