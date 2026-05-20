@@ -3,52 +3,27 @@
   "name": "debatekit-web",
   "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
   "compatibility_date": "2026-01-20",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "upload_source_maps": true,
   "main": "@tanstack/react-start/server-entry",
   "workers_dev": false,
-  "placement": {
-    "mode": "smart"
-  },
   "observability": {
     "enabled": true
   },
   "dev": {
     "port": 5173
   },
-  // VITE_* vars are statically replaced at build time by Vite (.env files).
-  // These wrangler vars serve as runtime fallback for SSR on Cloudflare Workers.
   "vars": {
     "VITE_WEBAPP_ENV": "local",
     "VITE_MAINTENANCE": "false",
     "VITE_POSTHOG_API_KEY": "phc_j7kkGT8YavyO3VHZMqubY5LXkTk5Y6LqocZn09B9f5O"
   },
   "env": {
-    "preview": {
-      "name": "debatekit-web-preview",
-      "workers_dev": false,
-      "placement": { "mode": "smart" },
-      "upload_source_maps": true,
-      "observability": {
-        "enabled": true,
-        "head_sampling_rate": 0.1
-      },
-      "routes": [
-        {
-          "pattern": "web-preview.debatekit.com",
-          "custom_domain": true
-        }
-      ],
-      "vars": {
-        "VITE_WEBAPP_ENV": "preview",
-        "VITE_MAINTENANCE": "false",
-        "VITE_POSTHOG_API_KEY": "phc_j7kkGT8YavyO3VHZMqubY5LXkTk5Y6LqocZn09B9f5O"
-      }
-    },
     "production": {
       "name": "debatekit-web-prod",
       "workers_dev": false,
-      "placement": { "mode": "smart" },
       "upload_source_maps": false,
       "observability": {
         "enabled": true,

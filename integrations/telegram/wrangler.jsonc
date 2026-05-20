@@ -4,25 +4,19 @@
   "name": "debatekit-telegram-bot",
   "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
   "compatibility_date": "2026-01-20",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "minify": true,
   "upload_source_maps": false,
-  // Allow long-running API calls (~60s) without CPU timeout
-  "limits": {
-    "cpu_ms": 30000
-  },
   "dev": {
     "port": 8791
   },
   "workers_dev": false,
-  "placement": {
-    "mode": "smart"
-  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
   },
-  // KV for storing per-chat API keys and message buffers
   "kv_namespaces": [
     {
       "binding": "KV",
@@ -36,31 +30,14 @@
     "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
   },
   "env": {
-    "preview": {
-      "name": "debatekit-telegram-bot-preview",
-      "workers_dev": true,
-      "placement": { "mode": "smart" },
-      "upload_source_maps": false,
-      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
-      "kv_namespaces": [
-        {
-          "binding": "KV",
-          "id": "406a26952491480d96f06f85f8492cfd",
-          "preview_id": "406a26952491480d96f06f85f8492cfd"
-        }
-      ],
-      "vars": {
-        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.com",
-        "DEBATEKIT_APP_URL": "https://preview.debatekit.com",
-        "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
-      }
-    },
     "production": {
       "name": "debatekit-telegram-bot-prod",
       "workers_dev": false,
-      "placement": { "mode": "smart" },
       "upload_source_maps": false,
-      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.1
+      },
       "routes": [
         {
           "pattern": "telegram.debatekit.com",
@@ -70,8 +47,8 @@
       "kv_namespaces": [
         {
           "binding": "KV",
-          "id": "078a524871e84bb4bf92ac56b7b36379",
-          "preview_id": "078a524871e84bb4bf92ac56b7b36379"
+          "id": "2b97c304ae704b18ae6118bc59a9aa63",
+          "preview_id": "2b97c304ae704b18ae6118bc59a9aa63"
         }
       ],
       "vars": {

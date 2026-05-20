@@ -4,21 +4,19 @@
   "name": "debatekit-whatsapp-bot",
   "account_id": "67bc7b518b92a0c406ac9b8526ddbb6d",
   "compatibility_date": "2026-01-20",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "minify": true,
   "upload_source_maps": false,
   "dev": {
     "port": 8792
   },
   "workers_dev": false,
-  "placement": {
-    "mode": "smart"
-  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
   },
-  // KV for storing per-chat API keys and message buffers
   "kv_namespaces": [
     {
       "binding": "KV",
@@ -31,30 +29,14 @@
     "DEBATEKIT_APP_URL": "http://localhost:3000"
   },
   "env": {
-    "preview": {
-      "name": "debatekit-whatsapp-bot-preview",
-      "workers_dev": true,
-      "placement": { "mode": "smart" },
-      "upload_source_maps": false,
-      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
-      "kv_namespaces": [
-        {
-          "binding": "KV",
-          "id": "c632e427d332431e87a80e920da87958",
-          "preview_id": "c632e427d332431e87a80e920da87958"
-        }
-      ],
-      "vars": {
-        "DEBATEKIT_API_URL": "https://mcp-preview.debatekit.com",
-        "DEBATEKIT_APP_URL": "https://preview.debatekit.com"
-      }
-    },
     "production": {
       "name": "debatekit-whatsapp-bot-prod",
       "workers_dev": false,
-      "placement": { "mode": "smart" },
       "upload_source_maps": false,
-      "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 0.1
+      },
       "routes": [
         {
           "pattern": "whatsapp.debatekit.com",
@@ -64,8 +46,8 @@
       "kv_namespaces": [
         {
           "binding": "KV",
-          "id": "ed3faca01e5147608a9c51f345560213",
-          "preview_id": "ed3faca01e5147608a9c51f345560213"
+          "id": "1c62fdcf32c946eaa8ac227c8fb9e31c",
+          "preview_id": "1c62fdcf32c946eaa8ac227c8fb9e31c"
         }
       ],
       "vars": {
