@@ -60,6 +60,6 @@
     }
   },
   "build": {
-    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && bun run --filter @debatekit/web build:$ENV && cd apps/web && bun run scripts/patch-wrangler-env.ts $ENV && bunx wrangler deploy --config dist/server/wrangler.json --keep-vars"
+    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && bun run --filter @debatekit/web build:$ENV && cd apps/web && bun run scripts/patch-wrangler-env.ts $ENV"
   }
 }

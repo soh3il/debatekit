@@ -71,8 +71,5 @@
         "NODE_ENV": "production"
       }
     }
-  },
-  "build": {
-    "command": "if [ \"$WORKERS_CI_BRANCH\" = \"main\" ]; then ENV=production; else ENV=preview; fi; cd ../.. && bun install --frozen-lockfile && cd integrations/whatsapp && bunx wrangler deploy --env=$ENV --keep-vars"
   }
 }
