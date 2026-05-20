@@ -42,13 +42,6 @@
       "preview_id": "0ab8201d8a9d43b7ab8e4236026e4811"
     }
   ],
-  "r2_buckets": [
-    {
-      "binding": "UPLOADS_R2_BUCKET",
-      "bucket_name": "debatekit-dashboard-r2-uploads-local",
-      "preview_bucket_name": "debatekit-dashboard-r2-uploads-local"
-    }
-  ],
   "ai": {
     "binding": "AI",
     "remote": true
@@ -245,16 +238,8 @@
       "kv_namespaces": [
         {
           "binding": "KV",
-          "id": "8c335928a67d4d5db3de6e52f685296f",
-          "preview_id": "8c335928a67d4d5db3de6e52f685296f"
-        }
-      ],
-      "r2_buckets": [
-        {
-          "binding": "UPLOADS_R2_BUCKET",
-          "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
-          "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
-          "location_hint": "weur"
+          "id": "0968d7f25e954847a159a00fffc6f677",
+          "preview_id": "0968d7f25e954847a159a00fffc6f677"
         }
       ],
       "ai": {
@@ -292,7 +277,22 @@
         "MARKETING_FROM_EMAIL": "hello@mail.debatekit.com",
         "POSTHOG_HOST": "https://us.i.posthog.com",
         "NODE_ENV": "production"
-      }
+      },
+      "r2_buckets": [
+        {
+          "binding": "UPLOADS_R2_BUCKET",
+          "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
+          "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
+          "location_hint": "weur"
+        }
+      ]
     }
-  }
+  },
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS_R2_BUCKET",
+      "bucket_name": "debatekit-dashboard-r2-uploads-local",
+      "preview_bucket_name": "debatekit-dashboard-r2-uploads-local"
+    }
+  ]
 }
