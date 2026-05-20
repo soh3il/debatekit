@@ -257,8 +257,8 @@ import { deleteProjectMemoryRoute, extractProjectMemoryRoute, getProjectMemoryRo
 // ============================================================================
 import { listModelsHandler } from './models/handler';
 import { listModelsRoute } from './models/route';
-import { ogChatHandler, ogPageHandler } from './og';
-import { ogChatRoute, ogPageRoute } from './og/route';
+// import { ogChatHandler, ogPageHandler } from './og';  // TEMP: OG disabled to shrink bundle below CF 10 MiB
+// import { ogChatRoute, ogPageRoute } from './og/route';  // TEMP: OG disabled
 // ============================================================================
 // Podcast Routes
 // ============================================================================
@@ -370,8 +370,8 @@ import { getUserUsageStatsRoute } from './usage/route';
 const healthAuthRoutes = createOpenApiApp()
   .openapi(healthRoute, healthHandler)
   .openapi(detailedHealthRoute, detailedHealthHandler)
-  .openapi(ogChatRoute, ogChatHandler)
-  .openapi(ogPageRoute, ogPageHandler)
+  // .openapi(ogChatRoute, ogChatHandler)  // TEMP: OG route disabled
+  // .openapi(ogPageRoute, ogPageHandler)  // TEMP: OG route disabled
   .openapi(secureMeRoute, secureMeHandler)
   .openapi(clearOwnCacheRoute, clearOwnCacheHandler)
   .openapi(listApiKeysRoute, listApiKeysHandler)

@@ -46,88 +46,6 @@
     "binding": "AI",
     "remote": true
   },
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "UPLOAD_CLEANUP_SCHEDULER",
-        "class_name": "UploadCleanupScheduler"
-      }
-    ]
-  },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": [
-        "UploadCleanupScheduler"
-      ]
-    }
-  ],
-  "queues": {
-    "producers": [
-      {
-        "queue": "title-generation-queue-local",
-        "binding": "TITLE_GENERATION_QUEUE"
-      },
-      {
-        "queue": "round-orchestration-queue-local",
-        "binding": "ROUND_ORCHESTRATION_QUEUE"
-      },
-      {
-        "queue": "podcast-generation-queue-local",
-        "binding": "PODCAST_GENERATION_QUEUE"
-      },
-      {
-        "queue": "tweet-posting-queue-local",
-        "binding": "TWEET_POSTING_QUEUE"
-      },
-      {
-        "queue": "email-sending-queue-local",
-        "binding": "EMAIL_SENDING_QUEUE"
-      }
-    ],
-    "consumers": [
-      {
-        "queue": "title-generation-queue-local",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "retry_delay": 60,
-        "dead_letter_queue": "title-generation-dlq-local"
-      },
-      {
-        "queue": "round-orchestration-queue-local",
-        "max_batch_size": 1,
-        "max_batch_timeout": 1,
-        "max_retries": 5,
-        "retry_delay": 60,
-        "dead_letter_queue": "round-orchestration-dlq-local"
-      },
-      {
-        "queue": "podcast-generation-queue-local",
-        "max_batch_size": 1,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "retry_delay": 120,
-        "dead_letter_queue": "podcast-generation-dlq-local"
-      },
-      {
-        "queue": "tweet-posting-queue-local",
-        "max_batch_size": 1,
-        "max_batch_timeout": 5,
-        "max_retries": 5,
-        "retry_delay": 120,
-        "dead_letter_queue": "tweet-posting-dlq-local"
-      },
-      {
-        "queue": "email-sending-queue-local",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "retry_delay": 120,
-        "dead_letter_queue": "email-sending-dlq-local"
-      }
-    ]
-  },
   "vars": {
     "WEBAPP_ENV": "local",
     "APP_NAME": "DebateKit API",
@@ -160,72 +78,6 @@
           "custom_domain": true
         }
       ],
-      "queues": {
-        "producers": [
-          {
-            "queue": "title-generation-queue-prod",
-            "binding": "TITLE_GENERATION_QUEUE"
-          },
-          {
-            "queue": "round-orchestration-queue-prod",
-            "binding": "ROUND_ORCHESTRATION_QUEUE"
-          },
-          {
-            "queue": "podcast-generation-queue-prod",
-            "binding": "PODCAST_GENERATION_QUEUE"
-          },
-          {
-            "queue": "tweet-posting-queue-prod",
-            "binding": "TWEET_POSTING_QUEUE"
-          },
-          {
-            "queue": "email-sending-queue-prod",
-            "binding": "EMAIL_SENDING_QUEUE"
-          }
-        ],
-        "consumers": [
-          {
-            "queue": "title-generation-queue-prod",
-            "max_batch_size": 10,
-            "max_batch_timeout": 5,
-            "max_retries": 3,
-            "retry_delay": 60,
-            "dead_letter_queue": "title-generation-dlq-prod"
-          },
-          {
-            "queue": "round-orchestration-queue-prod",
-            "max_batch_size": 1,
-            "max_batch_timeout": 1,
-            "max_retries": 5,
-            "retry_delay": 60,
-            "dead_letter_queue": "round-orchestration-dlq-prod"
-          },
-          {
-            "queue": "podcast-generation-queue-prod",
-            "max_batch_size": 1,
-            "max_batch_timeout": 5,
-            "max_retries": 3,
-            "retry_delay": 120,
-            "dead_letter_queue": "podcast-generation-dlq-prod"
-          },
-          {
-            "queue": "tweet-posting-queue-prod",
-            "max_batch_size": 1,
-            "max_batch_timeout": 5,
-            "max_retries": 5,
-            "retry_delay": 120,
-            "dead_letter_queue": "tweet-posting-dlq-prod"
-          },
-          {
-            "queue": "email-sending-queue-prod",
-            "max_batch_size": 10,
-            "max_batch_timeout": 5,
-            "max_retries": 3,
-            "retry_delay": 120,
-            "dead_letter_queue": "email-sending-dlq-prod"
-          }
-        ]
-      },
       "d1_databases": [
         {
           "binding": "DB",
@@ -245,14 +97,6 @@
       "ai": {
         "binding": "AI",
         "remote": true
-      },
-      "durable_objects": {
-        "bindings": [
-          {
-            "name": "UPLOAD_CLEANUP_SCHEDULER",
-            "class_name": "UploadCleanupScheduler"
-          }
-        ]
       },
       "triggers": {
         "crons": [
@@ -277,22 +121,7 @@
         "MARKETING_FROM_EMAIL": "hello@mail.debatekit.com",
         "POSTHOG_HOST": "https://us.i.posthog.com",
         "NODE_ENV": "production"
-      },
-      "r2_buckets": [
-        {
-          "binding": "UPLOADS_R2_BUCKET",
-          "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
-          "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
-          "location_hint": "weur"
-        }
-      ]
+      }
     }
-  },
-  "r2_buckets": [
-    {
-      "binding": "UPLOADS_R2_BUCKET",
-      "bucket_name": "debatekit-dashboard-r2-uploads-local",
-      "preview_bucket_name": "debatekit-dashboard-r2-uploads-local"
-    }
-  ]
+  }
 }
