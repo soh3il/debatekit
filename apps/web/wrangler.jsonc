@@ -31,8 +31,12 @@
       },
       "routes": [
         {
-          "pattern": "debatekit.com",
-          "custom_domain": true
+          "pattern": "debatekit.com/*",
+          "zone_name": "debatekit.com"
+        },
+        {
+          "pattern": "www.debatekit.com/*",
+          "zone_name": "debatekit.com"
         }
       ],
       "vars": {
