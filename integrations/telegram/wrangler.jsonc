@@ -27,7 +27,7 @@
   "vars": {
     "DEBATEKIT_API_URL": "http://localhost:8788",
     "DEBATEKIT_APP_URL": "http://localhost:3000",
-    "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
+    "TELEGRAM_BOT_USERNAME": "debatekitbot"
   },
   "env": {
     "production": {
@@ -54,7 +54,7 @@
       "vars": {
         "DEBATEKIT_API_URL": "https://mcp.debatekit.com",
         "DEBATEKIT_APP_URL": "https://debatekit.com",
-        "TELEGRAM_BOT_USERNAME": "debatekitnowbot"
+        "TELEGRAM_BOT_USERNAME": "debatekitbot"
       }
     },
     "preview": {
@@ -70,7 +70,7 @@
       "vars": {
         "DEBATEKIT_API_URL": "https://debatekit-mcp-preview.<account>.workers.dev",
         "DEBATEKIT_APP_URL": "https://debatekit-web-preview.<account>.workers.dev",
-        "TELEGRAM_BOT_USERNAME": "debatekitnowbot",
+        "TELEGRAM_BOT_USERNAME": "debatekitbot",
         "NODE_ENV": "production"
       }
     }
