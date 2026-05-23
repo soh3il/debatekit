@@ -66,8 +66,8 @@
         }
       ],
       "vars": {
-        "DEBATEKIT_API_URL": "https://debatekit-mcp-preview.<account>.workers.dev",
-        "DEBATEKIT_APP_URL": "https://debatekit-web-preview.<account>.workers.dev",
+        "DEBATEKIT_API_URL": "https://debatekit-mcp-preview.soheil-67b.workers.dev",
+        "DEBATEKIT_APP_URL": "https://debatekit-web-preview.soheil-67b.workers.dev",
         "NODE_ENV": "production"
       }
     }
