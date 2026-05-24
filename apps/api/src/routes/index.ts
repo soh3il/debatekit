@@ -257,7 +257,7 @@ import { deleteProjectMemoryRoute, extractProjectMemoryRoute, getProjectMemoryRo
 // ============================================================================
 import { listModelsHandler } from './models/handler';
 import { listModelsRoute } from './models/route';
-// import { ogChatHandler, ogPageHandler } from './og';  // TEMP: OG disabled to shrink bundle below CF 3 MiB Free limit
+// import { ogChatHandler, ogPageHandler } from './og';  // TEMP: OG adds ~2.5 MiB WASM, exceeds CF Workers limit; restore after migrating OG to own worker
 // import { ogChatRoute, ogPageRoute } from './og/route';  // TEMP: OG disabled
 // ============================================================================
 // Podcast Routes
