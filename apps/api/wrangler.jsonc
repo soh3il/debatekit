@@ -46,6 +46,13 @@
     "binding": "AI",
     "remote": true
   },
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS_R2_BUCKET",
+      "bucket_name": "debatekit-dashboard-r2-uploads-local",
+      "preview_bucket_name": "debatekit-dashboard-r2-uploads-local"
+    }
+  ],
   "vars": {
     "WEBAPP_ENV": "local",
     "APP_NAME": "DebateKit API",
@@ -98,6 +105,14 @@
         "binding": "AI",
         "remote": true
       },
+      "r2_buckets": [
+        {
+          "binding": "UPLOADS_R2_BUCKET",
+          "bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
+          "preview_bucket_name": "debatekit-dashboard-r2-uploads-prod-weur",
+          "location_hint": "weur"
+        }
+      ],
       "triggers": {
         "crons": [
           "*/5 * * * *",
@@ -150,6 +165,13 @@
         "binding": "AI",
         "remote": true
       },
+      "r2_buckets": [
+        {
+          "binding": "UPLOADS_R2_BUCKET",
+          "bucket_name": "debatekit-dashboard-r2-uploads-preview",
+          "preview_bucket_name": "debatekit-dashboard-r2-uploads-preview"
+        }
+      ],
       "vars": {
         "WEBAPP_ENV": "preview",
         "APP_NAME": "DebateKit API (preview)",
