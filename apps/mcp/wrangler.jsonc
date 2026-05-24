@@ -79,6 +79,12 @@
     "preview": {
       "name": "debatekit-mcp-preview",
       "workers_dev": true,
+      "routes": [
+        {
+          "pattern": "mcp-preview.debatekit.com",
+          "custom_domain": true
+        }
+      ],
       "observability": {
         "enabled": true,
         "head_sampling_rate": 0.1

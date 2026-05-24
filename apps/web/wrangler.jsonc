@@ -52,6 +52,12 @@
         "enabled": true,
         "head_sampling_rate": 0.1
       },
+      "routes": [
+        {
+          "pattern": "preview.debatekit.com/*",
+          "zone_name": "debatekit.com"
+        }
+      ],
       "vars": {
         "VITE_WEBAPP_ENV": "preview",
         "VITE_MAINTENANCE": "false",

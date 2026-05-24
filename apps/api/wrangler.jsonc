@@ -141,6 +141,12 @@
     "preview": {
       "name": "debatekit-api-preview",
       "workers_dev": true,
+      "routes": [
+        {
+          "pattern": "api-preview.debatekit.com",
+          "custom_domain": true
+        }
+      ],
       "observability": {
         "enabled": true,
         "head_sampling_rate": 0.1
