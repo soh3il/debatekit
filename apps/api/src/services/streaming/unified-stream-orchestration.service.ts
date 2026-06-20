@@ -2159,7 +2159,10 @@ async function executeParticipantPhase(
     // Without this guard the rejection unwinds to the OUTER catch, which cannot see the
     // captured provider error (streamErrorMessage is block-scoped here) and skips the
     // no-response else-branch entirely. Converge both no-output paths on the else-branch.
-    let usage: Awaited<typeof result.usage>;
+    // Narrow to the fields actually consumed below — the full LanguageModelUsage
+    // is structurally assignable to this, and it lets the catch supply a simple
+    // zero-usage fallback without reconstructing the SDK's nested token-detail shape.
+    let usage: { inputTokens?: number; outputTokens?: number; totalTokens?: number };
     let finishReason: Awaited<typeof result.finishReason>;
     try {
       usage = await result.usage;

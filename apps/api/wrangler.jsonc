@@ -79,7 +79,7 @@
     ],
     "consumers": [
       { "queue": "title-generation-queue-local", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 60, "dead_letter_queue": "title-generation-dlq-local" },
-      { "queue": "round-orchestration-queue-local", "max_batch_size": 1, "max_batch_timeout": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-local" },
+      { "queue": "round-orchestration-queue-local", "max_batch_size": 1, "max_batch_timeout": 1, "max_concurrency": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-local" },
       { "queue": "podcast-generation-queue-local", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "podcast-generation-dlq-local" },
       { "queue": "tweet-posting-queue-local", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 5, "retry_delay": 120, "dead_letter_queue": "tweet-posting-dlq-local" },
       { "queue": "email-sending-queue-local", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "email-sending-dlq-local" }
@@ -163,7 +163,7 @@
         ],
         "consumers": [
           { "queue": "title-generation-queue-prod", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 60, "dead_letter_queue": "title-generation-dlq-prod" },
-          { "queue": "round-orchestration-queue-prod", "max_batch_size": 1, "max_batch_timeout": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-prod" },
+          { "queue": "round-orchestration-queue-prod", "max_batch_size": 1, "max_batch_timeout": 1, "max_concurrency": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-prod" },
           { "queue": "podcast-generation-queue-prod", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "podcast-generation-dlq-prod" },
           { "queue": "tweet-posting-queue-prod", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 5, "retry_delay": 120, "dead_letter_queue": "tweet-posting-dlq-prod" },
           { "queue": "email-sending-queue-prod", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "email-sending-dlq-prod" }
@@ -252,7 +252,7 @@
         ],
         "consumers": [
           { "queue": "title-generation-queue-preview", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 60, "dead_letter_queue": "title-generation-dlq-preview" },
-          { "queue": "round-orchestration-queue-preview", "max_batch_size": 1, "max_batch_timeout": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-preview" },
+          { "queue": "round-orchestration-queue-preview", "max_batch_size": 1, "max_batch_timeout": 1, "max_concurrency": 1, "max_retries": 5, "retry_delay": 60, "dead_letter_queue": "round-orchestration-dlq-preview" },
           { "queue": "podcast-generation-queue-preview", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "podcast-generation-dlq-preview" },
           { "queue": "tweet-posting-queue-preview", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 5, "retry_delay": 120, "dead_letter_queue": "tweet-posting-dlq-preview" },
           { "queue": "email-sending-queue-preview", "max_batch_size": 10, "max_batch_timeout": 5, "max_retries": 3, "retry_delay": 120, "dead_letter_queue": "email-sending-dlq-preview" }

@@ -102,7 +102,7 @@ export const JsonModeQualities = {
 // MODEL PROVIDER - AI model provider identification
 // ============================================================================
 
-export const MODEL_PROVIDERS = ['x-ai', 'anthropic', 'google', 'deepseek', 'openai', 'mistralai'] as const;
+export const MODEL_PROVIDERS = ['x-ai', 'anthropic', 'google', 'deepseek', 'openai', 'mistralai', 'qwen', 'z-ai', 'moonshotai'] as const;
 
 export const ModelProviderSchema = z.enum(MODEL_PROVIDERS).openapi({
   description: 'AI model provider identifier',
@@ -118,8 +118,11 @@ export const ModelProviders = {
   DEEPSEEK: 'deepseek' as const,
   GOOGLE: 'google' as const,
   MISTRALAI: 'mistralai' as const,
+  MOONSHOTAI: 'moonshotai' as const,
   OPENAI: 'openai' as const,
+  QWEN: 'qwen' as const,
   X_AI: 'x-ai' as const,
+  Z_AI: 'z-ai' as const,
 } as const;
 
 export function isModelProvider(value: unknown): value is ModelProvider {
@@ -131,8 +134,11 @@ export const PROVIDER_STREAMING_DEFAULTS: Record<ModelProvider, StreamingBehavio
   [ModelProviders.DEEPSEEK]: StreamingBehaviors.BUFFERED,
   [ModelProviders.GOOGLE]: StreamingBehaviors.BUFFERED,
   [ModelProviders.MISTRALAI]: StreamingBehaviors.TOKEN,
+  [ModelProviders.MOONSHOTAI]: StreamingBehaviors.BUFFERED,
   [ModelProviders.OPENAI]: StreamingBehaviors.TOKEN,
+  [ModelProviders.QWEN]: StreamingBehaviors.BUFFERED,
   [ModelProviders.X_AI]: StreamingBehaviors.BUFFERED,
+  [ModelProviders.Z_AI]: StreamingBehaviors.BUFFERED,
 } as const;
 
 // ============================================================================
@@ -175,6 +181,25 @@ export const MODEL_IDS = [
   'anthropic/claude-opus-4.6',
   'openai/o3-pro',
   'anthropic/claude-opus-4',
+  // New top-tier OpenRouter models (Jun 2026)
+  'deepseek/deepseek-v4-flash',
+  'google/gemini-3.1-flash-lite',
+  'openai/gpt-5.4-nano',
+  'qwen/qwen3.7-plus',
+  'deepseek/deepseek-v4-pro',
+  'moonshotai/kimi-k2.6',
+  'moonshotai/kimi-k2.7-code',
+  'openai/gpt-5.4-mini',
+  'z-ai/glm-5.2',
+  'qwen/qwen3.7-max',
+  'x-ai/grok-4.3',
+  'x-ai/grok-4.20',
+  'google/gemini-3.5-flash',
+  'anthropic/claude-opus-4.8',
+  'openai/gpt-5.5',
+  'anthropic/claude-fable-5',
+  'anthropic/claude-opus-4.8-fast',
+  'openai/gpt-5.5-pro',
 ] as const;
 
 export const ModelIdSchema = z.enum(MODEL_IDS).openapi({
@@ -186,20 +211,29 @@ export type ModelId = z.infer<typeof ModelIdSchema>;
 
 // 5. CONSTANT OBJECT - Define before DEFAULT_MODEL_ID so it can be referenced
 export const ModelIds = {
+  ANTHROPIC_CLAUDE_FABLE_5: 'anthropic/claude-fable-5' as const,
   ANTHROPIC_CLAUDE_HAIKU_4_5: 'anthropic/claude-haiku-4.5' as const,
   ANTHROPIC_CLAUDE_OPUS_4: 'anthropic/claude-opus-4' as const,
   ANTHROPIC_CLAUDE_OPUS_4_6: 'anthropic/claude-opus-4.6' as const,
+  ANTHROPIC_CLAUDE_OPUS_4_8: 'anthropic/claude-opus-4.8' as const,
+  ANTHROPIC_CLAUDE_OPUS_4_8_FAST: 'anthropic/claude-opus-4.8-fast' as const,
   ANTHROPIC_CLAUDE_SONNET_4: 'anthropic/claude-sonnet-4' as const,
   ANTHROPIC_CLAUDE_SONNET_4_6: 'anthropic/claude-sonnet-4.6' as const,
   DEEPSEEK_DEEPSEEK_V3_2: 'deepseek/deepseek-v3.2' as const,
   DEEPSEEK_DEEPSEEK_V3_2_SPECIALE: 'deepseek/deepseek-v3.2-speciale' as const,
+  DEEPSEEK_DEEPSEEK_V4_FLASH: 'deepseek/deepseek-v4-flash' as const,
+  DEEPSEEK_DEEPSEEK_V4_PRO: 'deepseek/deepseek-v4-pro' as const,
   GOOGLE_GEMINI_2_5_FLASH: 'google/gemini-2.5-flash' as const,
   GOOGLE_GEMINI_2_5_PRO: 'google/gemini-2.5-pro' as const,
+  GOOGLE_GEMINI_3_1_FLASH_LITE: 'google/gemini-3.1-flash-lite' as const,
   GOOGLE_GEMINI_3_1_FLASH_LITE_PREVIEW: 'google/gemini-3.1-flash-lite-preview' as const,
   GOOGLE_GEMINI_3_1_PRO_PREVIEW: 'google/gemini-3.1-pro-preview' as const,
+  GOOGLE_GEMINI_3_5_FLASH: 'google/gemini-3.5-flash' as const,
   GOOGLE_GEMINI_3_FLASH_PREVIEW: 'google/gemini-3-flash-preview' as const,
   MISTRALAI_MINISTRAL_3B_2512: 'mistralai/ministral-3b-2512' as const,
   MISTRALAI_MISTRAL_LARGE_2512: 'mistralai/mistral-large-2512' as const,
+  MOONSHOTAI_KIMI_K2_6: 'moonshotai/kimi-k2.6' as const,
+  MOONSHOTAI_KIMI_K2_7_CODE: 'moonshotai/kimi-k2.7-code' as const,
   OPENAI_GPT_4_1: 'openai/gpt-4.1' as const,
   OPENAI_GPT_4_1_MINI: 'openai/gpt-4.1-mini' as const,
   OPENAI_GPT_4_1_NANO: 'openai/gpt-4.1-nano' as const,
@@ -209,6 +243,10 @@ export const ModelIds = {
   OPENAI_GPT_5_2: 'openai/gpt-5.2' as const,
   OPENAI_GPT_5_3_CODEX: 'openai/gpt-5.3-codex' as const,
   OPENAI_GPT_5_4: 'openai/gpt-5.4' as const,
+  OPENAI_GPT_5_4_MINI: 'openai/gpt-5.4-mini' as const,
+  OPENAI_GPT_5_4_NANO: 'openai/gpt-5.4-nano' as const,
+  OPENAI_GPT_5_5: 'openai/gpt-5.5' as const,
+  OPENAI_GPT_5_5_PRO: 'openai/gpt-5.5-pro' as const,
   OPENAI_GPT_5_MINI: 'openai/gpt-5-mini' as const,
   OPENAI_GPT_5_NANO: 'openai/gpt-5-nano' as const,
   OPENAI_GPT_OSS_120B: 'openai/gpt-oss-120b' as const,
@@ -216,12 +254,17 @@ export const ModelIds = {
   OPENAI_O3_MINI: 'openai/o3-mini' as const,
   OPENAI_O3_PRO: 'openai/o3-pro' as const,
   OPENAI_O4_MINI: 'openai/o4-mini' as const,
+  QWEN_QWEN3_7_MAX: 'qwen/qwen3.7-max' as const,
+  QWEN_QWEN3_7_PLUS: 'qwen/qwen3.7-plus' as const,
   X_AI_GROK_3: 'x-ai/grok-3' as const,
   X_AI_GROK_4: 'x-ai/grok-4' as const,
   X_AI_GROK_4_1: 'x-ai/grok-4.1' as const,
   X_AI_GROK_4_1_FAST: 'x-ai/grok-4.1-fast' as const,
+  X_AI_GROK_4_20: 'x-ai/grok-4.20' as const,
+  X_AI_GROK_4_3: 'x-ai/grok-4.3' as const,
   X_AI_GROK_4_FAST: 'x-ai/grok-4-fast' as const,
   X_AI_GROK_CODE_FAST_1: 'x-ai/grok-code-fast-1' as const,
+  Z_AI_GLM_5_2: 'z-ai/glm-5.2' as const,
 } as const;
 
 // 4. DEFAULT VALUE - Uses ModelIds for single source of truth

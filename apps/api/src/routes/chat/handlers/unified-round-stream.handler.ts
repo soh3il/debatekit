@@ -39,7 +39,7 @@ import {
   clearActiveStream,
   getUnifiedStream,
   initUnifiedStreamBuffer,
-  setActiveStream,
+  tryClaimActiveStream,
   UNIFIED_ENTITY_INDEX,
 } from '@/services/streaming';
 import type { UnifiedParticipant } from '@/services/streaming/unified-stream-orchestration.service';
@@ -292,12 +292,28 @@ export const startUnifiedRoundStreamHandler: RouteHandler<
     // pointing to an uninitialized buffer.
     // Trade-off: Adds ~10-20ms to time-to-first-token but ensures resume works.
     // =========================================================================
-    await setActiveStream(db, {
+    // Atomically claim ownership of this round's stream. If another live
+    // producer already owns it (a concurrent duplicate POST — double-submit,
+    // two tabs, or a racing queue retry), refuse rather than start a second
+    // producer that would duplicate every participant turn. A stale prior
+    // owner (>STALE_CHUNK_TIMEOUT_MS) is taken over so genuine retries proceed.
+    const claimed = await tryClaimActiveStream(db, {
       entityIndex: UNIFIED_ENTITY_INDEX,
       entityType: EntityPhases.UNIFIED,
       roundNumber,
       threadId,
     }, streamId);
+    if (!claimed) {
+      log.warn('Round stream already owned by a live producer — refusing duplicate start', {
+        roundNumber,
+        streamId,
+        threadId,
+      });
+      return c.json(
+        { error: 'A stream for this round is already active. Reconnect to the existing stream instead of starting a new one.', success: false },
+        HttpStatusCodes.CONFLICT,
+      );
+    }
 
     // Redis buffer enables resume support (GET reconnection).
     // If Redis init fails, proceed WITHOUT resume — streaming still works,

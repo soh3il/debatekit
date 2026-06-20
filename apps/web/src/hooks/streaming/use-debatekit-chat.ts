@@ -23,8 +23,8 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useStreamTransport } from '@/hooks/streaming/config/stream-transport';
-import type { DataPart, PendingCompletion } from '@/hooks/streaming/handlers/handle-data-part';
-import { createDataPartHandler, isDataPart } from '@/hooks/streaming/handlers/handle-data-part';
+import type { DataPart } from '@/hooks/streaming/handlers/handle-data-part';
+import { createDataPartHandler, isDataPart, storeRound } from '@/hooks/streaming/handlers/handle-data-part';
 import { useLatestRef } from '@/hooks/utils/use-latest-ref';
 import type { ExtendedFilePart } from '@/lib/schemas';
 import { useStore } from '@/lib/store';
@@ -108,7 +108,6 @@ export function useDebateKitChat(
   currentThreadIdRef.current = threadId || null;
   const dispatchedCompletionsRef = useRef<Set<string>>(new Set());
   const hasFatalErrorRef = useRef(false);
-  const pendingCompletionsRef = useRef<PendingCompletion[]>([]);
   const roundCompleteDispatchedRef = useRef(false);
   const resumeInitiatedRef = useRef<string | null>(null);
   // Track threadId changes for deferred resume guard (prevents layout-effect re-render blocking)
@@ -159,7 +158,6 @@ export function useDebateKitChat(
     expectedThreadId: threadId,
     onErrorRef,
     onRoundCompleteRef,
-    pendingCompletionsRef,
     roundCompleteDispatchedRef,
     setCurrentParticipantIndex,
     setStreamError,
@@ -178,7 +176,11 @@ export function useDebateKitChat(
         return;
       }
 
-      const effectiveRound = startedRoundRef.current ?? roundNumber;
+      // Derive the round from the store's currentRoundNumber (the single canonical
+      // source the handler also dedups on) so these keys are byte-identical to the
+      // handler's. Mixing a prop/ref round with the store-derived round would let
+      // dedup checks miss and double-count participants/moderator.
+      const effectiveRound = storeRound(store);
       const inferredPhases: StreamPhase[] = [];
       const dispatched = dispatchedCompletionsRef.current;
       const pCount = participantCountRef.current;
@@ -246,7 +248,6 @@ export function useDebateKitChat(
       if (!dataPartsReceivedRef.current) {
         dispatchedCompletionsRef.current.clear();
         roundCompleteDispatchedRef.current = false;
-        pendingCompletionsRef.current = [];
       }
       dataPartsReceivedRef.current = true;
 
@@ -302,7 +303,6 @@ export function useDebateKitChat(
       }
 
       setStreamError(err);
-      pendingCompletionsRef.current = [];
       onErrorRef.current?.(toStreamPhase(currentStorePhase), err.message);
     },
     onFinish: ({ isAbort, isDisconnect, isError }) => {
@@ -329,7 +329,10 @@ export function useDebateKitChat(
         onErrorRef.current?.(toStreamPhase(currentStorePhase), 'Stream ended with a server error');
       }
 
-      const effectiveRound = startedRoundRef.current ?? roundNumber;
+      // Derive the round from the store's currentRoundNumber so force-complete dedup
+      // keys are byte-identical to the handler's (which uses storeRound). Using the
+      // prop/ref round here could diverge during resume/navigate-back and re-count.
+      const effectiveRound = storeRound(store);
 
       // Force-complete active participant when stream closes mid-participant
       if (currentParticipantRef.current !== null) {
@@ -367,7 +370,7 @@ export function useDebateKitChat(
       if (!isAbort) {
         const currentState = store.getState();
         if (currentState.phase === ChatPhases.PRESEARCH) {
-          const roundNum = startedRoundRef.current ?? roundNumber;
+          const roundNum = effectiveRound;
           currentState.updatePreSearchStatus(roundNum, MessageStatuses.COMPLETE);
           currentState.transitionToParticipants();
           // Early return: presearch force-complete transitions to PARTICIPANTS,
@@ -377,13 +380,8 @@ export function useDebateKitChat(
         }
       }
 
-      if (isAbort) {
-        pendingCompletionsRef.current = [];
-      } else if (isDisconnect) {
-        pendingCompletionsRef.current = [];
-        inferAndDispatchRoundCompleteRef.current();
-      } else {
-        // Force-complete round if stream ended without round-complete event
+      if (!isAbort) {
+        // disconnect OR clean end without a round-complete event: force-complete the round.
         inferAndDispatchRoundCompleteRef.current();
       }
 
@@ -511,7 +509,6 @@ export function useDebateKitChat(
       dispatchedCompletionsRef.current.clear();
       resumeInitiatedRef.current = null;
       roundCompleteDispatchedRef.current = false;
-      pendingCompletionsRef.current = [];
       startedRoundRef.current = null;
       sendMessageLockRef.current = false;
       submittedForThreadRef.current = null;
@@ -535,7 +532,6 @@ export function useDebateKitChat(
       }
       dispatchedCompletionsRef.current.clear();
       roundCompleteDispatchedRef.current = false;
-      pendingCompletionsRef.current = [];
 
       if (store.getState().phase === ChatPhases.COMPLETE) {
         startedRoundRef.current = null;
@@ -552,7 +548,6 @@ export function useDebateKitChat(
     dispatchedCompletionsRef.current.clear();
     resumeInitiatedRef.current = null;
     roundCompleteDispatchedRef.current = false;
-    pendingCompletionsRef.current = [];
     startedRoundRef.current = null;
     sendMessageLockRef.current = false;
     submittedForThreadRef.current = null;
@@ -609,7 +604,6 @@ export function useDebateKitChat(
       hasFatalErrorRef.current = false;
       dispatchedCompletionsRef.current.clear();
       roundCompleteDispatchedRef.current = false;
-      pendingCompletionsRef.current = [];
 
       setCurrentParticipantIndex(null);
       setStreamError(null);
@@ -638,7 +632,6 @@ export function useDebateKitChat(
     currentParticipantRef.current = null;
     dispatchedCompletionsRef.current.clear();
     roundCompleteDispatchedRef.current = false;
-    pendingCompletionsRef.current = [];
     startedRoundRef.current = null;
     sendMessageLockRef.current = false;
     if (noActiveStreamTimeoutRef.current) {

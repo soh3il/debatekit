@@ -176,9 +176,19 @@ async function triggerUnifiedRoundStream(
 // MESSAGE PROCESSORS
 // ============================================================================
 
+/** Result of the coarse participant trigger check. */
+type ParticipantTriggerCheck = {
+  /** Whether the round still has work (not ALL participants done). */
+  shouldTrigger: boolean;
+  /** Total participants for the round, or null when the status check failed. */
+  totalParticipants: number | null;
+};
+
 /**
  * Check if participant should still be triggered
- * Returns true if participant should be triggered, false if round is already complete
+ * Returns shouldTrigger=true if the round still has work, false if ALL
+ * participants are already done. Also returns totalParticipants so callers
+ * can run a precise per-index idempotency check via getIncompleteParticipants.
  *
  * IMPORTANT: This check is intentionally minimal - we only skip if ALL participants
  * are done (completed + failed >= total). We do NOT check:
@@ -194,7 +204,7 @@ async function shouldTriggerParticipant(
   _participantIndex: number,
   userId: string,
   env: CloudflareEnv,
-): Promise<boolean> {
+): Promise<ParticipantTriggerCheck> {
   const baseUrl = getBaseUrl(env);
 
   try {
@@ -209,7 +219,7 @@ async function shouldTriggerParticipant(
     if (!stateResponse.ok) {
       // If status check fails, proceed with trigger (fail-open for reliability)
       // The streaming endpoint has its own duplicate protection
-      return true;
+      return { shouldTrigger: true, totalParticipants: null };
     }
 
     // Lazy-load schema to avoid startup CPU limit
@@ -219,13 +229,13 @@ async function shouldTriggerParticipant(
     const wrapperResult = WrappedApiResponseSchema.safeParse(await stateResponse.json());
     if (!wrapperResult.success) {
       // Invalid response structure - proceed with trigger
-      return true;
+      return { shouldTrigger: true, totalParticipants: null };
     }
 
     const parseResult = RoundStatusSchema.safeParse(wrapperResult.data.data);
     if (!parseResult.success) {
       // Invalid response - proceed with trigger
-      return true;
+      return { shouldTrigger: true, totalParticipants: null };
     }
 
     const roundState = parseResult.data;
@@ -234,12 +244,48 @@ async function shouldTriggerParticipant(
     // This is a minimal check - let the streaming endpoint handle per-participant idempotency
     const allParticipantsDone = (roundState.completedParticipants + roundState.failedParticipants) >= roundState.totalParticipants;
     if (allParticipantsDone) {
-      return false;
+      return { shouldTrigger: false, totalParticipants: roundState.totalParticipants };
     }
 
-    return true;
+    return { shouldTrigger: true, totalParticipants: roundState.totalParticipants };
   } catch {
     // On error, proceed with trigger - streaming endpoint will handle duplicates
+    return { shouldTrigger: true, totalParticipants: null };
+  }
+}
+
+/**
+ * Precise per-participant idempotency check for queue RETRIES.
+ *
+ * On retry, Cloudflare re-delivers the SAME participant message and the unified
+ * stream re-runs the ENTIRE round — which would re-dispatch (and duplicate) the
+ * turns of participants that already finished on the previous attempt.
+ *
+ * REUSE: delegates to getIncompleteParticipants (round-orchestration.service),
+ * which already returns the indices that are neither completed NOR triggered.
+ * We only re-dispatch this participant if its index is genuinely still
+ * incomplete; otherwise the previous attempt already handled it and re-running
+ * would produce a duplicate turn.
+ *
+ * Fail-open: any error here proceeds with the trigger (the streaming endpoint
+ * has its own ACTIVE-status duplicate protection in KV).
+ */
+async function isParticipantStillIncomplete(
+  threadId: string,
+  roundNumber: number,
+  participantIndex: number,
+  totalParticipants: number,
+  env: CloudflareEnv,
+): Promise<boolean> {
+  try {
+    const { getIncompleteParticipants } = await import('@/services/round-orchestration/round-orchestration.service');
+    const { getDbAsync } = await import('@/db');
+    const db = await getDbAsync();
+
+    const incomplete = await getIncompleteParticipants(threadId, roundNumber, totalParticipants, env, db);
+    return incomplete.includes(participantIndex);
+  } catch {
+    // Fail-open: streaming endpoint enforces its own per-participant idempotency
     return true;
   }
 }
@@ -253,8 +299,9 @@ async function triggerParticipantStream(
 ): Promise<void> {
   const { participantIndex, roundNumber, sessionToken, threadId, userId } = message;
 
-  // ✅ IDEMPOTENCY GUARD: Check if participant should still be triggered
-  const shouldTrigger = await shouldTriggerParticipant(
+  // ✅ IDEMPOTENCY GUARD (coarse): skip if ALL participants are already done.
+  // Also returns totalParticipants so we can run the precise per-index check below.
+  const triggerCheck = await shouldTriggerParticipant(
     threadId,
     roundNumber,
     participantIndex,
@@ -262,10 +309,22 @@ async function triggerParticipantStream(
     env,
   );
 
-  if (!shouldTrigger) {
-    // Round already complete (e.g., from a previous attempt that timed out).
-    // Still check for job continuation - the previous attempt may have completed
-    // the round but failed to queue the continuation message.
+  // ✅ IDEMPOTENCY GUARD (precise): on a queue retry, only re-dispatch THIS
+  // participant if it is genuinely still incomplete. Without this, a retried
+  // message re-runs the whole round and duplicates already-completed turns.
+  // FAIL-OPEN: only skip when we POSITIVELY know this participant is done — i.e.
+  // we have a valid totalParticipants AND the precise check says it's complete.
+  // If the total is unknown (status check failed), we do NOT skip here; we fall
+  // through and trigger, relying on the streaming endpoint's KV ACTIVE-status
+  // idempotency, matching the prior fail-open-for-reliability behavior.
+  const preciseSaysDone = triggerCheck.shouldTrigger
+    && triggerCheck.totalParticipants !== null
+    && !(await isParticipantStillIncomplete(threadId, roundNumber, participantIndex, triggerCheck.totalParticipants, env));
+
+  if (!triggerCheck.shouldTrigger || preciseSaysDone) {
+    // Round (or this participant) already complete (e.g., from a previous attempt
+    // that timed out). Still check for job continuation - the previous attempt may
+    // have completed the round but failed to queue the continuation message.
     try {
       const { checkJobContinuation } = await import('@/services/jobs');
       const { getDbAsync } = await import('@/db');

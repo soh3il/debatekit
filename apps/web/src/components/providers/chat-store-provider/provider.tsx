@@ -214,6 +214,24 @@ export function ChatStoreProvider({ children, initialState }: ChatStoreProviderP
     const capturedThreadId = state.thread?.id;
     const storePhase = state.phase;
 
+    // ALREADY-COMPLETE PATH: A faster transition (onModeratorComplete, single-participant
+    // skip, or completeStreaming) may set COMPLETE before data-round-complete arrives.
+    // The early-return below would then swallow the post-round cleanup (cache invalidation
+    // + prepareForNewMessage) for essentially every live round — stale usage counters and
+    // thread list/detail. Run finalization here, guarded by thread id + round, so the
+    // finished round still resets state and refreshes caches regardless of which
+    // transition won the race.
+    if (storePhase === 'complete') {
+      requestAnimationFrame(() => {
+        const postState = store.getState();
+        if (postState.currentRoundNumber === roundNumber && postState.thread?.id === capturedThreadId) {
+          postState.prepareForNewMessage();
+          invalidatePostRoundCaches();
+        }
+      });
+      return;
+    }
+
     // CROSS-THREAD GUARD: Only finalize when store is actually streaming
     if (storePhase !== 'participants' && storePhase !== 'moderator' && storePhase !== 'presearch') {
       return;

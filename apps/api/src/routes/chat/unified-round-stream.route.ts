@@ -14,7 +14,7 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
-import { createMutationRouteResponses, createProtectedRouteResponses } from '@/core';
+import { createMutationRouteResponses, createProtectedRouteResponses, StandardApiResponses } from '@/core';
 
 import {
   StartUnifiedRoundStreamRequestSchema,
@@ -117,6 +117,9 @@ The client's \`useChat({ resume: true })\` handles reconnection automatically.`,
       description: 'Unified round stream started - SSE with phase events and text deltas',
     },
     ...createMutationRouteResponses(),
+    // 409 when another live producer already owns this round's stream (a
+    // concurrent duplicate start) — the client should resume, not double-stream.
+    ...StandardApiResponses.CONFLICT,
   },
   summary: 'Start unified round stream (presearch -> participants -> moderator)',
   tags: ['chat'],

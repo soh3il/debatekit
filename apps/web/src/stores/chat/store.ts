@@ -435,6 +435,10 @@ export function createChatStore(initialState?: ChatStoreInitialState) {
         if (enabledCount < 2) {
           set(state => ({
             ...STREAMING_COMPLETE_RESET,
+            // Reset the round cardinality so it doesn't leak stale into the next
+            // round. STREAMING_COMPLETE_RESET only clears currentParticipantIndex,
+            // and the single-participant path never runs prepareForNewMessage.
+            activeRoundParticipantCount: 0,
             completedParticipantCount: 0,
             pendingMessage: null,
             phase: ChatPhases.COMPLETE,
@@ -634,6 +638,23 @@ export function createChatStore(initialState?: ChatStoreInitialState) {
     },
 
     setActivePresetId: id => set({ activePresetId: id }, false, 'form/setActivePresetId'),
+
+    /**
+     * RECONCILE ACTIVE-ROUND PARTICIPANT COUNT
+     * The server's per-event totalParticipants is the authoritative round cardinality.
+     * Clamp to a sane upper bound (mirroring startRound) so a malformed count can't
+     * strand the round waiting for participants that never stream.
+     */
+    setActiveRoundParticipantCount: (count: number) => {
+      const MAX_REASONABLE_PARTICIPANTS = 10;
+      if (count <= 0 || count > MAX_REASONABLE_PARTICIPANTS) {
+        return;
+      }
+      if (get().activeRoundParticipantCount === count) {
+        return;
+      }
+      set({ activeRoundParticipantCount: count }, false, 'streaming/setActiveRoundParticipantCount');
+    },
 
     setAnimationPhase: phase => set({ animationPhase: phase }, false, 'titleAnimation/setAnimationPhase'),
     setAutoMode: enabled => set({ autoMode: enabled }, false, 'form/setAutoMode'),

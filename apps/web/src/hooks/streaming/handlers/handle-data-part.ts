@@ -47,13 +47,6 @@ export function isDataPart(value: unknown): value is DataPart {
 }
 
 /**
- * Pending completion entry queued by handleDataPart for deferred dispatch.
- */
-export type PendingCompletion
-  = | { index: number; type: 'participant' }
-    | { type: 'moderator' };
-
-/**
  * All refs and callbacks that the data part handler depends on.
  * Store is sole source of truth for phase — no currentPhaseRef or updatePhase.
  *
@@ -66,7 +59,6 @@ export type DataPartHandlerDeps = {
   expectedThreadId: string;
   onErrorRef: MutableRefObject<((phase: StreamPhase, error: string, participantIndex?: number) => void) | undefined>;
   onRoundCompleteRef: MutableRefObject<((completedPhases?: StreamPhase[]) => void) | undefined>;
-  pendingCompletionsRef: MutableRefObject<PendingCompletion[]>;
   roundCompleteDispatchedRef: MutableRefObject<boolean>;
   setCurrentParticipantIndex: (index: number | null) => void;
   setStreamError: (error: Error | null) => void;
@@ -85,8 +77,12 @@ function getFreshCount(store: ChatStoreApi): number {
   return count;
 }
 
-/** Get current round number from store with safe fallback */
-function storeRound(store: ChatStoreApi): number {
+/**
+ * Get current round number from store with safe fallback.
+ * Exported so dedup keys are derived from a single canonical source (the store's
+ * currentRoundNumber) everywhere — never a parallel React prop/ref round number.
+ */
+export function storeRound(store: ChatStoreApi): number {
   const state = store.getState();
   return state.currentRoundNumber !== null && state.currentRoundNumber >= 0 ? state.currentRoundNumber : 0;
 }
@@ -117,7 +113,6 @@ export function createDataPartHandler(deps: DataPartHandlerDeps) {
     expectedThreadId,
     onErrorRef,
     onRoundCompleteRef,
-    pendingCompletionsRef,
     roundCompleteDispatchedRef,
     setCurrentParticipantIndex,
     setStreamError,
@@ -218,6 +213,26 @@ export function createDataPartHandler(deps: DataPartHandlerDeps) {
 
           if (totalParticipants !== undefined && idx >= totalParticipants) {
             return;
+          }
+
+          // PHASE GUARD: Never reset participant pointers once the round has advanced to
+          // MODERATOR within the active stream. Mirrors the PRESEARCH-start guard. Without
+          // this, a late/duplicate participant START (e.g. when the client count was lower
+          // than the server's) would regress the UI onto a participant card on top of an
+          // active moderator and drop that participant's turn.
+          // (COMPLETE is intentionally NOT blocked here: during resume the store starts in
+          // COMPLETE and a replayed participant START must be allowed through to trigger
+          // resumeIntoStreaming — the RACE GUARD above already permits that path.)
+          if (store.getState().phase === ChatPhases.MODERATOR) {
+            return;
+          }
+
+          // RECONCILE: The server's per-event totalParticipants is the authoritative
+          // round cardinality. The client snapshot in startRound can diverge (participant
+          // toggled after capture, hydration skew). Reconcile up so onParticipantComplete
+          // doesn't transition to MODERATOR before every participant has streamed.
+          if (totalParticipants !== undefined) {
+            store.getState().setActiveRoundParticipantCount(totalParticipants);
           }
 
           // GUARD: Don't start participants while presearch is active
@@ -345,6 +360,13 @@ export function createDataPartHandler(deps: DataPartHandlerDeps) {
 
         if (phase === StreamPhases.PARTICIPANT) {
           const idx = participantIndex ?? currentParticipantRef.current?.index ?? 0;
+          // Clear the in-flight participant ref, mirroring the COMPLETE branch.
+          // Without this, onFinish's force-complete would re-count this already-errored
+          // participant (its dedup key can diverge from the handler's round source),
+          // overshooting completedParticipantCount and skipping a later turn.
+          setCurrentParticipantIndex(null);
+          currentParticipantRef.current = null;
+
           const dedupKey = `r${storeRound(store)}:p${idx}`;
           if (!dispatchedCompletionsRef.current.has(dedupKey)) {
             dispatchedCompletionsRef.current.add(dedupKey);
@@ -375,30 +397,29 @@ export function createDataPartHandler(deps: DataPartHandlerDeps) {
         onErrorRef.current?.(phase, error || 'Unknown error', participantIndex);
       }
     } else if (dataPart.type === 'data-round-complete') {
-      // SAFETY NET: Flush any stragglers
-      if (pendingCompletionsRef.current.length > 0) {
-        const completions = pendingCompletionsRef.current;
-        pendingCompletionsRef.current = [];
-        const currentRound = storeRound(store);
-        for (const completion of completions) {
-          if (completion.type === 'participant') {
-            const dedupKey = `r${currentRound}:p${completion.index}`;
-            if (dispatchedCompletionsRef.current.has(dedupKey)) {
-              continue;
-            }
-            dispatchedCompletionsRef.current.add(dedupKey);
-            if (store.getState().thread) {
-              store.getState().incrementCompletedParticipants();
-            }
-          } else if (completion.type === 'moderator') {
-            if (dispatchedCompletionsRef.current.has(`r${currentRound}:moderator`)) {
-              continue;
-            }
-            dispatchedCompletionsRef.current.add(`r${currentRound}:moderator`);
-            if (store.getState().thread) {
-              store.getState().onModeratorComplete();
-            }
-          }
+      // STRAGGLER RECONCILIATION: A participant phase-complete is transient (AI SDK v6
+      // does not replay it), so a single dropped frame on a still-open connection leaves
+      // completedParticipantCount short and the phase machine stuck in PARTICIPANTS.
+      // Reconcile against the known expected set [0, total) using the SAME dedup-key
+      // convention as the live completion handlers, then drive the phase machine once.
+      const currentRound = storeRound(store);
+      const expectedTotal = store.getState().activeRoundParticipantCount;
+      let reconciledAny = false;
+      for (let idx = 0; idx < expectedTotal; idx++) {
+        const dedupKey = `r${currentRound}:p${idx}`;
+        if (dispatchedCompletionsRef.current.has(dedupKey)) {
+          continue;
+        }
+        dispatchedCompletionsRef.current.add(dedupKey);
+        if (store.getState().thread) {
+          store.getState().incrementCompletedParticipants();
+          reconciledAny = true;
+        }
+      }
+      if (reconciledAny && expectedTotal > 0) {
+        const freshState = store.getState();
+        if (freshState.phase === ChatPhases.PARTICIPANTS && freshState.thread) {
+          freshState.onParticipantComplete(expectedTotal - 1);
         }
       }
 
@@ -409,9 +430,18 @@ export function createDataPartHandler(deps: DataPartHandlerDeps) {
         onRoundCompleteRef.current?.(completedPhases);
       }
     } else if (dataPart.type === 'data-error') {
-      const { error, phase } = dataPart.data;
-      setStreamError(new Error(error));
-      onErrorRef.current?.(phase, error);
+      const { error, participantIndex, phase } = dataPart.data;
+
+      // A participant-scoped error is recoverable: the backend keeps streaming the
+      // remaining participants and persists this turn as a hasError placeholder. Surface
+      // it via the error callback only -- do NOT set a sticky global streamError, which
+      // would flip hook status to 'error' for the rest of a still-streaming round and
+      // disable resume. Reserve setStreamError for genuinely fatal/non-participant errors.
+      const isParticipantScoped = phase === StreamPhases.PARTICIPANT && participantIndex !== undefined;
+      if (!isParticipantScoped) {
+        setStreamError(new Error(error));
+      }
+      onErrorRef.current?.(phase, error, participantIndex);
     }
   };
 }

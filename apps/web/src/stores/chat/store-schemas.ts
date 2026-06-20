@@ -360,6 +360,8 @@ export type ChatStoreActions = {
   enrichParticipantSnapshot: (roundNumber: number, participantIndex: number, modelId: string) => void;
   /** Increment the completed participant counter (counts both complete and error as done) */
   incrementCompletedParticipants: () => void;
+  /** Reconcile the active-round participant count to the server's authoritative total */
+  setActiveRoundParticipantCount: (count: number) => void;
 
   // === OPERATIONS ===
   initializeThread: (thread: ChatThread, participants: ChatParticipant[]) => void;
