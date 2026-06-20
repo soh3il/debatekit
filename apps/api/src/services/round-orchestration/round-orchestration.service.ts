@@ -710,9 +710,17 @@ export async function computeRoundStatus(
     ),
   });
 
-  // Count completed participants (messages with participantId)
+  // Count completed participants (messages with participantId).
+  // Exclude error placeholders — failed turns are persisted as messages (so the
+  // UI shows the failure) but are also tallied via failedCount below. Counting
+  // them here too would double-count failures in `completedParticipants + failedCount`
+  // and mark the round complete while a participant is still streaming.
   const participantMessages = roundMessages.filter(m => m.participantId !== null);
-  const completedParticipants = participantMessages.length;
+  const completedParticipants = participantMessages.filter((m) => {
+    const meta = m.metadata;
+    const failed = !!meta && typeof meta === 'object' && 'hasError' in meta && meta.hasError === true;
+    return !failed;
+  }).length;
 
   // Check for moderator message (participantId is null, metadata.isModerator is true)
   const moderatorMessage = roundMessages.find(m =>
@@ -734,13 +742,18 @@ export async function computeRoundStatus(
     }
   }
 
-  // Override with DB state (persisted messages = completed)
+  // Override with DB state (persisted messages = done). Read the participant index
+  // from message METADATA — persisted message IDs are ULIDs, NOT the legacy
+  // `{threadId}_r{round}_p{index}` format, so the old `id` regex never matched and
+  // DB completions were silently ignored (participants looked perpetually pending).
   for (const msg of participantMessages) {
-    // Extract participant index from message ID (format: {threadId}_r{round}_p{index})
-    const match = msg.id.match(/_p(\d+)$/);
-    if (match?.[1]) {
-      const idx = Number.parseInt(match[1], 10);
-      participantStatuses[idx] = ParticipantStreamStatuses.COMPLETED;
+    const meta = msg.metadata;
+    if (meta && typeof meta === 'object' && 'participantIndex' in meta && typeof meta.participantIndex === 'number') {
+      // A persisted message means the turn finished; hasError marks a failed/empty turn.
+      const failed = 'hasError' in meta && meta.hasError === true;
+      participantStatuses[meta.participantIndex] = failed
+        ? ParticipantStreamStatuses.FAILED
+        : ParticipantStreamStatuses.COMPLETED;
     }
   }
 
@@ -845,6 +858,7 @@ export async function getIncompleteParticipants(
   const roundMessages = await db.query.chatMessage.findMany({
     columns: {
       id: true,
+      metadata: true,
       participantId: true,
     },
     where: and(
@@ -858,10 +872,12 @@ export async function getIncompleteParticipants(
 
   for (const msg of roundMessages) {
     if (msg.participantId) {
-      // Extract participant index from message ID (format: {threadId}_r{round}_p{index})
-      const match = msg.id.match(/_p(\d+)$/);
-      if (match?.[1]) {
-        completedIndices.add(Number.parseInt(match[1], 10));
+      // Read the participant index from METADATA — message IDs are ULIDs, so the old
+      // `/_p(\d+)$/` regex never matched, leaving completedIndices empty and causing
+      // already-finished participants to be re-triggered (duplicates / wrong recovery).
+      const meta = msg.metadata;
+      if (meta && typeof meta === 'object' && 'participantIndex' in meta && typeof meta.participantIndex === 'number') {
+        completedIndices.add(meta.participantIndex);
       }
     }
   }

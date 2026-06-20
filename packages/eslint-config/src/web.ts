@@ -8,12 +8,11 @@
  */
 import pluginQuery from '@tanstack/eslint-plugin-query';
 import pluginRouter from '@tanstack/eslint-plugin-router';
-import vitestPlugin from '@vitest/eslint-plugin';
 import type { Linter } from 'eslint';
 import playwrightPlugin from 'eslint-plugin-playwright';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import tailwindPlugin from 'eslint-plugin-tailwindcss';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
+import vitestPlugin from 'eslint-plugin-vitest';
 
 import { createConfig } from './base';
 
@@ -44,13 +43,9 @@ export async function createWebConfig(): Promise<Linter.Config[]> {
   // TODO: Re-enable when eslint-plugin-tailwindcss has stable v4 support
   void tailwindPlugin; // Keep import for when v4 support is ready
 
-  // React-specific rules overrides and TanStack strict rules.
-  // antfu v9 registers react-refresh but NOT react-hooks, so register it explicitly.
+  // React-specific rules overrides and TanStack strict rules
   configs.push({
     files: ['**/*.tsx', '**/*.jsx'],
-    plugins: {
-      'react-hooks': reactHooksPlugin,
-    },
     rules: {
       // TanStack Query strict rules
       '@tanstack/query/exhaustive-deps': 'error',
@@ -62,9 +57,8 @@ export async function createWebConfig(): Promise<Linter.Config[]> {
       '@tanstack/query/stable-query-client': 'error',
       // TanStack Router strict rules
       '@tanstack/router/create-route-property-order': 'error',
-      // React hooks. react-hooks v7 is stricter than v6; surface new findings as
-      // warnings (non-blocking) pending triage rather than failing the build.
-      'react-hooks/exhaustive-deps': 'warn',
+      // React hooks - stricter than antfu default
+      'react-hooks/exhaustive-deps': 'error',
       // Disable require-atomic-updates for React - false positives with refs
       // @see https://github.com/eslint/eslint/issues/11899
       'require-atomic-updates': 'off',

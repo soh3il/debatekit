@@ -1857,9 +1857,20 @@ async function executeParticipantPhase(
     // moderator analyses, tool schemas) that inflates the system prompt by
     // ~1-3K tokens. Boost the output budget by 50% (capped at 16384) so
     // the model still has room for a full response after the larger prompt.
-    const participantMaxOutputTokens = projectId
+    const projectBoostedTokens = projectId
       ? Math.min(Math.ceil(baseTierTokens * 1.5), 16384)
       : baseTierTokens;
+    // Reasoning models split the budget between hidden reasoning + visible text.
+    // Below ~1024 they emit "No output generated" (reasoning eats the allowance)
+    // — see the moderator floor below. Free tier (512) reasoning participants
+    // would otherwise ALWAYS return an empty turn. Floor reasoning participants
+    // so text always has room; effort also drops to 'low' at this budget (see
+    // buildOpenRouterOptions). Non-reasoning models keep the raw tier budget.
+    const REASONING_PARTICIPANT_FLOOR = 2048;
+    const isReasoningParticipant = getModelById(participant.modelId)?.is_reasoning_model ?? false;
+    const participantMaxOutputTokens = isReasoningParticipant
+      ? Math.max(projectBoostedTokens, REASONING_PARTICIPANT_FLOOR)
+      : projectBoostedTokens;
 
     // Generate trace ID for PostHog LLM analytics
     const traceId = generateTraceId();
@@ -1878,7 +1889,7 @@ async function executeParticipantPhase(
 
     // Stream participant response using AI SDK v6
     // NOTE: streamText() does NOT throw immediately - errors occur when iterating fullStream
-    const participantOpenRouterOpts = buildOpenRouterOptions(participant.modelId);
+    const participantOpenRouterOpts = buildOpenRouterOptions(participant.modelId, participantMaxOutputTokens);
     let result: ReturnType<typeof streamText>;
     try {
       result = streamText({
@@ -1908,6 +1919,9 @@ async function executeParticipantPhase(
     let totalText = '';
     let totalReasoning = '';
     let toolCallCount = 0;
+    // Captures a stream-level error so an empty/failed participant can still be
+    // persisted (instead of vanishing from the saved thread → "no response" bug).
+    let streamErrorMessage: string | null = null;
     const textId = `participant-${participant.index}-text`;
 
     // Collect Redis write promises - DO NOT await inside loop to avoid blocking stream
@@ -1963,6 +1977,8 @@ async function executeParticipantPhase(
               errorDetails = JSON.stringify(serializeErrorForLog(errorObj));
             }
             rlog.stuck('participant-stream-error', `P${participant.index} error=${errorDetails}`);
+            // Remember the error so an otherwise-empty participant is still persisted.
+            streamErrorMessage = errorMsg;
 
             // Forward error to client so frontend can display it
             writer.write({
@@ -2136,9 +2152,23 @@ async function executeParticipantPhase(
       }),
     ]);
 
-    // Get usage stats after stream completes
-    const usage = await result.usage;
-    const finishReason = await result.finishReason;
+    // Get usage stats after stream completes.
+    // AI SDK v6: result.usage / result.finishReason REJECT (with abortSignal.reason or
+    // NoOutputGeneratedError) when no finish-step was recorded — i.e. on abort/timeout
+    // (the 300s AbortSignal.timeout, or a client disconnect) or a pre-finish stream throw.
+    // Without this guard the rejection unwinds to the OUTER catch, which cannot see the
+    // captured provider error (streamErrorMessage is block-scoped here) and skips the
+    // no-response else-branch entirely. Converge both no-output paths on the else-branch.
+    let usage: Awaited<typeof result.usage>;
+    let finishReason: Awaited<typeof result.finishReason>;
+    try {
+      usage = await result.usage;
+      finishReason = await result.finishReason;
+    } catch (settleErr) {
+      streamErrorMessage = streamErrorMessage ?? (settleErr instanceof Error ? settleErr.message : String(settleErr));
+      usage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
+      finishReason = 'error';
+    }
 
     // Buffer finish event - map to AI SDK streaming protocol finish reasons
     // Application-level values ('unknown', 'failed') map to 'other'
@@ -2281,6 +2311,65 @@ async function executeParticipantPhase(
           threadId,
         }));
       }
+    } else if (db) {
+      // NO-RESPONSE GUARD: the participant produced no text or reasoning — either an
+      // empty completion (model refusal/returned nothing) or a stream error. Without
+      // this, the message is never persisted and the participant silently VANISHES
+      // from the saved thread on reload, which reads as "an agent skipped / didn't
+      // respond". Persist a visible placeholder flagged hasError so the UI shows the
+      // failure and the round stays consistent.
+      try {
+        const messageId = ulid();
+        const placeholderText = streamErrorMessage
+          ? `⚠️ This model couldn't respond: ${streamErrorMessage}`
+          : '⚠️ This model returned no response. Try again or pick a different model.';
+        const usageMetadata = {
+          completionTokens: usage.outputTokens ?? 0,
+          promptTokens: usage.inputTokens ?? 0,
+          totalTokens: (usage.inputTokens ?? 0) + (usage.outputTokens ?? 0),
+        };
+        const messageMetadata = createParticipantMetadata({
+          availableSources: convertCitableSourcesToAvailable(citableSources),
+          finishReason: FinishReasons.ERROR,
+          hasError: true,
+          model: participant.modelId,
+          participantId: participant.id,
+          participantIndex: participant.index,
+          participantRole: participant.role ?? null,
+          roundNumber,
+          usage: usageMetadata,
+        });
+        const parts = DbMessagePartsSchema.parse([{ text: placeholderText, type: MessagePartTypes.TEXT }]);
+        await db.insert(tables.chatMessage)
+          .values({
+            createdAt: new Date(),
+            id: messageId,
+            metadata: messageMetadata,
+            participantId: participant.id,
+            parts,
+            role: MessageRoles.ASSISTANT,
+            roundNumber,
+            threadId,
+          })
+          .onConflictDoNothing();
+        logger?.warn('Persisted empty/failed participant as no-response message (no-response guard)', LogHelpers.operation({
+          messageId,
+          operationName: 'executeParticipantPhase',
+          participantId: participant.id,
+          participantIndex: participant.index,
+          roundNumber,
+          threadId,
+        }));
+      } catch (persistError) {
+        logger?.error('Failed to persist no-response participant message to D1', LogHelpers.operation({
+          error: persistError instanceof Error ? persistError.message : 'Unknown error',
+          operationName: 'executeParticipantPhase',
+          participantId: participant.id,
+          participantIndex: participant.index,
+          roundNumber,
+          threadId,
+        }));
+      }
     }
 
     logger?.info(`Participant phase completed (${totalText.length} chars)`, LogHelpers.operation({
@@ -2397,6 +2486,39 @@ async function executeParticipantPhase(
         threadId,
       }));
     });
+
+    // NO-RESPONSE GUARD (throw path): persist a visible error message so a
+    // participant whose model call throws does not vanish from the saved thread
+    // on reload (reads as "an agent skipped / didn't respond").
+    if (db) {
+      try {
+        const messageId = ulid();
+        const messageMetadata = createParticipantMetadata({
+          availableSources: [],
+          finishReason: FinishReasons.ERROR,
+          hasError: true,
+          model: participant.modelId,
+          participantId: participant.id,
+          participantIndex: participant.index,
+          participantRole: participant.role ?? null,
+          roundNumber,
+          usage: { completionTokens: 0, promptTokens: 0, totalTokens: 0 },
+        });
+        const parts = DbMessagePartsSchema.parse([{ text: `⚠️ This model couldn't respond: ${errorMsg}`, type: MessagePartTypes.TEXT }]);
+        await db.insert(tables.chatMessage)
+          .values({ createdAt: new Date(), id: messageId, metadata: messageMetadata, participantId: participant.id, parts, role: MessageRoles.ASSISTANT, roundNumber, threadId })
+          .onConflictDoNothing();
+      } catch (persistErr) {
+        logger?.error('Failed to persist no-response (throw-path) participant message to D1', LogHelpers.operation({
+          error: persistErr instanceof Error ? persistErr.message : 'Unknown error',
+          operationName: 'executeParticipantPhase',
+          participantId: participant.id,
+          participantIndex: participant.index,
+          roundNumber,
+          threadId,
+        }));
+      }
+    }
 
     return { citableSources: [], citationSourceMap: new Map(), finishReason: FinishReasons.OTHER, response: '', success: false };
   }
@@ -2563,7 +2685,7 @@ async function executeModeratorPhase(
     });
 
     // V3.0 LLM Council: No separate user prompt needed - system prompt contains all context
-    const moderatorOpenRouterOpts = buildOpenRouterOptions(moderatorModel);
+    const moderatorOpenRouterOpts = buildOpenRouterOptions(moderatorModel, moderatorMaxOutputTokens);
     const result = streamText({
       abortSignal: AbortSignal.timeout(300000),
       maxOutputTokens: moderatorMaxOutputTokens,

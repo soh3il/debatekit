@@ -1069,16 +1069,30 @@ export function isXaiModel(modelId: string) {
 }
 
 /**
+ * Below this output-token budget, reasoning models use 'low' effort so hidden
+ * reasoning tokens can't consume the entire allowance before any visible text
+ * is produced. At 'medium'/'high' effort with a tight budget (e.g. free tier =
+ * 512), the model exhausts its tokens on reasoning and returns an empty turn
+ * ("no response at all"). Ref: https://openrouter.ai/docs/guides/best-practices/reasoning-tokens
+ */
+const REASONING_LOW_EFFORT_BUDGET = 2048;
+
+/**
  * ✅ BUILD OPENROUTER OPTIONS: Capability-based providerOptions for AI SDK streamText/generateText
  *
  * Centralizes model-specific OpenRouter options so callers don't need to
  * duplicate capability checks. Returns the `openrouter` sub-object for
  * spreading into `providerOptions: { openrouter: ... }`.
  *
- * - Reasoning models: effort control to prevent token exhaustion on hidden reasoning
+ * - Reasoning models: effort scaled to the output budget to prevent token
+ *   exhaustion on hidden reasoning (tight budget → 'low', else 'medium')
  * - xAI models: web plugin for native X/Twitter search
+ *
+ * @param modelId - The OpenRouter model id to build provider options for.
+ * @param maxOutputTokens - The streamText maxOutputTokens for this call. When
+ *   small, reasoning effort drops to 'low' so visible text always has headroom.
  */
-export function buildOpenRouterOptions(modelId: string) {
+export function buildOpenRouterOptions(modelId: string, maxOutputTokens?: number) {
   const model = getModelById(modelId);
   const isReasoning = model?.is_reasoning_model ?? false;
   const isXai = model?.provider === 'x-ai';
@@ -1087,8 +1101,12 @@ export function buildOpenRouterOptions(modelId: string) {
     return undefined;
   }
 
+  const effort = maxOutputTokens !== undefined && maxOutputTokens <= REASONING_LOW_EFFORT_BUDGET
+    ? ('low' as const)
+    : ('medium' as const);
+
   return {
-    ...(isReasoning && { reasoning: { effort: 'medium' as const } }),
+    ...(isReasoning && { reasoning: { effort } }),
     ...(isXai && { plugins: [{ id: 'web' }] }),
   };
 }
