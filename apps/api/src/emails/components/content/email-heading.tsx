@@ -1,5 +1,5 @@
-import { Heading } from '@react-email/components';
 import type { TextAlignment } from '@debatekit/shared/enums';
+import { Heading } from '@react-email/components';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { colors, spacing, typography } from '@/emails/design-tokens';

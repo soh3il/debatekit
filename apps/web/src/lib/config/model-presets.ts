@@ -5,9 +5,9 @@
  * Follows Zod-first pattern with schema validation and type inference.
  */
 
-import { z } from '@hono/zod-openapi';
 import type { SubscriptionTier } from '@debatekit/shared';
 import { ChatModes, ChatModeSchema, DATA_SOURCE_LABELS, DataSourceIds, DataSourceIdSchema, ModelIds, ModeratorFormatIds, ModeratorFormatIdSchema, SUBSCRIPTION_TIERS, SubscriptionTiers, SubscriptionTierSchema } from '@debatekit/shared';
+import { z } from '@hono/zod-openapi';
 
 import type { Icon } from '@/components/icons';
 import { Icons } from '@/components/icons';

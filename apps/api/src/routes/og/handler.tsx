@@ -8,8 +8,8 @@
  * @see /docs/backend-patterns.md - Handler conventions
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { OgImageTypes, ThreadStatusSchema } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { eq, or } from 'drizzle-orm';
 
 import { BRAND } from '@/constants';

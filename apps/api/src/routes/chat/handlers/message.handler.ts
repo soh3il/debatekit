@@ -1,5 +1,5 @@
-import type { RouteHandler } from '@hono/zod-openapi';
 import { MessagePartTypes } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { and, asc, desc, eq } from 'drizzle-orm';
 
 import { verifyThreadOwnership } from '@/common/permissions';

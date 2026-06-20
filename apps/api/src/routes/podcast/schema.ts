@@ -5,8 +5,8 @@
  * All types via z.infer<> - no manual type definitions.
  */
 
-import { z } from '@hono/zod-openapi';
 import { PodcastScopeSchema, PodcastStatusSchema } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { DbPodcastScriptSchema } from '@/db/schemas/chat-metadata';
 

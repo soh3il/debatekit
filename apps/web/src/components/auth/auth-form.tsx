@@ -1,8 +1,8 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { AuthStep } from '@debatekit/shared';
 import { AuthSteps, DEFAULT_AUTH_STEP, ErrorSeverities } from '@debatekit/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { getRouteApi, useRouter } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';

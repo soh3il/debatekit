@@ -14,12 +14,12 @@ import { describe, expect, it } from 'vitest';
 import {
   modelsQueryOptions,
   productsQueryOptions,
+  queryKeys,
   sidebarThreadsQueryOptions,
   subscriptionsQueryOptions,
   threadBySlugQueryOptions,
   usageQueryOptions,
 } from '../keys';
-import { queryKeys } from '../query-keys';
 import { STALE_TIMES } from '../stale-times';
 
 describe('query consistency - SSR/client alignment', () => {
@@ -101,9 +101,11 @@ describe('query consistency - SSR/client alignment', () => {
       expect(options.refetchOnMount).toBeFalsy();
     });
 
-    it('usageQueryOptions disables automatic refetch', () => {
+    it('usageQueryOptions refetches on mount but not on window focus', () => {
+      // Usage stats are intentionally refreshed on mount (gated by staleTime) so
+      // the billing/usage screen reflects current quota, but never on window focus.
       expect(usageQueryOptions.refetchOnWindowFocus).toBeFalsy();
-      expect(usageQueryOptions.refetchOnMount).toBeFalsy();
+      expect(usageQueryOptions.refetchOnMount).toBe(true);
     });
   });
 });

@@ -270,7 +270,7 @@
         "STRIPE_CUSTOMER_PORTAL_CONFIG_ID": "bpc_1TZ8iV2R16aMJLB0dK7l4YgN",
         "STRIPE_PUBLISHABLE_KEY": "pk_test_51TZ8Fg2R16aMJLB0nu1rndWh4cDhaOeF049pVhPBegcTeZCWuDfMBKIEqES0GmUtZsU1ZYDme985B0OdYmnQtNfM0052xuVzeI",
         "AUTH_GOOGLE_ID": "965287840257-5637kfaur4mv2m12d3vb5bqccjthcqjm.apps.googleusercontent.com",
-        "BETTER_AUTH_URL": "https://debatekit.com",
+        "BETTER_AUTH_URL": "https://api-preview.debatekit.com",
         "POSTHOG_HOST": "https://us.i.posthog.com",
         "MARKETING_FROM_EMAIL": "hello@mail.debatekit.com",
         "NODE_ENV": "production"

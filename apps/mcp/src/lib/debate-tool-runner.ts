@@ -8,9 +8,9 @@
  * delegates the shared pipeline to `executeDebate`.
  */
 
+import type { ChatMode, McpOutputFormat, McpThinkingLevel } from '@debatekit/shared/enums';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
-import type { ChatMode, McpOutputFormat, McpThinkingLevel } from '@debatekit/shared/enums';
 import { getMcpAuthContext } from 'agents/mcp';
 
 import { runDebate } from '../engine/debate-engine';

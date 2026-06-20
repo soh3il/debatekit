@@ -6,9 +6,9 @@
  * Following patterns from billing/handler.ts and chat/handler.ts
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { apiKey as apiKeyTable } from '@debatekit/db/tables';
 import { API_KEY_LIMITS } from '@debatekit/shared/constants';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { eq } from 'drizzle-orm';
 
 import { ErrorContextBuilders } from '@/common/error-contexts';

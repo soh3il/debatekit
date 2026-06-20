@@ -1,5 +1,5 @@
-import { Column, Row, Section } from '@react-email/components';
 import type { EmailSpacing } from '@debatekit/shared/enums';
+import { Column, Row, Section } from '@react-email/components';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { spacing } from '@/emails/design-tokens';

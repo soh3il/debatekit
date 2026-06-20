@@ -1,9 +1,9 @@
-import { z } from '@hono/zod-openapi';
 import {
   AutomatedJobStatuses,
   AutomatedJobStatusSchema,
   BooleanStringSchema,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { DbAutomatedJobMetadataSchema } from '@/db';
 

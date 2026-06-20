@@ -1,3 +1,4 @@
+/* eslint-disable no-console, security/detect-non-literal-fs-filename -- trusted build script; paths are derived from import.meta.dirname + string literals */
 /**
  * Patch TanStack Start's generated wrangler.json with env-specific config.
  *

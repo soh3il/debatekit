@@ -8,8 +8,8 @@
  * ✅ ORPHAN CLEANUP: Fire-and-forget via waitUntil (non-blocking)
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { MessageStatuses } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { eq } from 'drizzle-orm';
 
 import { verifyThreadOwnership } from '@/common/permissions';

@@ -5,8 +5,8 @@
  * Follows createHandler pattern with session authentication.
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { PodcastScopeSchema, PodcastStatuses, PodcastStatusSchema } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { and, asc, desc, eq, or } from 'drizzle-orm';
 
 import { createError } from '@/common/error-handling';

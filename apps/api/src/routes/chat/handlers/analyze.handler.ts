@@ -13,7 +13,6 @@
  * Used by Auto Mode feature for intelligent chat setup.
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import type { ChatMode } from '@debatekit/shared/enums';
 import {
   AnalyzePromptSseEvents,
@@ -25,6 +24,7 @@ import {
   SubscriptionTiers,
 } from '@debatekit/shared/enums';
 import { enforceProviderDiversity, extractProvider } from '@debatekit/shared/prompts';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { streamSSE } from 'hono/streaming';
 import { ulid } from 'ulid';
 import * as z from 'zod';

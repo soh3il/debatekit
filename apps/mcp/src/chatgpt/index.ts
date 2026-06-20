@@ -9,9 +9,9 @@
  * so ChatGPT can render rich debate results.
  */
 
+import { getAppUrl } from '@debatekit/shared';
 import { registerAppResource, RESOURCE_MIME_TYPE } from '@modelcontextprotocol/ext-apps/server';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { getAppUrl } from '@debatekit/shared';
 
 import type { Env } from '../types';
 import { getWidgetHtml } from './widget';

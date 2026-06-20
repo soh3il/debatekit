@@ -1,4 +1,3 @@
-import { z } from '@hono/zod-openapi';
 import { PROJECT_LIMITS, STRING_LIMITS } from '@debatekit/shared';
 import {
   ProjectColorSchema,
@@ -6,6 +5,7 @@ import {
   ProjectIndexStatusSchema,
   SubscriptionTierSchema,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { CursorPaginationQuerySchema } from '@/core/pagination';
 import { CoreSchemas, createApiResponseSchema, createCursorPaginatedResponseSchema } from '@/core/schemas';

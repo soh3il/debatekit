@@ -1,6 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { EmailCategory } from '@debatekit/shared/enums';
 import { EMAIL_CATEGORIES, EmailCategorySchema } from '@debatekit/shared/enums';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

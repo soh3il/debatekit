@@ -1,6 +1,6 @@
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getMultiplierForModelId } from '@debatekit/shared';
 import { MCP_THINKING_LEVELS } from '@debatekit/shared/enums';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { getMcpAuthContext } from 'agents/mcp';
 
 import { getUserBalance, getUserPlanType } from '../engine/credit-tracker';

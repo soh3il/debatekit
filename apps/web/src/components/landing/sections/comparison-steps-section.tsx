@@ -32,12 +32,12 @@ type ComparisonStepsSectionProps = {
  * numbered steps with glow border.
  */
 export function ComparisonStepsSection({
+  debatekit,
   description,
   heading,
   headingHighlight,
   label,
   manual,
-  debatekit,
 }: ComparisonStepsSectionProps) {
   return (
     <section className="py-12 sm:py-16 md:py-24">

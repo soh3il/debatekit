@@ -1,5 +1,5 @@
-import { Text } from '@react-email/components';
 import type { EmailColor, EmailTextWeight, TextAlignment } from '@debatekit/shared/enums';
+import { Text } from '@react-email/components';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { colors, typography } from '@/emails/design-tokens';

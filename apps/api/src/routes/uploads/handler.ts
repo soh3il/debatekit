@@ -10,7 +10,6 @@
  * - messageUpload: Junction table linking uploads to messages
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import {
   ALLOWED_MIME_TYPES,
   ChatAttachmentStatuses,
@@ -18,6 +17,7 @@ import {
   MIN_MULTIPART_PART_SIZE,
   MULTIPART_OVERHEAD_TOLERANCE,
 } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { and, eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { ulid } from 'ulid';

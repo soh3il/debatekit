@@ -1,5 +1,5 @@
-import { z } from '@hono/zod-openapi';
 import { HealthCheckDetailTypeSchema, HealthStatusSchema } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { CoreSchemas, createApiResponseSchema } from '@/core/schemas';
 import type { ApiEnv } from '@/types';

@@ -1,4 +1,3 @@
-import { z } from '@hono/zod-openapi';
 import type { ModelCapabilityTag, ModelId } from '@debatekit/shared/enums';
 import {
   ModelCapabilityTags,
@@ -11,6 +10,7 @@ import {
   StreamingBehaviors,
   StreamingBehaviorSchema,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 // ============================================================================
 // HARDCODED MODEL SCHEMA

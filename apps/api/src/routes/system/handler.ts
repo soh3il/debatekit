@@ -1,5 +1,5 @@
-import type { RouteHandler } from '@hono/zod-openapi';
 import { HealthStatuses } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 
 import { createHandler, Responses } from '@/core';
 import { getDbAsync } from '@/db';

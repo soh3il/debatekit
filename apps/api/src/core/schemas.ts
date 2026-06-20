@@ -19,7 +19,6 @@
  * - No custom SerializeDates utility needed - use Drizzle's built-in type inference
  */
 
-import { z } from '@hono/zod-openapi';
 import {
   AuthFailureReasonSchema,
   AuthModeSchema,
@@ -31,6 +30,7 @@ import {
   SortDirectionSchema,
   StreamPhaseSchema,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { API } from '@/constants';
 import { APP_VERSION } from '@/constants/version';

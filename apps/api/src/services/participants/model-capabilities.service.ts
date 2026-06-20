@@ -1,6 +1,6 @@
-import { z } from '@hono/zod-openapi';
 import type { JsonModeQuality } from '@debatekit/shared/enums';
 import { JsonModeQualities, JsonModeQualitySchema } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { createError } from '@/common/error-handling';
 import { getAllModels, getModelById } from '@/services/models';

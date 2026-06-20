@@ -9,7 +9,6 @@
  * - Creates source maps for citation resolution
  */
 
-import { z } from '@hono/zod-openapi';
 import type { CitationSourceType } from '@debatekit/shared/enums';
 import {
   CITATION_PREFIXES,
@@ -19,6 +18,7 @@ import {
   CitationSourcePrefixes,
   CitationSourceTypes,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import type {
   AggregatedProjectContext,

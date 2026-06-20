@@ -4,8 +4,8 @@
  * Handlers for admin email test sends and campaign triggers.
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { EmailSendingMessageTypes } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 
 import { createHandler, Responses } from '@/core';
 import { getDbAsync } from '@/db';

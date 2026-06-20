@@ -1,5 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { ComponentVariants } from '@debatekit/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';

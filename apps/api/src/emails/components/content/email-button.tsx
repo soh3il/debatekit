@@ -1,5 +1,5 @@
-import { Button } from '@react-email/components';
 import type { ComponentSize } from '@debatekit/shared/enums';
+import { Button } from '@react-email/components';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { borderRadius, colors, spacing, typography } from '@/emails/design-tokens';

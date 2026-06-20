@@ -21,8 +21,8 @@
  * @module api/routes/chat/handlers/unified-round-stream.handler
  */
 
-import type { RouteHandler } from '@hono/zod-openapi';
 import { EntityPhases, MessageRoles, ThreadVerticalMetadataSchema, UserRoles } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { createUIMessageStreamResponse, generateId, UI_MESSAGE_STREAM_HEADERS } from 'ai';
 import { and, desc, eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';

@@ -1,7 +1,7 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { ComponentVariants, ConfirmationDialogVariants, DEFAULT_PROJECT_COLOR, DEFAULT_PROJECT_ICON, getFileTypeColorClass, UploadStatuses } from '@debatekit/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';

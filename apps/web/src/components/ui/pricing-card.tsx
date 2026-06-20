@@ -247,7 +247,7 @@ export function PricingCard({
                       isProcessingManageBilling && 'cursor-not-allowed opacity-50 pointer-events-none',
                     )}
                     className="w-full text-center text-sm font-medium transition-all duration-200 bg-background text-foreground"
-                    onClick={onManageBilling}
+                    onClick={() => onManageBilling()}
                   >
                     {isProcessingManageBilling
                       ? (

@@ -11,7 +11,6 @@
  * @see /docs/type-inference-patterns.md for type safety patterns
  */
 
-import { z } from '@hono/zod-openapi';
 import {
   CheckRoundCompletionReasonSchema,
   ContentPipelineTriggerTypeSchema,
@@ -21,6 +20,7 @@ import {
   RoundOrchestrationMessageTypes,
   TweetPostingMessageTypes,
 } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 // ============================================================================
 // TITLE GENERATION QUEUE

@@ -1,6 +1,6 @@
-import type { RouteConfig, RouteHandler } from '@hono/zod-openapi';
 import type { AuthMode } from '@debatekit/shared/enums';
 import { ErrorCodes } from '@debatekit/shared/enums';
+import type { RouteConfig, RouteHandler } from '@hono/zod-openapi';
 import type { BatchItem } from 'drizzle-orm/batch';
 import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';

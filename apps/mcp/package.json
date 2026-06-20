@@ -15,7 +15,7 @@
     "lint": "bunx eslint .",
     "lint:fix": "bunx eslint . --fix",
     "cf-typegen": "bunx wrangler types --env-interface Env",
-    "test": "bunx vitest run",
+    "test": "bunx vitest run --passWithNoTests",
     "test:watch": "bunx vitest"
   },
   "dependencies": {

@@ -4,8 +4,8 @@
  * Simplified schemas for OpenRouter models endpoint
  */
 
-import { z } from '@hono/zod-openapi';
 import { ModelCapabilityTagSchema, ModelCategorySchema, SubscriptionTierSchema } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 import { createApiResponseSchema } from '@/core/schemas';
 

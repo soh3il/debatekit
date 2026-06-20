@@ -4,8 +4,8 @@
  * Schemas for admin email test/trigger endpoints.
  */
 
-import { z } from '@hono/zod-openapi';
 import { EmailCategorySchema, EmailTemplateIdSchema } from '@debatekit/shared/enums';
+import { z } from '@hono/zod-openapi';
 
 // ============================================================================
 // Send Test Email

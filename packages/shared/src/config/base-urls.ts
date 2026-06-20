@@ -6,7 +6,7 @@
  *
  * ARCHITECTURE (TanStack Start + Separate API):
  * - Local: Web on 5173 (Vite), API on 8787 (Wrangler)
- * - Preview: Web on web-preview.debatekit.com, API on api-preview.debatekit.com
+ * - Preview: Web on preview.debatekit.com, API on api-preview.debatekit.com
  * - Production: Web on debatekit.com, API on api.debatekit.com
  *
  * IMPORTANT: Always fallback to production URLs for safety.
@@ -54,7 +54,7 @@ export const BASE_URL_CONFIG: Record<WebAppEnv, BaseUrlConfig> = {
   [WebAppEnvs.PREVIEW]: {
     api: 'https://api-preview.debatekit.com/api/v1',
     apiOrigin: 'https://api-preview.debatekit.com',
-    app: 'https://web-preview.debatekit.com',
+    app: 'https://preview.debatekit.com',
     cookieDomain: '.debatekit.com',
     mcp: 'https://mcp-preview.debatekit.com/mcp',
     useSecureCookies: true,
@@ -92,7 +92,7 @@ export function resolveApiOriginFromHostname(hostname: string): string {
     return BASE_URL_CONFIG[WebAppEnvs.PROD].apiOrigin;
   }
 
-  // Preview: web-preview.debatekit.com -> api-preview.debatekit.com
+  // Preview: preview.debatekit.com -> api-preview.debatekit.com
   if (hostname.includes('preview') || hostname.includes('-preview')) {
     return BASE_URL_CONFIG[WebAppEnvs.PREVIEW].apiOrigin;
   }

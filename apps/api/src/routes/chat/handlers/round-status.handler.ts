@@ -1,6 +1,6 @@
-import type { RouteHandler } from '@hono/zod-openapi';
 import { extractTextFromMessage } from '@debatekit/shared';
 import { MessageRoles, MessageStatuses, RoundExecutionStatuses } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { and, desc, eq } from 'drizzle-orm';
 
 import { ErrorContextBuilders } from '@/common/error-contexts';

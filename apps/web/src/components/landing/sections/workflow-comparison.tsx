@@ -21,10 +21,10 @@ type WorkflowComparisonProps = {
  */
 export function WorkflowComparison({
   accentColor,
-  manualSteps,
   debatekitSteps,
-  timeManual,
+  manualSteps,
   timeDebateKit,
+  timeManual,
 }: WorkflowComparisonProps) {
   const colors = ACCENT_COLORS[accentColor];
 

@@ -1,6 +1,6 @@
-import type { RouteHandler } from '@hono/zod-openapi';
 import { PROJECT_LIMITS, WebAppEnvs } from '@debatekit/shared';
 import { DEFAULT_PROJECT_INDEX_STATUS, SubscriptionTiers, ThreadStatuses } from '@debatekit/shared/enums';
+import type { RouteHandler } from '@hono/zod-openapi';
 import { and, eq, inArray, like } from 'drizzle-orm';
 import { ulid } from 'ulid';
 

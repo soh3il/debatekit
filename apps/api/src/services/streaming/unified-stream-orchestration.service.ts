@@ -3618,7 +3618,9 @@ export async function executeUnifiedRoundStream(
         }));
       } catch (error) {
         // Ensure heartbeat is cleaned up on error path too
-        if (contextBuildingHeartbeat) clearInterval(contextBuildingHeartbeat);
+        if (contextBuildingHeartbeat) {
+          clearInterval(contextBuildingHeartbeat);
+        }
 
         const err = error instanceof Error ? error : new Error(String(error));
 

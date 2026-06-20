@@ -1,5 +1,5 @@
-import { Link } from '@react-email/components';
 import type { EmailColor } from '@debatekit/shared/enums';
+import { Link } from '@react-email/components';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { colors } from '@/emails/design-tokens';
