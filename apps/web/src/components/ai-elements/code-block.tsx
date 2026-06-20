@@ -147,7 +147,7 @@ export function CodeBlockCopyButton({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      timeoutRef.current = setTimeout(() => setIsCopied(false), timeout);
+      timeoutRef.current = setTimeout(setIsCopied, timeout, false);
     } catch (error) {
       onError?.(error instanceof Error ? error : new Error(String(error)));
     }

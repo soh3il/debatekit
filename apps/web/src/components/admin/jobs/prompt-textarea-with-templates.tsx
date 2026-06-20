@@ -302,7 +302,7 @@ export function PromptTextareaWithTemplates<TFieldValues extends FieldValues = F
                         onKeyDown={e => handleKeyDown(e, field.onChange, field.value ?? '')}
                         onBlur={() => {
                           field.onBlur();
-                          setTimeout(() => closeSuggestions(), 200);
+                          setTimeout(closeSuggestions, 200);
                         }}
                       />
 

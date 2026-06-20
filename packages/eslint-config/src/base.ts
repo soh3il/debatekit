@@ -65,6 +65,13 @@ export async function createConfig(options: ConfigOptions = {}): Promise<Linter.
             // Disable until antfu supports type-aware React rules natively.
             overrides: {
               'react/no-implicit-key': 'off',
+              // @eslint-react v5 introduced many new/stricter react-x rules absent in v2.
+              // They flag long-standing intentional patterns, not regressions. Surface as
+              // warnings (non-blocking) pending a dedicated triage pass.
+              'react/dom-no-flush-sync': 'warn',
+              'react/no-children-prop': 'warn',
+              'react/static-components': 'warn',
+              'react/unsupported-syntax': 'warn',
             },
           }
         : false,

@@ -108,7 +108,7 @@ export function ShareDialog({
     try {
       await navigator.clipboard.writeText(text);
       setCopySuccess(type);
-      copyTimeoutRef.current = setTimeout(() => setCopySuccess(null), 2000);
+      copyTimeoutRef.current = setTimeout(setCopySuccess, 2000, null);
 
       // Track share link copied
       if (type === 'link') {

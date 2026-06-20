@@ -120,7 +120,7 @@ export function LiveChatDemo() {
     if (!isMounted) {
       return;
     }
-    const t = setTimeout(() => setActiveIdx(0), 500);
+    const t = setTimeout(setActiveIdx, 500, 0);
     return () => clearTimeout(t);
   }, [isMounted]);
 

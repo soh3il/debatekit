@@ -208,7 +208,7 @@ export const MCPTerminalDemo = memo(({ chromeless = false, scenario }: MCPTermin
       if (charIdx >= resolvedWorking.length) {
         setAgentWorkingText(resolvedWorking);
         clearTimers();
-        timeoutRef.current = setTimeout(() => setPhase('user-invoke'), PHASE_DELAYS['user-invoke']);
+        timeoutRef.current = setTimeout(setPhase, PHASE_DELAYS['user-invoke'], 'user-invoke');
       } else {
         setAgentWorkingText(resolvedWorking.slice(0, charIdx));
       }
@@ -222,7 +222,7 @@ export const MCPTerminalDemo = memo(({ chromeless = false, scenario }: MCPTermin
     if (!isMounted || phase !== 'user-invoke') {
       return;
     }
-    timeoutRef.current = setTimeout(() => setPhase('council-spinning'), PHASE_DELAYS['council-spinning']);
+    timeoutRef.current = setTimeout(setPhase, PHASE_DELAYS['council-spinning'], 'council-spinning');
     return clearTimers;
   }, [isMounted, phase, clearTimers]);
 
@@ -313,7 +313,7 @@ export const MCPTerminalDemo = memo(({ chromeless = false, scenario }: MCPTermin
 
       if (charIdx >= resolvedVerdict.length) {
         clearTimers();
-        timeoutRef.current = setTimeout(() => setPhase('agent-continue'), PHASE_DELAYS['agent-continue']);
+        timeoutRef.current = setTimeout(setPhase, PHASE_DELAYS['agent-continue'], 'agent-continue');
       }
     }, TYPING_FRAME_INTERVAL);
 

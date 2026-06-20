@@ -238,7 +238,7 @@ export function PitchDemo() {
           clearInterval(intervalRef.current);
         }
         intervalRef.current = null;
-        timeoutRef.current = setTimeout(() => setPhase('sending'), 500);
+        timeoutRef.current = setTimeout(setPhase, 500, 'sending');
       } else {
         setComposerText(PROMPT_TEXT.slice(0, charIdx));
       }
@@ -262,7 +262,7 @@ export function PitchDemo() {
       return;
     }
     setShowUserMessage(true);
-    const t = setTimeout(() => setPhase('analyzing'), 500);
+    const t = setTimeout(setPhase, 500, 'analyzing');
     return () => clearTimeout(t);
   }, [isMounted, phase]);
 

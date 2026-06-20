@@ -26,7 +26,7 @@ export const MCPCodeBlock = memo(({ tabs }: MCPCodeBlockProps) => {
     if (copyTimeoutRef.current) {
       clearTimeout(copyTimeoutRef.current);
     }
-    copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
+    copyTimeoutRef.current = setTimeout(setCopied, 2000, false);
   };
 
   return (

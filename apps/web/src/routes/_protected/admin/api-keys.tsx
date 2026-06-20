@@ -54,7 +54,7 @@ function ApiKeysPage() {
   const handleCopyKeyId = async (keyId: string) => {
     await navigator.clipboard.writeText(keyId);
     setCopiedId(keyId);
-    setTimeout(() => setCopiedId(null), 2000);
+    setTimeout(setCopiedId, 2000, null);
   };
 
   const handleCopyCreatedKey = async () => {
@@ -63,7 +63,7 @@ function ApiKeysPage() {
     }
     await navigator.clipboard.writeText(createdKey);
     setCopiedCreatedKey(true);
-    setTimeout(() => setCopiedCreatedKey(false), 2000);
+    setTimeout(setCopiedCreatedKey, 2000, false);
   };
 
   return (

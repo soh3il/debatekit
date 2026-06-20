@@ -195,7 +195,7 @@ export function ModelSelectionModal({
       return;
     }
     // Safety: clear after 500ms in case preset application failed
-    const timer = setTimeout(() => setIsApplyingPreset(false), 500);
+    const timer = setTimeout(setIsApplyingPreset, 500, false);
     return () => clearTimeout(timer);
   }, [isApplyingPreset, selectedCount]);
 
@@ -544,7 +544,7 @@ export function ModelSelectionModal({
 
         setNewlyCreatedPresetId(result.data.preset.id);
         setActiveTab(ModelSelectionTabs.PRESETS);
-        setTimeout(() => setNewlyCreatedPresetId(null), 2000);
+        setTimeout(setNewlyCreatedPresetId, 2000, null);
       }
 
       toastManager.success(t('chat.models.presets.presetSaved'), t('chat.models.presets.presetSavedMessage', { name: trimmedName }));

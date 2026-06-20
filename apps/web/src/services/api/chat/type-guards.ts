@@ -35,7 +35,7 @@ function getProperty<K extends string>(
 ): unknown {
   // Safe property access via Object.prototype to avoid prototype pollution
   // Using Reflect.get avoids the need for `as Record<K, unknown>` casts
-  if (Object.prototype.hasOwnProperty.call(obj, key)) {
+  if (Object.hasOwn(obj, key)) {
     return Reflect.get(obj, key);
   }
   return undefined;

@@ -204,7 +204,7 @@ export function HeroDemoBase({ data }: { data: HeroDemoData }) {
         }
         intervalRef.current = null;
         // Wait a beat, then send
-        timeoutRef.current = setTimeout(() => setPhase('sending'), 500);
+        timeoutRef.current = setTimeout(setPhase, 500, 'sending');
       } else {
         setComposerText(data.promptText.slice(0, charIdx));
       }
@@ -228,7 +228,7 @@ export function HeroDemoBase({ data }: { data: HeroDemoData }) {
       return;
     }
     setShowUserMessage(true);
-    const t = setTimeout(() => setPhase('analyzing'), 500);
+    const t = setTimeout(setPhase, 500, 'analyzing');
     return () => clearTimeout(t);
   }, [isMounted, phase]);
 
