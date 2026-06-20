@@ -41,13 +41,13 @@ type AbusePattern = z.infer<typeof _AbusePatternSchema>;
 // Constants
 // ============================================================================
 
-const PATTERN_SCORES: Readonly<Record<AbusePattern, number>> = {
+const PATTERN_SCORES = {
   burst_at_reset: 10,
   key_cycling: 30,
   limit_gaming: 15,
   rapid_requests: 20,
   token_anomaly: 25,
-};
+} satisfies Readonly<Record<AbusePattern, number>>;
 
 const AUTO_BAN_THRESHOLD = 80;
 const MAX_SCORE = 100;

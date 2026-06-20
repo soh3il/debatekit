@@ -62,6 +62,7 @@ const BotInfoSchema = z.object({
   allows_users_to_create_topics: z.boolean(),
   can_connect_to_business: z.boolean(),
   can_join_groups: z.boolean(),
+  can_manage_bots: z.boolean(),
   can_read_all_group_messages: z.boolean(),
   first_name: z.string(),
   has_main_web_app: z.boolean(),
@@ -72,6 +73,7 @@ const BotInfoSchema = z.object({
   language_code: z.string().optional(),
   last_name: z.string().optional(),
   supports_inline_queries: z.boolean(),
+  supports_join_request_queries: z.boolean(),
   username: z.string(),
 })
 

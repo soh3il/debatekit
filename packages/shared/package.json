@@ -64,7 +64,7 @@
     "lint:fix": "bunx eslint . --fix"
   },
   "dependencies": {
-    "@ai-sdk-tools/artifacts": "^1.2.0",
+    "@ai-sdk-tools/artifacts": "2.0.0-beta.0",
     "randomcolor": "^0.6.2",
     "zod": "^4.3.5"
   },
