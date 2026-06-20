@@ -1585,6 +1585,17 @@ export const updateThreadHandler: RouteHandler<typeof updateThreadRoute, ApiEnv>
     // streaming will fail with "User message not found in DB" error.
     let createdMessage: typeof tables.chatMessage.$inferSelect | undefined;
     if (body.newMessage) {
+      // ✅ SERVER-SIDE QUOTA/TRIAL ENFORCEMENT (authoritative)
+      // PATCH updateThread with newMessage is the "seed next round" path: it
+      // persists the round-N user message before the client POSTs the stream.
+      // Reuse the same enforceCredits service thread creation uses so an
+      // anon/free user whose trial round is already complete is rejected at
+      // message-persist time (cannot seed a round even if they never reach the
+      // stream endpoint). Scoped to the newMessage block so config-only PATCHes
+      // (rename, favorite, participant toggles) are unaffected. FREE users with
+      // a still-pending trial round early-return inside enforceCredits.
+      await enforceCredits(user.id, estimateStreamingCredits(1));
+
       const messageId = body.newMessage.id || ulid();
       const messageParts: { type: 'text'; text: string }[] = [
         { text: body.newMessage.content, type: MessagePartTypes.TEXT },

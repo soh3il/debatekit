@@ -78,6 +78,14 @@ export const ChatInputContainer = memo(({
   const { track } = useAnalytics();
   const { hasUsedTrial, isFreeUser, isLoadingStats, isWarningState, statsData } = useFreeTrialState();
 
+  // FAIL-CLOSED parity with ChatInput: when the server trial state is unresolved
+  // (no validated stats AND not loading) for a free/anon user, the composer is
+  // blocked — so the alert must explain why (limit reached → upsell / sign-up)
+  // rather than leaving a silently dead input.
+  const isFreeOrAnon = isFreeUser || isAnonymous;
+  const trialDataUnresolved = isFreeOrAnon && !isLoadingStats && !validateUsageStatsCache(statsData);
+  const trialBlocked = hasUsedTrial || trialDataUnresolved;
+
   const isOverLimit = inputValue.length > STRING_LIMITS.MESSAGE_MAX;
   const participantCount = participants.length;
   const showMinModelsError = !autoMode && participantCount < MIN_PARTICIPANTS_REQUIRED && !isHydrating && !isModelsLoading;
@@ -117,7 +125,7 @@ export const ChatInputContainer = memo(({
   }, [statsData, creditStatus.estimated]);
 
   const alert: AlertConfig | null = useMemo(() => {
-    if (isAnonymous && hasUsedTrial) {
+    if (isAnonymous && trialBlocked) {
       return {
         actionHref: '/auth/sign-in',
         actionLabel: t('anonymous.sidebarSignUp'),
@@ -155,7 +163,7 @@ export const ChatInputContainer = memo(({
     if (!isFreeUser && isQuotaExceeded && !isLoadingStats) {
       return { message: t('usage.quotaAlert.paidUserMessage'), variant: BorderVariants.ERROR };
     }
-    if (isAnonymous && !hasUsedTrial && !isLoadingStats) {
+    if (isAnonymous && !trialBlocked && !isLoadingStats) {
       return {
         actionHref: '/auth/sign-in',
         actionLabel: t('anonymous.sidebarSignUp'),
@@ -169,10 +177,10 @@ export const ChatInputContainer = memo(({
         actionLabel: isMobile
           ? t('usage.freeTrial.upgradeToProShort')
           : t('usage.freeTrial.upgradeToPro'),
-        message: hasUsedTrial
+        message: trialBlocked
           ? t('usage.freeTrial.usedDescription')
           : t('usage.freeTrial.availableDescription'),
-        variant: isWarningState ? BorderVariants.WARNING : BorderVariants.SUCCESS,
+        variant: (isWarningState || trialDataUnresolved) ? BorderVariants.WARNING : BorderVariants.SUCCESS,
       };
     }
     return null;
@@ -186,7 +194,8 @@ export const ChatInputContainer = memo(({
     participantCount,
     isQuotaExceeded,
     isLoadingStats,
-    hasUsedTrial,
+    trialBlocked,
+    trialDataUnresolved,
     isWarningState,
     isMobile,
     t,

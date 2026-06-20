@@ -25,6 +25,7 @@ import type { ParticipantConfig } from '@/lib/schemas';
 import { toastManager } from '@/lib/toast';
 import { afterPaint } from '@/lib/ui/browser-timing';
 import { cn } from '@/lib/ui/cn';
+import { validateUsageStatsCache } from '@/stores/chat/actions/types';
 
 type ChatInputProps = {
   value: string;
@@ -119,8 +120,20 @@ export const ChatInput = memo(({
     return !creditEstimate.canAfford;
   }, [statsData, creditEstimate.canAfford]);
 
-  const isFreeUserBlocked = isFreeUser && hasUsedTrial;
-  const isAnonymousBlocked = isAnonymous && hasUsedTrial;
+  // Server usage/trial state is the source of truth. Validate the raw query
+  // payload (reusing the shared validator) so we know whether `plan.freeRoundUsed`
+  // has actually propagated. A settled-but-empty/stale response yields null here.
+  const validatedStats = useMemo(() => validateUsageStatsCache(statsData), [statsData]);
+  const isFreeOrAnon = isFreeUser || isAnonymous;
+
+  // FAIL-CLOSED: for free/anon users, an unresolved server trial state (no
+  // validated stats AND not currently loading) must block sending. Without this,
+  // a stale cache / settled-empty response would re-open the gate even though the
+  // user has already consumed their single free round.
+  const trialDataUnresolved = isFreeOrAnon && !isLoadingStats && !validatedStats;
+
+  const isFreeUserBlocked = isFreeUser && (hasUsedTrial || trialDataUnresolved);
+  const isAnonymousBlocked = isAnonymous && (hasUsedTrial || trialDataUnresolved);
 
   const isInputDisabled = disabled || isQuotaExceeded || isFreeUserBlocked || isAnonymousBlocked || isSubmitting;
   const isMicDisabled = disabled || isQuotaExceeded || isFreeUserBlocked || isAnonymousBlocked || isSubmitting;

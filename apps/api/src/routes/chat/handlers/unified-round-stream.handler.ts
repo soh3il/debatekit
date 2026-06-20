@@ -34,6 +34,7 @@ import { DbMessagePartsSchema } from '@/db/schemas/chat-metadata';
 import { extractSessionToken } from '@/lib/auth';
 import { log } from '@/lib/logger';
 import { getResumableStreamContext } from '@/lib/resumable-stream-upstash';
+import { enforceCredits, estimateWeightedCredits, toModelForPricing, zeroOutFreeUserCredits } from '@/services/billing';
 import { getEnabledParticipants } from '@/services/participants/participant-query.service';
 import {
   clearActiveStream,
@@ -236,7 +237,10 @@ export const startUnifiedRoundStreamHandler: RouteHandler<
     // Fetch enabled participants from database
     const participantRecords = await getEnabledParticipants(threadId, db);
 
-    if (participantRecords.length === 0) {
+    // Destructure the lead participant so the empty-list guard also narrows the
+    // type (avoids an unchecked index access on participantRecords[0] below).
+    const [leadParticipant] = participantRecords;
+    if (!leadParticipant) {
       log.warn('No enabled participants found for thread', {
         roundNumber,
         threadId,
@@ -247,6 +251,27 @@ export const startUnifiedRoundStreamHandler: RouteHandler<
         HttpStatusCodes.BAD_REQUEST,
       );
     }
+
+    // =========================================================================
+    // SERVER-SIDE QUOTA/TRIAL ENFORCEMENT (authoritative)
+    // =========================================================================
+    // The composer "send" for EVERY round (not just thread creation) funnels
+    // through this POST. enforceCredits is the same service thread.handler uses:
+    //  - FREE user with a still-pending trial round  → allowed (early-return)
+    //  - FREE user whose trial round is complete       → throws quota error
+    //  - PRO user                                      → balance check (self-heals
+    //                                                    subscription provisioning)
+    // This MUST run BEFORE tryClaimActiveStream so a rejected over-trial user
+    // never claims the active-stream slot or starts a producer. Estimate matches
+    // thread creation for consistency (weighted by the lead participant's model).
+    // enforceCredits throws an AppError → createHandler maps it to the standard
+    // quota error response; no new route response code is required.
+    const estimatedCredits = estimateWeightedCredits(
+      participantRecords.length,
+      leadParticipant.modelId,
+      toModelForPricing,
+    );
+    await enforceCredits(user.id, estimatedCredits);
 
     // Get enableWebSearch and mode from thread settings (source of truth)
     const enableWebSearch = thread.enableWebSearch;
@@ -420,6 +445,23 @@ export const startUnifiedRoundStreamHandler: RouteHandler<
               }),
             );
           }
+
+          // Persist the durable "free trial used" marker at the authoritative
+          // moment (round completion in the producing worker). zeroOutFreeUserCredits
+          // self-guards to FREE-tier users (no-op otherwise) and writes the
+          // FREE_ROUND_COMPLETE transaction + invalidates the usage cache, so
+          // subsequent enforceCredits / usage-stats short-circuit on a persisted
+          // flag instead of re-deriving trial state from a 60s-cached message scan.
+          c.executionCtx.waitUntil(
+            zeroOutFreeUserCredits(user.id).catch((err) => {
+              log.error('Failed to persist free-round-complete marker', {
+                error: err instanceof Error ? err.message : String(err),
+                roundNumber,
+                threadId,
+                userId: user.id,
+              });
+            }),
+          );
 
           // Check if this thread belongs to an automated job and queue continuation.
           // This is the PRIMARY path for job advancement - runs in the same worker
